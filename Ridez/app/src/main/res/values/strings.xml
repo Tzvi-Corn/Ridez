@@ -9,4 +9,24 @@
     <string name="myGroups">My Groups</string>
     <string name="myRides">My Rides</string>
     <string name="register">Register</string>
+    <string name="title_activity_request_ride">RequestRideActivity</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="chooseGroups">Choose Groups: </string>
+    <string name="requestRideHeader">Request A Ride </string>
+    <string name="title_activity_login">Login</string>
+    <style name="DefaultButtonText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#979797</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:shadowColor">#f9f9f9</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
 </resources>

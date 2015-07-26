@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:orientation="vertical"
+    android:background="#ffffff">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="40dp"
+        android:text="@string/requestRideHeader"
+        android:textColor="#004C99"
+        android:textStyle="bold"
+        android:id="@+id/titleOfPage"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="@string/chooseGroups"/>
+        <ListView
+            android:id="@+id/groupListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4">
+        </ListView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"></LinearLayout>
+    <LinearLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/origin"
+            android:textSize="20dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:id="@+id/origin"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/destination"
+            android:textSize="20dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/destination"/>
+    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="0.10"-->
+        <!--android:orientation="horizontal">-->
+        <!--<DatePicker-->
+            <!--android:id="@+id/requestDatePicker"-->
+            <!--android:datePickerMode="spinner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:calendarViewShown="false"/>-->
+        <!--<TimePicker-->
+            <!--android:id="@+id/requestTimePicker"-->
+            <!--android:timePickerMode="spinner"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
+
+    <!--</LinearLayout>-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set a Date"
+        android:id="@+id/dateButton"
+       android:layout_gravity="center"
+        android:background="@drawable/button_background"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How many passengers?"
+            android:textSize="20dp"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/requestAmountButton1"
+            android:layout_width="42dp"
+            android:layout_height="46dp"
+            android:background="@drawable/elegant_seat_cover"
+            android:enabled="true"/>
+        <Button
+            android:id="@+id/requestAmountButton2"
+            android:layout_width="42dp"
+            android:layout_height="46dp"
+            android:background="@drawable/elegant_seat_cover"
+            android:enabled="false" />
+        <Button
+            android:id="@+id/requestAmountButton3"
+            android:layout_width="42dp"
+            android:layout_height="46dp"
+            android:background="@drawable/elegant_seat_cover"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/requestAmountButton4"
+            android:layout_width="42dp"
+            android:layout_height="46dp"
+            android:background="@drawable/elegant_seat_cover"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:id="@+id/saveRequestButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Request"
+            android:background="@drawable/button_background"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
