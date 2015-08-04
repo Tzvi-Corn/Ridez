@@ -1,5 +1,6 @@
 package il.ac.huji.ridez;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,11 @@ import android.content.Intent;
 
 import com.parse.ParseObject;
 
+import java.util.List;
+
+import il.ac.huji.ridez.sqlHelpers.GroupInfo;
+import il.ac.huji.ridez.sqlHelpers.GroupsDataSource;
+
 
 public class MainMenuActivity extends ActionBarActivity {
     Button request;
@@ -17,6 +23,8 @@ public class MainMenuActivity extends ActionBarActivity {
     Button myGroups;
     Button myRides;
     Button register;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,7 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to myGroups screen
+                startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
             }
         });
         myRides = (Button)findViewById(R.id.buttonMyRides);
@@ -66,6 +75,9 @@ public class MainMenuActivity extends ActionBarActivity {
                 MainMenuActivity.this.startActivity(loginActivity);
             }
         });
+        DB db = new DB(getApplicationContext());
+
+
     }
 
 

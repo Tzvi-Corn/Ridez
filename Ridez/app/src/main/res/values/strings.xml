@@ -9,6 +9,17 @@
     <string name="myGroups">My Groups</string>
     <string name="myRides">My Rides</string>
     <string name="register">Register</string>
+    <string name="title_activity_new_group">NewGroupActivity</string>
+
+    <string name="MyGroupsHeader">My Groups</string>
+
+    <string name="groupMembers">Members:</string>
+    <string name="createGroup">Create</string>
+    <string name="groupNameCreateActivity">Name:</string>
+    <string name="groupDescriptionCreateActivity">Description:</string>
+    <string name="NewGroupHeader">New Group</string>
+    <string name="title_activity_my_groups">MyGroupsActivity</string>
+    <string name="title_activity_group_view">GroupViewActivity</string>
     <string name="title_activity_request_ride">RequestRideActivity</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>

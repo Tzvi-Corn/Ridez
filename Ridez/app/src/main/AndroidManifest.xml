@@ -34,6 +34,30 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MyGroupsActivity"
+            android:label="@string/title_activity_my_groups"
+            android:parentActivityName=".MainMenuActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="il.ac.huji.ridez.MainMenuActivity" />
+        </activity>
+        <activity
+            android:name=".NewGroupActivity"
+            android:label="@string/title_activity_new_group"
+            android:parentActivityName=".MyGroupsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="il.ac.huji.ridez.MyGroupsActivity" />
+        </activity>
+        <activity
+            android:name=".GroupDetailsActivity"
+            android:label="@string/title_activity_group_view"
+            android:parentActivityName=".MyGroupsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="il.ac.huji.ridez.MyGroupsActivity" />
+        </activity>
+        <activity
             android:name=".RequestRideActivity"
             android:label="@string/title_activity_request_ride" >
         </activity>
