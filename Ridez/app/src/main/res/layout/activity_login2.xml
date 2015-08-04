@@ -18,13 +18,15 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Registration"
             android:textSize="35dp"
-            android:padding="50dp"
             android:textColor="#004C99"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:paddingTop="50dp"
+            android:paddingBottom="50dp" />
         <EditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
@@ -32,7 +34,8 @@
             android:background="@drawable/edittext_default_bg"
             android:padding="10dp"
             android:hint="Email"
-            android:textColorHint="#bbbbbb"/>
+            android:textColorHint="#bbbbbb"
+            android:inputType="textEmailAddress" />
             <!--android:drawableLeft="@drawable/email"/>-->
         <EditText
             android:id="@+id/userNameEditText"
@@ -42,7 +45,9 @@
             android:layout_marginTop="-2dp"
             android:padding="10dp"
             android:hint="User Name"
-            android:textColorHint="#bbbbbb"/>
+            android:textColorHint="#bbbbbb"
+            android:inputType="text"
+            android:singleLine="true" />
             <!--android:drawableLeft="@drawable/user"/>-->
         <EditText
             android:id="@+id/passwordEditText"
@@ -53,10 +58,11 @@
             android:padding="10dp"
             android:hint="Password"
             android:textColorHint="#bbbbbb"
-            android:password="true"/>
+            android:password="true"
+            android:inputType="textPassword" />
             <!--android:drawableLeft="@drawable/password"/>-->
         <Button
-            android:id="@+id/signInButton"
+            android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
