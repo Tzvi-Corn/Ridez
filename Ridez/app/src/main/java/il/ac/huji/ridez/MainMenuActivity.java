@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import android.content.Intent;
+
+import com.parse.ParseObject;
 
 import java.util.List;
 
@@ -31,6 +34,11 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to request screen
+                Intent requestActivity = new Intent(MainMenuActivity.this, RequestRideActivity.class);
+
+                // currentContext.startActivity(activityChangeIntent);
+
+                MainMenuActivity.this.startActivity(requestActivity);
             }
         });
         offer = (Button)findViewById(R.id.buttonOfferRide);
@@ -60,6 +68,11 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to register screen
+                Intent loginActivity = new Intent(MainMenuActivity.this, Login.class);
+
+                // currentContext.startActivity(activityChangeIntent);
+
+                MainMenuActivity.this.startActivity(loginActivity);
             }
         });
         DB db = new DB(getApplicationContext());
