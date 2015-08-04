@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:orientation="vertical"
+        android:background="#ffffff">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:text="Ride Details"
+            android:textColor="#004C99"
+            android:textStyle="bold"
+            android:id="@+id/titleOfPage"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Requested in Groups:"/>
+        <ListView
+            android:id="@+id/groupListView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="0.25"
+            android:isScrollContainer="false">
+        </ListView>
+
+
+
+        <LinearLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/origin"
+                android:textSize="15dp"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"/>
+            <EditText
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:id="@+id/originEditText"
+                android:editable="false"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/destination"
+                android:textSize="15dp"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/destinationEditText"
+                android:editable="false"
+                android:gravity="center_horizontal"
+                />
+        </LinearLayout>
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="0.10"-->
+        <!--android:orientation="horizontal">-->
+        <!--<DatePicker-->
+        <!--android:id="@+id/requestDatePicker"-->
+        <!--android:datePickerMode="spinner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:calendarViewShown="false"/>-->
+        <!--<TimePicker-->
+        <!--android:id="@+id/requestTimePicker"-->
+        <!--android:timePickerMode="spinner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"/>-->
+
+        <!--</LinearLayout>-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10"
+            android:orientation="horizontal"
+            android:paddingLeft="40dp">
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/dateAndTimeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date And Time: "
+                android:textSize="22dp"
+                android:textColor="#004C99"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/passengersNumTextview"
+                android:paddingLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number Of Passengers: "
+                android:textSize="25dp"
+                android:textColor="#004C99"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
