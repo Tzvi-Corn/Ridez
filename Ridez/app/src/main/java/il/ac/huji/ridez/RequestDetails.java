@@ -25,6 +25,7 @@ public class RequestDetails extends ActionBarActivity {
         dateAndTime = (TextView) findViewById(R.id.dateAndTimeTextView);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+
             originEditText.setText(extras.getString("origin"));
             destinationEditText.setText(extras.getString("destination"));
             Date date = new Date();

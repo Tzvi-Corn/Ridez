@@ -22,12 +22,12 @@ import android.widget.NumberPicker.OnValueChangeListener;
 import java.util.Date;
 
 
-public class RequestRideActivity extends ActionBarActivity {
+public class OfferRideActivity extends ActionBarActivity {
     EditText origin;
     EditText destination;
     int numOfPassengers = 0;
     final Calendar c = Calendar.getInstance();
-   int mYear = c.get(Calendar.YEAR);
+    int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
     int mDay = c.get(Calendar.DAY_OF_MONTH);
     int mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -47,28 +47,27 @@ public class RequestRideActivity extends ActionBarActivity {
     int ourMinute;
     ListView groupsListView;
     NumberPicker np;
-    Date requestDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_ride);
-        origin = (EditText) findViewById(R.id.origin);
-        destination = (EditText) findViewById(R.id.destination);
-        dateTextView = (TextView)findViewById(R.id.dateTextView);
-        timeTextView = (TextView) findViewById(R.id.timeTextView);
+        setContentView(R.layout.activity_offer_ride);
+        origin = (EditText) findViewById(R.id.originOffering);
+        destination = (EditText) findViewById(R.id.destinationOffering);
+        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
+        timeTextView = (TextView) findViewById(R.id.timeTextViewOffering);
 
 
 
 
-        np = (NumberPicker) findViewById(R.id.amountNumberPicker);
+        np = (NumberPicker) findViewById(R.id.amountNumberPickerOffering);
         np.setMinValue(1);
         np.setMaxValue(5);
         np.setValue(1);
-        setDateButton = (Button) findViewById(R.id.dateButton);
+        setDateButton = (Button) findViewById(R.id.dateButtonOffering);
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(RequestRideActivity.this,
+                DatePickerDialog dpd = new DatePickerDialog(OfferRideActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -86,11 +85,11 @@ public class RequestRideActivity extends ActionBarActivity {
                 dpd.show();
             }
         });
-        setTimeButton = (Button) findViewById(R.id.timeButton);
+        setTimeButton = (Button) findViewById(R.id.timeButtonOffering);
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog tpd = new TimePickerDialog(RequestRideActivity.this,
+                TimePickerDialog tpd = new TimePickerDialog(OfferRideActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
@@ -108,7 +107,7 @@ public class RequestRideActivity extends ActionBarActivity {
         });
 
 
-        saveRequestButton = (Button) findViewById(R.id.saveRequestButton);
+        saveRequestButton = (Button) findViewById(R.id.saveRequestButtonOffering);
         saveRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,24 +120,23 @@ public class RequestRideActivity extends ActionBarActivity {
 
                 //create request on server
                 //save to db
-                Intent requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                Intent requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
                 requestDetails.putExtra("origin", origin.getText().toString());
                 requestDetails.putExtra("destination", destination.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
-                RequestRideActivity.this.startActivity(requestDetails);
-                RequestRideActivity.this.finish();
+                OfferRideActivity.this.startActivity(requestDetails);
+                OfferRideActivity.this.finish();
 
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_request_ride, menu);
+        getMenuInflater().inflate(R.menu.menu_offer_ride, menu);
         return true;
     }
 
