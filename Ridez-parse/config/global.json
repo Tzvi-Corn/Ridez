@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.5.0"
+  },
+  "applications": {
+    "Ridez": {
+      "applicationId": "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR",
+      "masterKey": "1tTg2Fkl9kIdZuX3hpm5d8TPsexFXwoKyzCSX0i4"
+    },
+    "_default": {
+      "link": "Ridez"
+    }
+  }
+}

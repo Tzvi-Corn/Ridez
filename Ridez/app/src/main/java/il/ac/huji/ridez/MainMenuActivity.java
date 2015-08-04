@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.*;
 import android.content.Intent;
 
+import com.parse.ParseObject;
+
 
 public class MainMenuActivity extends ActionBarActivity {
     Button request;
