@@ -1,5 +1,6 @@
 package il.ac.huji.ridez;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.NumberPicker;
 import java.util.Calendar;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -43,6 +45,8 @@ final Calendar c = Calendar.getInstance();
     Boolean btn2 = false;
     Boolean btn3 = false;
     Boolean btn4 = false;
+    TextView dateTextView;
+    TextView timeTextView;
     int ourYear;
     int ourMonth;
     int ourDay;
@@ -57,6 +61,8 @@ final Calendar c = Calendar.getInstance();
         setContentView(R.layout.activity_request_ride);
         origin = (EditText) findViewById(R.id.origin);
         destination = (EditText) findViewById(R.id.destination);
+        dateTextView = (TextView)findViewById(R.id.dateTextView);
+        timeTextView = (TextView) findViewById(R.id.timeTextView);
 //        passengerButton1 = (Button) findViewById(R.id.requestAmountButton1);
 //        passengerButton1.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -116,7 +122,10 @@ final Calendar c = Calendar.getInstance();
 
 
 
-        setAmountButton = (Button) findViewById(R.id.amountButton);
+        np = (NumberPicker) findViewById(R.id.amountNumberPicker);
+        np.setMinValue(1);
+        np.setMaxValue(5);
+        np.setValue(1);
         setDateButton = (Button) findViewById(R.id.dateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +139,10 @@ final Calendar c = Calendar.getInstance();
                                 ourYear = year;
                                 ourMonth = monthOfYear;
                                 ourDay = dayOfMonth;
-
+                                dateTextView.setText(new StringBuilder()
+                                        // Month is 0 based, just add 1
+                                        .append(ourDay).append("-").append(ourMonth + 1).append("-")
+                                        .append(ourYear).append(" "));
                             }
                         }, mYear, mMonth, mDay);
                 dpd.show();
@@ -148,17 +160,15 @@ final Calendar c = Calendar.getInstance();
                                                   int minute) {
                                 ourHour = hourOfDay;
                                 ourMinute = minute;
+                                timeTextView.setText(new StringBuilder()
+                                        // Month is 0 based, just add 1
+                                        .append(ourHour).append(":").append(ourMinute));
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
             }
         });
-       setAmountButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
 
-           }
-       });
 
         saveRequestButton = (Button) findViewById(R.id.saveRequestButton);
         saveRequestButton.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +176,21 @@ final Calendar c = Calendar.getInstance();
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(0);
+                cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
+                Date date = cal.getTime();
+
+                //create request on server
+                //save to db
+                Intent requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                requestDetails.putExtra("origin", origin.getText().toString());
+                requestDetails.putExtra("destination", destination.getText().toString());
+                requestDetails.putExtra("date", date.getTime());
+                requestDetails.putExtra("amount", np.getValue());
+                RequestRideActivity.this.startActivity(requestDetails);
+                RequestRideActivity.this.finish();
+
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
