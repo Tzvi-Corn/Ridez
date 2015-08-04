@@ -1,17 +1,174 @@
 package il.ac.huji.ridez;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.NumberPicker;
+import java.util.Calendar;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.widget.NumberPicker.OnValueChangeListener;
+
+import java.util.Date;
 
 
 public class RequestRideActivity extends ActionBarActivity {
+    EditText origin;
+    EditText destination;
+    int numOfPassengers = 0;
+//    Button passengerButton1;
+//    Button passengerButton2;
+//    Button passengerButton3;
+//    Button passengerButton4;
+final Calendar c = Calendar.getInstance();
+   int mYear = c.get(Calendar.YEAR);
+    int mMonth = c.get(Calendar.MONTH);
+    int mDay = c.get(Calendar.DAY_OF_MONTH);
+    int mHour = c.get(Calendar.HOUR_OF_DAY);
+    int mMinute = c.get(Calendar.MINUTE);
 
+    Button saveRequestButton;
+    Button setDateButton;
+    Button setTimeButton;
+    Button  setAmountButton;
+    Boolean btn1 = false;
+    Boolean btn2 = false;
+    Boolean btn3 = false;
+    Boolean btn4 = false;
+    int ourYear;
+    int ourMonth;
+    int ourDay;
+    int ourHour;
+    int ourMinute;
+    ListView groupsListView;
+    NumberPicker np;
+    Date requestDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_ride);
+        origin = (EditText) findViewById(R.id.origin);
+        destination = (EditText) findViewById(R.id.destination);
+//        passengerButton1 = (Button) findViewById(R.id.requestAmountButton1);
+//        passengerButton1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!btn1) {
+//
+//                    ++numOfPassengers;
+//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
+//                } else {
+//                    --numOfPassengers;
+//                }
+//                btn1 = !btn1;
+//            }
+//        });
+//        passengerButton2 = (Button) findViewById(R.id.requestAmountButton2);
+//        passengerButton2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!btn2) {
+//
+//                    ++numOfPassengers;
+//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
+//                } else {
+//                    --numOfPassengers;
+//                }
+//                btn2 = !btn2;
+//            }
+//        });
+//        passengerButton3 = (Button) findViewById(R.id.requestAmountButton3);
+//        passengerButton3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!btn3) {
+//
+//                    ++numOfPassengers;
+//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
+//                } else {
+//                    --numOfPassengers;
+//                }
+//                btn3 = !btn3;
+//            }
+//        });
+//        passengerButton4 = (Button) findViewById(R.id.requestAmountButton4);
+//        passengerButton4.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!btn4) {
+//
+//                    ++numOfPassengers;
+//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
+//                } else {
+//                    --numOfPassengers;
+//                }
+//                btn4 = !btn4;
+//            }
+//        });
+
+
+
+        setAmountButton = (Button) findViewById(R.id.amountButton);
+        setDateButton = (Button) findViewById(R.id.dateButton);
+        setDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dpd = new DatePickerDialog(RequestRideActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                ourYear = year;
+                                ourMonth = monthOfYear;
+                                ourDay = dayOfMonth;
+
+                            }
+                        }, mYear, mMonth, mDay);
+                dpd.show();
+            }
+        });
+        setTimeButton = (Button) findViewById(R.id.timeButton);
+        setTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog tpd = new TimePickerDialog(RequestRideActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                ourHour = hourOfDay;
+                                ourMinute = minute;
+                            }
+                        }, mHour, mMinute, false);
+                tpd.show();
+            }
+        });
+       setAmountButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+           }
+       });
+
+        saveRequestButton = (Button) findViewById(R.id.saveRequestButton);
+        saveRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check if date is not null, all other fields valid
+                //and then register the request in parse server;
+            }
+        });
+        groupsListView = (ListView) findViewById(R.id.groupListView);
     }
 
 

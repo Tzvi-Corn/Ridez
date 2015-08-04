@@ -24,7 +24,8 @@
             android:id="@+id/groupListView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4">
+            android:layout_weight="0.4"
+            android:isScrollContainer="false">
         </ListView>
 
 
@@ -86,56 +87,51 @@
             <!--android:layout_height="wrap_content"/>-->
 
     <!--</LinearLayout>-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set a Date"
-        android:id="@+id/dateButton"
-       android:layout_gravity="center"
-        android:background="@drawable/button_background"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="How many passengers?"
-            android:textSize="20dp"
-            android:layout_gravity="bottom"/>
-    </LinearLayout>
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.15"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set a Date"
+            android:id="@+id/dateButton"
+            android:background="@drawable/button_background"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set a Time"
+            android:id="@+id/timeButton"
+
+            android:background="@drawable/button_background"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number of Passengers"
+            android:id="@+id/amountButton"
+            android:background="@drawable/button_background"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
         android:gravity="center"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/requestAmountButton1"
-            android:layout_width="42dp"
-            android:layout_height="46dp"
-            android:background="@drawable/elegant_seat_cover"
-            android:enabled="true"/>
-        <Button
-            android:id="@+id/requestAmountButton2"
-            android:layout_width="42dp"
-            android:layout_height="46dp"
-            android:background="@drawable/elegant_seat_cover"
-            android:enabled="false" />
-        <Button
-            android:id="@+id/requestAmountButton3"
-            android:layout_width="42dp"
-            android:layout_height="46dp"
-            android:background="@drawable/elegant_seat_cover"
-            android:enabled="false"/>
-
-        <Button
-            android:id="@+id/requestAmountButton4"
-            android:layout_width="42dp"
-            android:layout_height="46dp"
-            android:background="@drawable/elegant_seat_cover"
-            android:enabled="false"/>
+        <NumberPicker
+            android:id="@+id/amountNumberPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
 
     </LinearLayout>
 
