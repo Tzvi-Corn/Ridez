@@ -44,7 +44,7 @@
         <activity
             android:name=".NewGroupActivity"
             android:label="@string/title_activity_new_group"
-            android:parentActivityName=".MyGroupsActivity">
+            android:parentActivityName=".MyGroupsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="il.ac.huji.ridez.MyGroupsActivity" />
@@ -68,6 +68,10 @@
         <activity
             android:name=".RequestDetails"
             android:label="@string/title_activity_request_details" >
+        </activity>
+        <activity
+            android:name=".OfferRideActivity"
+            android:label="@string/title_activity_offer_ride" >
         </activity>
     </application>
 
