@@ -46,6 +46,8 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to offer screen
+                Intent offerActivity = new Intent(MainMenuActivity.this, OfferRideActivity.class);
+                MainMenuActivity.this.startActivity(offerActivity);
             }
         });
         myGroups = (Button)findViewById(R.id.buttonMyGroups);
