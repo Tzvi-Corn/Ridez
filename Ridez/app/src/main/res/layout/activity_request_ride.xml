@@ -50,13 +50,15 @@
             android:textSize="15dp"
             android:layout_gravity="bottom"
             android:gravity="bottom"/>
-        <EditText
-
+        <AutoCompleteTextView
+            android:id="@+id/requestOrigin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:id="@+id/origin"
-             />
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Please enter your place" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -70,12 +72,15 @@
             android:textSize="15dp"
             android:layout_gravity="bottom"
             android:gravity="bottom"/>
-        <EditText
+        <AutoCompleteTextView
+            android:id="@+id/requestDestination"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/destination"
-            android:gravity="center_horizontal"
-             />
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Please enter your place" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
     </LinearLayout>
     <!--<LinearLayout-->
         <!--android:layout_width="match_parent"-->
