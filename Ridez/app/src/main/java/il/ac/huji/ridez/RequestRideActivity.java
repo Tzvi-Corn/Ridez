@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -44,7 +45,7 @@ final Calendar c = Calendar.getInstance();
     int mDay = c.get(Calendar.DAY_OF_MONTH);
     int mHour = c.get(Calendar.HOUR_OF_DAY);
     int mMinute = c.get(Calendar.MINUTE);
-
+    List<String> groupsList;
     Button saveRequestButton;
     Button setDateButton;
     Button setTimeButton;
@@ -158,6 +159,13 @@ final Calendar c = Calendar.getInstance();
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("isRequest", true);
                 requestDetails.putExtra("amount", np.getValue());
+                int len = groupsListView.getCount();
+                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i)) {
+                        String item = groupsList.get(i);
+                    }
+                }
                 RequestRideActivity.this.startActivity(requestDetails);
                 RequestRideActivity.this.finish();
 
@@ -165,7 +173,7 @@ final Calendar c = Calendar.getInstance();
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
         groupsListView.setChoiceMode(groupsListView.CHOICE_MODE_MULTIPLE);
-        List<String> groupsList = new ArrayList<String>();
+        groupsList = new ArrayList<String>();
         for (int i = 0; i < DB.groups.size(); ++i) {
             groupsList.add(DB.groups.get(i).getName());
         }
