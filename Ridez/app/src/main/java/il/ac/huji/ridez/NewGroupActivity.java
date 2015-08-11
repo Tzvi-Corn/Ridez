@@ -24,10 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class NewGroupActivity extends ActionBarActivity {
@@ -35,6 +37,9 @@ public class NewGroupActivity extends ActionBarActivity {
     private EditText groupName, groupDesc;
     private ImageButton buttonGroupProfilePicture;
     private String iconPath = "blank";
+    ListView memberListView;
+    List<String> members;
+    ArrayAdapter<String> arrayAdapter;
 
 
     @Override
@@ -62,10 +67,29 @@ public class NewGroupActivity extends ActionBarActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, emailAddresses);
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.searchGruopMembers);
+        final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.searchGruopMembers);
         textView.setAdapter(adapter);
+        Button addMember = (Button) findViewById(R.id.addMemberButton);
+            addMember.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View arg0) {
 
-
+                    //add to list view
+                    members.add(textView.getText().toString());
+                    arrayAdapter.notifyDataSetChanged();
+                    textView.setText("");
+                    View view = NewGroupActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+            });
+        memberListView = (ListView) findViewById(R.id.listGroupMembers);
+        members = new ArrayList<String>();
+        arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, members);
+        memberListView.setAdapter(arrayAdapter);
     buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener()
 
     {

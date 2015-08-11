@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -53,6 +54,7 @@ public class OfferRideActivity extends ActionBarActivity {
     EditText origin;
     EditText destination;
     int numOfPassengers = 0;
+    List<String> groupsList;
     final Calendar c = Calendar.getInstance();
     int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
@@ -173,12 +175,20 @@ public class OfferRideActivity extends ActionBarActivity {
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
                 requestDetails.putExtra("isRequest", false);
+                int len = groupsListView.getCount();
+                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i)) {
+                        String item = groupsList.get(i);
+                    }
+                }
                 OfferRideActivity.this.startActivity(requestDetails);
                 OfferRideActivity.this.finish();
             }
         });
         groupsListView = (ListView) findViewById(R.id.offerGroupListView);
-        List<String> groupsList = new ArrayList<String>();
+        groupsListView.setChoiceMode(groupsListView.CHOICE_MODE_MULTIPLE);
+        groupsList = new ArrayList<String>();
         for (int i = 0; i < DB.getGroups().size(); ++i) {
             groupsList.add(DB.getGroups().get(i).getName());
         }

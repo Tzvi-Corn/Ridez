@@ -65,13 +65,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/groupMembers"/>
-    <AutoCompleteTextView
-        android:id="@+id/searchGruopMembers"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10">
-        <requestFocus />
+        android:orientation="horizontal">
+    <AutoCompleteTextView
+        android:id="@+id/searchGruopMembers"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:imeOptions="actionNext">
     </AutoCompleteTextView>
+        <Button
+            android:id="@+id/addMemberButton"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="add"
+            />
+        </LinearLayout>
     <ListView
         android:id="@+id/listGroupMembers"
         android:layout_width="match_parent"
