@@ -7,14 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import android.content.Intent;
-
-import com.parse.ParseObject;
-
-import java.util.List;
-
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
-import il.ac.huji.ridez.sqlHelpers.GroupsDataSource;
 
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -23,6 +15,7 @@ public class MainMenuActivity extends ActionBarActivity {
     Button myGroups;
     Button myRides;
     Button register;
+    Button login;
 
 
     @Override
@@ -70,10 +63,16 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to register screen
-                Intent loginActivity = new Intent(MainMenuActivity.this, Login.class);
-
-                // currentContext.startActivity(activityChangeIntent);
-
+                Intent registrationActivity = new Intent(MainMenuActivity.this, RegistrationActivity.class);
+                MainMenuActivity.this.startActivity(registrationActivity);
+            }
+        });
+        login = (Button)findViewById(R.id.buttonLogin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //send me to register screen
+                Intent loginActivity = new Intent(MainMenuActivity.this, LoginActivity.class);
                 MainMenuActivity.this.startActivity(loginActivity);
             }
         });

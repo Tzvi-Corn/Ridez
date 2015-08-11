@@ -65,7 +65,11 @@
             android:label="@string/title_activity_request_ride" >
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration" >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
