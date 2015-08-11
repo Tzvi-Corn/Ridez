@@ -179,8 +179,8 @@ public class OfferRideActivity extends ActionBarActivity {
         });
         groupsListView = (ListView) findViewById(R.id.offerGroupListView);
         List<String> groupsList = new ArrayList<String>();
-        for (int i = 0; i < DB.groups.size(); ++i) {
-            groupsList.add(DB.groups.get(i).getName());
+        for (int i = 0; i < DB.getGroups().size(); ++i) {
+            groupsList.add(DB.getGroups().get(i).getName());
         }
         groupsListView.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_checked, groupsList));
