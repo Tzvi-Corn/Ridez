@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -66,6 +67,7 @@ final Calendar c = Calendar.getInstance();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_ride);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         dateTextView = (TextView)findViewById(R.id.dateTextView);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
         final AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.requestDestination);
