@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:name=".ridezApp"
@@ -26,7 +29,7 @@
 
         <activity
             android:name=".MainMenuActivity"
-            android:label="@string/title_activity_main_menu" >
+            android:label="RIDEZ" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
