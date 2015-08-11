@@ -8,6 +8,8 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
@@ -44,6 +46,10 @@ public class DB {
         final ParseObject newGroup = new ParseObject("Group");
         newGroup.put("name", group.getName());
         newGroup.put("description", group.getDescription());
+        ParseRelation<ParseUser> users = newGroup.getRelation("users");
+        users.add(ParseUser.getCurrentUser());
+        ParseRelation<ParseUser> admins = newGroup.getRelation("admins");
+        admins.add(ParseUser.getCurrentUser());
         Bitmap icon = group.getIcon();
         final ParseFile iconFile;
         if (icon != null) {

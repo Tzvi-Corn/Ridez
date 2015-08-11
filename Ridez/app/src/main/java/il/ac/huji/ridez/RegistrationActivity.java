@@ -2,7 +2,9 @@ package il.ac.huji.ridez;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,11 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class Login extends ActionBarActivity {
+public class RegistrationActivity extends ActionBarActivity {
     EditText email;
     EditText password;
     EditText userName;
@@ -24,35 +27,51 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login2);
+        setContentView(R.layout.activity_registration);
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
         userName = (EditText) findViewById(R.id.userNameEditText);
         signUp = (Button) findViewById (R.id.signUpButton);
         signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(Login.this, "Please wait ...", "Signing up to the system ...", true);
+                final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, "Please wait ...", "Signing up to the system ...", true);
                 pd.setCancelable(false);
-                String userText = userName.getText().toString();
-                String passwordText = password.getText().toString();
+                final String userText = userName.getText().toString();
+                final String passwordText = password.getText().toString();
                 String emailText = email.getText().toString();
                 if (emailText.isEmpty() || userText.isEmpty() || passwordText.isEmpty()) {
                     pd.dismiss();
                     showError("Please fill all fields!");
                     return;
                 }
-                ParseUser user = new ParseUser();
+                final ParseUser user = new ParseUser();
                 user.setUsername(userText);
                 user.setPassword(passwordText);
                 user.setEmail(emailText);
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-                            // Hooray! Let them use the app now.
-                            pd.dismiss();
-                            Toast.makeText(getApplicationContext(), "You have successfully signed up",
-                                    Toast.LENGTH_LONG).show();
-                            finish();
+                            ParseUser.logInInBackground(userText, passwordText, new LogInCallback() {
+                                @Override
+                                public void done(ParseUser parseUser, ParseException e) {
+                                    if (e == null) {
+                                        // save username & password
+                                        Context context = getApplicationContext();
+                                        SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = pref.edit();
+                                        editor.putString("username", userText);
+                                        editor.putString("password", passwordText);
+                                        editor.apply();
+                                        // Hooray! Let them use the app now.
+                                        pd.dismiss();
+                                        Toast.makeText(getApplicationContext(), "You have successfully signed up",
+                                                Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Please login!!!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
@@ -64,7 +83,7 @@ public class Login extends ActionBarActivity {
             }
 
             private void showError(String errorString) {
-                new AlertDialog.Builder(Login.this)
+                new AlertDialog.Builder(RegistrationActivity.this)
                         .setMessage(errorString)
                         .setTitle("Registration failed")
                         .setCancelable(true)

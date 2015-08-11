@@ -9,6 +9,7 @@
     <string name="myGroups">My Groups</string>
     <string name="myRides">My Rides</string>
     <string name="register">Register</string>
+    <string name="login">Login</string>
     <string name="title_activity_new_group">NewGroupActivity</string>
 
     <string name="MyGroupsHeader">My Groups</string>
@@ -26,6 +27,7 @@
     <string name="chooseGroups">Choose Groups: </string>
     <string name="requestRideHeader">Request A Ride </string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_registration">Registrtation</string>
     <style name="DefaultButtonText">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -41,5 +43,6 @@
     </style>
     <string name="title_activity_request_details">RequestDetails</string>
     <string name="title_activity_offer_ride">OfferRideActivity</string>
+    <string name="pref_username">il.ac.huji.ridez.username</string>
 
 </resources>
