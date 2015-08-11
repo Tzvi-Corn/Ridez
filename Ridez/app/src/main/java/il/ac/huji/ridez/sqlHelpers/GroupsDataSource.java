@@ -38,9 +38,13 @@ public class GroupsDataSource {
         values.put(SQLGroupsHelper.COLUMN_GROUP_NAME, name);
         values.put(SQLGroupsHelper.COLUMN_GROUP_DESCRIPTION, description);
 
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.PNG, 50, bs);
-        values.put(SQLGroupsHelper.COLUMN_GROUP_ICON, bs.toByteArray());
+        if (icon != null) {
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            icon.compress(Bitmap.CompressFormat.PNG, 50, bs);
+            values.put(SQLGroupsHelper.COLUMN_GROUP_ICON, bs.toByteArray());
+        } else {
+            values.put(SQLGroupsHelper.COLUMN_GROUP_ICON, "");
+        }
 
         long insertId = db.insert(SQLGroupsHelper.TABLE_GROUPS, null, values);
         Cursor cursor = db.query(SQLGroupsHelper.TABLE_GROUPS, allColumns, SQLGroupsHelper.COLUMN_ID + " = " + insertId, null,
@@ -58,7 +62,7 @@ public class GroupsDataSource {
     }
 
     public List<GroupInfo> getAllGroupInfos() {
-        List<GroupInfo> GroupInfos = new ArrayList<GroupInfo>();
+        List<GroupInfo> GroupInfos = new ArrayList<>();
 
         Cursor cursor = db.query(SQLGroupsHelper.TABLE_GROUPS,
                 allColumns, null, null, null, null, null);
