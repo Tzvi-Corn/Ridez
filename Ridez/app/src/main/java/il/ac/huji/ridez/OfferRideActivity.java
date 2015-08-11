@@ -168,11 +168,12 @@ public class OfferRideActivity extends ActionBarActivity {
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
+                requestDetails.putExtra("isRequest", false);
                 OfferRideActivity.this.startActivity(requestDetails);
                 OfferRideActivity.this.finish();
             }
         });
-        groupsListView = (ListView) findViewById(R.id.groupListView);
+        groupsListView = (ListView) findViewById(R.id.offerGroupListView);
     }
 
     @Override

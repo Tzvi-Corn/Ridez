@@ -6,7 +6,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ListView;
@@ -18,6 +21,10 @@ import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.widget.NumberPicker.OnValueChangeListener;
+import android.widget.Toast;
+import java.util.List;
+import java.util.ArrayList;
+import android.widget.ArrayAdapter;
 
 import java.util.Date;
 
@@ -59,68 +66,28 @@ final Calendar c = Calendar.getInstance();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_ride);
-        origin = (EditText) findViewById(R.id.origin);
-        destination = (EditText) findViewById(R.id.destination);
         dateTextView = (TextView)findViewById(R.id.dateTextView);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
-//        passengerButton1 = (Button) findViewById(R.id.requestAmountButton1);
-//        passengerButton1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!btn1) {
-//
-//                    ++numOfPassengers;
-//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
-//                } else {
-//                    --numOfPassengers;
-//                }
-//                btn1 = !btn1;
-//            }
-//        });
-//        passengerButton2 = (Button) findViewById(R.id.requestAmountButton2);
-//        passengerButton2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!btn2) {
-//
-//                    ++numOfPassengers;
-//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
-//                } else {
-//                    --numOfPassengers;
-//                }
-//                btn2 = !btn2;
-//            }
-//        });
-//        passengerButton3 = (Button) findViewById(R.id.requestAmountButton3);
-//        passengerButton3.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!btn3) {
-//
-//                    ++numOfPassengers;
-//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
-//                } else {
-//                    --numOfPassengers;
-//                }
-//                btn3 = !btn3;
-//            }
-//        });
-//        passengerButton4 = (Button) findViewById(R.id.requestAmountButton4);
-//        passengerButton4.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!btn4) {
-//
-//                    ++numOfPassengers;
-//                    //passengerButton1.setDrawingCacheBackgroundColor(3);
-//                } else {
-//                    --numOfPassengers;
-//                }
-//                btn4 = !btn4;
-//            }
-//        });
-
-
+        final AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.requestDestination);
+        autoCompView.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
+        autoCompView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+                String str = (String) adapterView.getItemAtPosition(position);
+                Toast.makeText(RequestRideActivity.this, str, Toast.LENGTH_SHORT).show();
+                autoCompView.setText(str);
+            }
+        });
+        final AutoCompleteTextView autoCompViewOrigin = (AutoCompleteTextView) findViewById(R.id.requestOrigin);
+        autoCompViewOrigin.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
+        autoCompViewOrigin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+                String str = (String) adapterView.getItemAtPosition(position);
+                Toast.makeText(RequestRideActivity.this, str, Toast.LENGTH_SHORT).show();
+                autoCompViewOrigin.setText(str);
+            }
+        });
 
         np = (NumberPicker) findViewById(R.id.amountNumberPicker);
         np.setMinValue(1);
@@ -184,9 +151,10 @@ final Calendar c = Calendar.getInstance();
                 //create request on server
                 //save to db
                 Intent requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
-                requestDetails.putExtra("origin", origin.getText().toString());
-                requestDetails.putExtra("destination", destination.getText().toString());
+                requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
+                requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
+                requestDetails.putExtra("isRequest", true);
                 requestDetails.putExtra("amount", np.getValue());
                 RequestRideActivity.this.startActivity(requestDetails);
                 RequestRideActivity.this.finish();
@@ -194,6 +162,34 @@ final Calendar c = Calendar.getInstance();
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
+        groupsListView.setChoiceMode(groupsListView.CHOICE_MODE_MULTIPLE);
+        List<String> groupsList = new ArrayList<String>();
+        for (int i = 0; i < DB.groups.size(); ++i) {
+            groupsList.add(DB.groups.get(i).getName());
+        }
+        groupsListView.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_checked, groupsList));
+        groupsListView.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
 
