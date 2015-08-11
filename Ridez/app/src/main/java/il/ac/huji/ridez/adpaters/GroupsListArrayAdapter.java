@@ -42,9 +42,10 @@ public class GroupsListArrayAdapter extends ArrayAdapter<GroupInfo> {
 
         nameTextView.setText(item.getName());
         descriptionTextView.setText(item.getDescription());
-
-//        groupIconImageView.setImageBitmap(BitmapFactory.decodeFile(item.getIconPath()));
-//        groupIconImageView.setImageResource(Drawable(item.getIconPath()));
+        if (item.getIcon() != null) {
+            groupIconImageView.setImageBitmap(item.getIcon());
+        }
+        //groupIconImageView.setImageResource(Drawable(item.getIconPath()));
 
 
         return rowView;

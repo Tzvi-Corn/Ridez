@@ -1,5 +1,7 @@
 package il.ac.huji.ridez;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -7,18 +9,25 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 
 public class NewGroupActivity extends ActionBarActivity {
@@ -27,6 +36,7 @@ public class NewGroupActivity extends ActionBarActivity {
     private ImageButton buttonGroupProfilePicture;
     private String iconPath = "blank";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,21 +44,49 @@ public class NewGroupActivity extends ActionBarActivity {
         groupName = (EditText) findViewById(R.id.edtTextGroupName);
         groupDesc = (EditText) findViewById(R.id.edtTextGroupDescription);
         buttonGroupProfilePicture = (ImageButton) findViewById(R.id.buttonGroupProfilePicture);
-        buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener() {
+        ArrayList<String> emailAddressCollection = new ArrayList<String>();
 
-            @Override
-            public void onClick(View arg0) {
+        ContentResolver cr = getContentResolver();
 
-                Intent i = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_GROUP_ICON);
-            }
-        });
-        Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
-        buttonCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
+        Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+
+        while (emailCur.moveToNext())
+        {
+            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+            emailAddressCollection.add(email);
+        }
+        emailCur.close();
+
+        String[] emailAddresses = new String[emailAddressCollection.size()];
+        emailAddressCollection.toArray(emailAddresses);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, emailAddresses);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.searchGruopMembers);
+        textView.setAdapter(adapter);
+
+
+    buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener()
+
+    {
+
+        @Override
+        public void onClick (View arg0){
+
+        Intent i = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_GROUP_ICON);
+    }
+    }
+
+    );
+    Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
+    buttonCreate.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View v){
+        Intent intent = new Intent();
 
 //                buttonGroupProfilePicture.buildDrawingCache();
 //                Bitmap bitmap = buttonGroupProfilePicture.getDrawingCache();
@@ -100,7 +138,7 @@ public class NewGroupActivity extends ActionBarActivity {
 
         if (requestCode == RESULT_GROUP_ICON && resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
@@ -113,10 +151,12 @@ public class NewGroupActivity extends ActionBarActivity {
             ImageView imageView = (ImageView) findViewById(R.id.buttonGroupProfilePicture);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             iconPath = picturePath;
+            //setPic();
             //imageView.setMaxHeight(60);
 //            imageView.setMaxWidth(60);
 
 
         }
     }
+
 }
