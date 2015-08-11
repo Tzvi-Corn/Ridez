@@ -50,7 +50,7 @@ public class MyGroupsActivity extends ActionBarActivity {
                 startActivityForResult(i, RESULT_NEW_GROUP);
             }
         });
-        adapter = new GroupsListArrayAdapter(this, DB.groups);
+        adapter = new GroupsListArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -86,7 +86,7 @@ public class MyGroupsActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK && data != null) {
             GroupInfo newgroupItem = new GroupInfo(data.getStringArrayExtra(GROUP_NAME));
-            DB.groups.add(newgroupItem);
+            DB.addGroup(newgroupItem);
             adapter.notifyDataSetChanged();
         }
     }

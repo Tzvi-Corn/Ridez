@@ -77,7 +77,6 @@ public class MainMenuActivity extends ActionBarActivity {
                 MainMenuActivity.this.startActivity(loginActivity);
             }
         });
-        DB db = new DB(getApplicationContext());
 
 
     }

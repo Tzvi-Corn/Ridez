@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -162,12 +163,12 @@ final Calendar c = Calendar.getInstance();
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
-        groupsListView.setChoiceMode(groupsListView.CHOICE_MODE_MULTIPLE);
-        List<String> groupsList = new ArrayList<String>();
-        for (int i = 0; i < DB.groups.size(); ++i) {
-            groupsList.add(DB.groups.get(i).getName());
+        groupsListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        List<String> groupsList = new ArrayList<>();
+        for (int i = 0; i < DB.getGroups().size(); ++i) {
+            groupsList.add(DB.getGroups().get(i).getName());
         }
-        groupsListView.setAdapter(new ArrayAdapter<String>(this,
+        groupsListView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_checked, groupsList));
         groupsListView.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
