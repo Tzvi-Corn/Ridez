@@ -56,6 +56,7 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to myRides screen
+                startActivity(new Intent(getApplicationContext(),MyRidez.class));
             }
         });
         register = (Button)findViewById(R.id.buttonRegister);

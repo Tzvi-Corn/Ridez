@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".ridezApp"
         android:allowBackup="true"
@@ -79,6 +78,10 @@
         <activity
             android:name=".OfferRideActivity"
             android:label="@string/title_activity_offer_ride" >
+        </activity>
+        <activity
+            android:name=".MyRidez"
+            android:label="@string/title_activity_my_ridez" >
         </activity>
     </application>
 

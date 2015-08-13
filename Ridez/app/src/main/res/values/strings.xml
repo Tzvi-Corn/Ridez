@@ -44,5 +44,10 @@
     <string name="title_activity_request_details">RequestDetails</string>
     <string name="title_activity_offer_ride">OfferRideActivity</string>
     <string name="pref_username">il.ac.huji.ridez.username</string>
+    <string name="title_activity_my_rides">MyRides</string>
+    <string name="title_activity_my_ridez">MyRidez</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
