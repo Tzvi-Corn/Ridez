@@ -22,7 +22,7 @@ import com.parse.SignUpCallback;
 public class RegistrationActivity extends ActionBarActivity {
     EditText email;
     EditText password;
-    EditText userName;
+    EditText fullName;
     Button signUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,28 +30,29 @@ public class RegistrationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_registration);
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
-        userName = (EditText) findViewById(R.id.userNameEditText);
+        fullName = (EditText) findViewById(R.id.fullNameEditText);
         signUp = (Button) findViewById (R.id.signUpButton);
         signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, "Please wait ...", "Signing up to the system ...", true);
                 pd.setCancelable(false);
-                final String userText = userName.getText().toString();
+                final String fullnameText = fullName.getText().toString();
                 final String passwordText = password.getText().toString();
-                String emailText = email.getText().toString();
-                if (emailText.isEmpty() || userText.isEmpty() || passwordText.isEmpty()) {
+                final String emailText = email.getText().toString();
+                if (emailText.isEmpty() || fullnameText.isEmpty() || passwordText.isEmpty()) {
                     pd.dismiss();
                     showError("Please fill all fields!");
                     return;
                 }
                 final ParseUser user = new ParseUser();
-                user.setUsername(userText);
+                user.setUsername(emailText);
                 user.setPassword(passwordText);
                 user.setEmail(emailText);
+                user.put("fullname", fullnameText);
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-                            ParseUser.logInInBackground(userText, passwordText, new LogInCallback() {
+                            ParseUser.logInInBackground(fullnameText, passwordText, new LogInCallback() {
                                 @Override
                                 public void done(ParseUser parseUser, ParseException e) {
                                     if (e == null) {
@@ -59,7 +60,7 @@ public class RegistrationActivity extends ActionBarActivity {
                                         Context context = getApplicationContext();
                                         SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = pref.edit();
-                                        editor.putString("username", userText);
+                                        editor.putString("username", emailText);
                                         editor.putString("password", passwordText);
                                         editor.apply();
                                         // Hooray! Let them use the app now.

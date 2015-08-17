@@ -8,7 +8,10 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 public class ridezApp extends Application {
     @Override
@@ -20,6 +23,7 @@ public class ridezApp extends Application {
         SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
         String username = pref.getString("username", "");
         String password = pref.getString("password", "");
+        ParseObject.registerSubclass(RidezGroup.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR", "lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM");
         if (username != "" && password != "") {

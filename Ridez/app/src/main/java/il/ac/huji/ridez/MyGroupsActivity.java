@@ -85,7 +85,7 @@ public class MyGroupsActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK && data != null) {
-            GroupInfo newgroupItem = new GroupInfo(data.getStringArrayExtra(GROUP_NAME));
+            GroupInfo newgroupItem = new GroupInfo(data.getExtras());
             DB.addGroup(newgroupItem);
             adapter.notifyDataSetChanged();
         }

@@ -28,6 +28,18 @@
             android:paddingTop="50dp"
             android:paddingBottom="50dp" />
         <EditText
+            android:id="@+id/fullNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_default_bg"
+            android:layout_marginTop="-2dp"
+            android:padding="10dp"
+            android:hint="Full Name"
+            android:textColorHint="#bbbbbb"
+            android:inputType="text"
+            android:singleLine="true" />
+        <!--android:drawableLeft="@drawable/user"/>-->
+        <EditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,18 +49,6 @@
             android:textColorHint="#bbbbbb"
             android:inputType="textEmailAddress" />
             <!--android:drawableLeft="@drawable/email"/>-->
-        <EditText
-            android:id="@+id/userNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edittext_default_bg"
-            android:layout_marginTop="-2dp"
-            android:padding="10dp"
-            android:hint="User Name"
-            android:textColorHint="#bbbbbb"
-            android:inputType="text"
-            android:singleLine="true" />
-            <!--android:drawableLeft="@drawable/user"/>-->
         <EditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
