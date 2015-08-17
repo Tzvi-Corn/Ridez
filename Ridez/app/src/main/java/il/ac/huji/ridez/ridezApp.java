@@ -36,39 +36,21 @@ public class ridezApp extends Application {
         ParseObject.registerSubclass(RidezGroup.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR", "lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM");
-        if (username != "" && password != "") {
+        if (!"".equals(username) && !"".equals(password)) {
             ParseUser.logInInBackground(username, password, new LogInCallback() {
                 @Override
                 public void done(ParseUser parseUser, ParseException e) {
                     if (e == null) {
                         Log.d("PARSE", "Logged in as " + parseUser.getUsername());
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+                        ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
                         // Include the post data with each comment
                         // suppose we have a author object, for which we want to get all books
                         query.whereEqualTo("users", parseUser);
                         // execute the query
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> groupList, ParseException e) {
+                        query.findInBackground(new FindCallback<RidezGroup>() {
+                            public void done(List<RidezGroup> groupList, ParseException e) {
                                 if (e == null) {
-                                    List<GroupInfo> tempList = new ArrayList<GroupInfo>();
-                                    for (int i = 0; i < groupList.size(); ++i) {
-                                        ParseObject group =  groupList.get(i);
-                                        String name = group.getString("name");
-                                        String description = group.getString("description");
-                                        ParseFile icon = group.getParseFile("icon");
-                                        byte[] iconData = null;
-                                        try {
-                                            iconData = icon.getData();
-                                        } catch (Exception ex) {
-
-                                        }
-                                        Bitmap bitmap = null;
-                                        if (iconData != null) {
-                                            bitmap = BitmapFactory.decodeByteArray(iconData, 0, iconData.length);
-                                        }
-                                        tempList.add(new GroupInfo(name, description, bitmap));
-                                    }
-                                    DB.setGroups(tempList);
+                                    DB.setGroups(groupList);
                                 } else {
                                     Log.d("PARSE", "error getting groups");
                                 }

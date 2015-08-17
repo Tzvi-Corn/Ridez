@@ -14,17 +14,18 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import il.ac.huji.ridez.adpaters.GroupsListArrayAdapter;
+import il.ac.huji.ridez.adpaters.RidezGroupArrayAdapter;
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
 
@@ -32,7 +33,7 @@ public class MyGroupsActivity extends ActionBarActivity {
     final static String GROUP_NAME = "name";
     private static int RESULT_NEW_GROUP = 1;
     private ListView groupsListView;
-    private GroupsListArrayAdapter adapter;
+    private RidezGroupArrayAdapter adapter;
 
 
 
@@ -46,7 +47,7 @@ public class MyGroupsActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), GroupDetailsActivity.class);
-                GroupInfo item = (GroupInfo) parent.getItemAtPosition(position);
+                RidezGroup item = (RidezGroup) parent.getItemAtPosition(position);
 //                intent.putExtra(GROUP_NAME, item.getInfo());
                 startActivity(intent);
             }
@@ -58,89 +59,29 @@ public class MyGroupsActivity extends ActionBarActivity {
                 startActivityForResult(i, RESULT_NEW_GROUP);
             }
         });
-        adapter = new GroupsListArrayAdapter(this, DB.getGroups());
+        adapter = new RidezGroupArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+        ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("users", ParseUser.getCurrentUser());
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> groupList, ParseException e) {
+        query.orderByAscending("name");
+        query.findInBackground(new FindCallback<RidezGroup>() {
+            public void done(List<RidezGroup> groupList, ParseException e) {
                 if (e == null) {
-                    List<GroupInfo> tempList = new ArrayList<>();
+                    List<RidezGroup> tempList = new ArrayList<>();
                     for (int i = 0; i < groupList.size(); ++i) {
-                        ParseObject group = groupList.get(i);
-                        String name = group.getString("name");
-                        String description = group.getString("description");
-                        ParseFile icon = group.getParseFile("icon");
-                        byte[] iconData = null;
-                        try {
-                            iconData = icon.getData();
-                        } catch (Exception ex) {
-
-                        }
-                        Bitmap bitmap = null;
-                        if (iconData != null) {
-                            bitmap = BitmapFactory.decodeByteArray(iconData, 0, iconData.length);
-                        }
-                        tempList.add(new GroupInfo(name, description, bitmap));
+                        tempList.add(groupList.get(i));
                     }
-                    if (tempList.size() != DB.getGroups().size()) {
-                        DB.setGroups(tempList);
-                        runOnUiThread(new Runnable() {
+                    DB.setGroups(tempList);
+                    runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
-                                groupsListView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
-
-                    } else {
-                        for (int i = 0; i < tempList.size(); ++i) {
-                            GroupInfo newInfo = tempList.get(i);
-                            GroupInfo oldInfo = DB.getGroups().get(i);
-                            if (!(newInfo.getName().equals(oldInfo.getName())) || !(newInfo.getDescription().equals(oldInfo.getDescription()))) {
-                                DB.setGroups(tempList);
-                                runOnUiThread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
-                                        groupsListView.setAdapter(adapter);
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                });
-                                break;
-                            }
-                            if (newInfo.getIcon() != null && !(newInfo.getIcon().sameAs(oldInfo.getIcon()))) {
-                                DB.setGroups(tempList);
-                                runOnUiThread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
-                                        groupsListView.setAdapter(adapter);
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                });
-                                break;
-                            }
-                            if (newInfo.getIcon() == null && oldInfo.getIcon() != null) {
-                                DB.setGroups(tempList);
-                                runOnUiThread(new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
-                                        groupsListView.setAdapter(adapter);
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                });
-                                break;
-                            }
+                        @Override
+                        public void run() {
+                            adapter = new RidezGroupArrayAdapter(MyGroupsActivity.this, DB.getGroups());
+                            groupsListView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         }
-                    }
+                    });
 
                 } else {
                     Log.d("PARSE", "error getting groups");
@@ -180,9 +121,7 @@ public class MyGroupsActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK && data != null) {
-            GroupInfo newgroupItem = new GroupInfo(data.getExtras());
-            DB.addGroup(newgroupItem);
+        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
             adapter.notifyDataSetChanged();
         }
     }
