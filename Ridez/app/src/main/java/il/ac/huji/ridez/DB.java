@@ -41,7 +41,7 @@ public class DB {
     }
 
     public static void addGroup(GroupInfo group){
-        groups.add(group);
+        groups.add(0, group);
         datasource.createGroupInfo(group.getName(), group.getDescription(), group.getIcon());
         final ParseObject newGroup = new ParseObject("Group");
         newGroup.put("name", group.getName());
@@ -80,5 +80,8 @@ public class DB {
 
     public static List<GroupInfo> getGroups() {
         return groups;
+    }
+    public static void setGroups(List<GroupInfo> list) {
+        groups = list;
     }
 }

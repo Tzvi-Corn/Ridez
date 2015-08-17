@@ -16,7 +16,7 @@
             android:layout_height="fill_parent"
             android:text="Main Menu"
             android:textSize="30dp"
-            android:paddingLeft="120dp"
+            android:gravity="center_horizontal"
             android:paddingTop="40dp"
             android:textColor="#004C99"
             android:textStyle="bold"/>
