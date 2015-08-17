@@ -10,11 +10,18 @@ public class GroupInfo {
     private long id;
     private String name, description;//, iconPath;
     private Bitmap icon;
+    private String parseId;
 
     public GroupInfo(String name, String description, Bitmap icon){
         this.name = name;
         this.description = description;
         this.icon = icon;
+    }
+    public GroupInfo(String name, String description, Bitmap icon, String pid){
+        this.name = name;
+        this.description = description;
+        this.icon = icon;
+        this.parseId = pid;
     }
     public GroupInfo(String name, String description, String iconPath){
         this.name = name;
@@ -73,5 +80,11 @@ public class GroupInfo {
     @Override
     public String toString() {
         return name + " " + description;
+    }
+    public String getParseId() {
+        return parseId;
+    }
+    public void setParseId(String id) {
+        parseId = id;
     }
 }

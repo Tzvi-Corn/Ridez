@@ -72,6 +72,7 @@ public class MyGroupsActivity extends ActionBarActivity {
                         String name = group.getString("name");
                         String description = group.getString("description");
                         ParseFile icon = group.getParseFile("icon");
+                        String id = group.getObjectId();
                         byte[] iconData = null;
                         try {
                             iconData = icon.getData();
@@ -82,7 +83,7 @@ public class MyGroupsActivity extends ActionBarActivity {
                         if (iconData != null) {
                             bitmap = BitmapFactory.decodeByteArray(iconData, 0, iconData.length);
                         }
-                        tempList.add(new GroupInfo(name, description, bitmap));
+                        tempList.add(new GroupInfo(name, description, bitmap, id));
                     }
                     if (tempList.size() != DB.getGroups().size()) {
                         DB.setGroups(tempList);

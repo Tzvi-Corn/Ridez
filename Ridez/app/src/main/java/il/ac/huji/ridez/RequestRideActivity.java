@@ -1,6 +1,8 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -29,6 +31,12 @@ import java.util.List;
 import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import java.util.Date;
 
 
@@ -40,6 +48,7 @@ public class RequestRideActivity extends ActionBarActivity {
 //    Button passengerButton2;
 //    Button passengerButton3;
 //    Button passengerButton4;
+    Intent requestDetails;
 final Calendar c = Calendar.getInstance();
    int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
@@ -147,6 +156,10 @@ final Calendar c = Calendar.getInstance();
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
+                if (dateTextView.getText().toString().startsWith("No") || timeTextView.getText().toString().startsWith("No")) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
                 cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
@@ -154,21 +167,58 @@ final Calendar c = Calendar.getInstance();
 
                 //create request on server
                 //save to db
-                Intent requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                int len = groupsListView.getCount();
+                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                int checkedCounter = 0;
+                ArrayList<String> groupIds = new ArrayList<String>();
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i)) {
+                        checkedCounter++;
+                        groupIds.add(DB.getGroups().get(i).getParseId());
+                    }
+                }
+                if (checkedCounter == 0) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
+                if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("isRequest", true);
                 requestDetails.putExtra("amount", np.getValue());
-                int len = groupsListView.getCount();
-                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
-                for (int i = 0; i < len; i++) {
-                    if (checked.get(i)) {
-                        String item = groupsList.get(i);
-                    }
+
+                final ParseObject newRide = new ParseObject("Ride");
+                ParseObject origin = new ParseObject("Place");
+                origin.put("address", autoCompViewOrigin.getText().toString());
+                ParseObject destination = new ParseObject("Place");
+                destination.put("address", autoCompView.getText().toString());
+                newRide.put("from", origin);
+                newRide.put("to", destination);
+                newRide.put("date", date);
+                newRide.put("request", true);
+                newRide.put("passengers", np.getValue());
+                newRide.put("user", ParseUser.getCurrentUser());
+                ParseRelation<ParseObject> groups = newRide.getRelation("groups");
+                for (int i = 0; i < groupIds.size(); ++i) {
+                    groups.add(ParseObject.createWithoutData("Group", groupIds.get(i)));
                 }
-                RequestRideActivity.this.startActivity(requestDetails);
-                RequestRideActivity.this.finish();
+                final ProgressDialog pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
+                newRide.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        // Log.d(TAG, "new group!!");
+                        pd.dismiss();
+                        RequestRideActivity.this.startActivity(requestDetails);
+                        RequestRideActivity.this.finish();
+                    }
+                });
+
+
 
             }
         });
@@ -202,6 +252,20 @@ final Calendar c = Calendar.getInstance();
             }
         });
     }
+
+    private void showError(String errorString, String errorTitle) {
+        new AlertDialog.Builder(RequestRideActivity.this)
+                .setMessage(errorString)
+                .setTitle(errorTitle)
+                .setCancelable(true)
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+    }
+
 
 
     @Override

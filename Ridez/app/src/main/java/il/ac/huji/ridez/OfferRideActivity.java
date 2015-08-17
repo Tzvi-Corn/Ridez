@@ -1,7 +1,10 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -14,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -49,10 +54,20 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
+
 
 public class OfferRideActivity extends ActionBarActivity {
     EditText origin;
     EditText destination;
+    Intent requestDetails;
     int numOfPassengers = 0;
     List<String> groupsList;
     final Calendar c = Calendar.getInstance();
@@ -144,11 +159,17 @@ public class OfferRideActivity extends ActionBarActivity {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
+                                String minuteS = "";
                                 ourHour = hourOfDay;
                                 ourMinute = minute;
+                                if (ourMinute < 10) {
+                                    minuteS = "0" + ourMinute;
+                                } else {
+                                    minuteS = Integer.toString(ourMinute);
+                                }
                                 timeTextView.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
-                                        .append(ourHour).append(":").append(ourMinute));
+                                        .append(ourHour).append(":").append(minuteS));
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
@@ -162,42 +183,68 @@ public class OfferRideActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
-                if (dateTextView.getText().toString().startsWith("no") || timeTextView.getText().toString().startsWith("no")) {
-                    //show alert
+                if (dateTextView.getText().toString().startsWith("No") || timeTextView.getText().toString().startsWith("No")) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
                 cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
                 Date date = cal.getTime();
-
                 //create request on server
                 //save to db
-                Intent requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
+                requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
                 int len = groupsListView.getCount();
                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
                 int checkedCounter = 0;
+                ArrayList<String> groupIds = new ArrayList<String>();
                 for (int i = 0; i < len; i++) {
                     if (checked.get(i)) {
                         checkedCounter++;
-                        String item = groupsList.get(i);
+                        groupIds.add(DB.getGroups().get(i).getParseId());
                     }
                 }
                 if (checkedCounter == 0) {
-                    //show alert
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
                 if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
-                    //show alert
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
+
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
                 requestDetails.putExtra("isRequest", false);
-                OfferRideActivity.this.startActivity(requestDetails);
-                OfferRideActivity.this.finish();
+                final ParseObject newRide = new ParseObject("Ride");
+                ParseObject origin = new ParseObject("Place");
+                origin.put("address", autoCompViewOrigin.getText().toString());
+                ParseObject destination = new ParseObject("Place");
+                destination.put("address", autoCompView.getText().toString());
+                newRide.put("from", origin);
+                newRide.put("to", destination);
+                newRide.put("date", date);
+                newRide.put("request", false);
+                newRide.put("passengers", np.getValue());
+                newRide.put("user", ParseUser.getCurrentUser());
+                ParseRelation<ParseObject> groups = newRide.getRelation("groups");
+                for (int i = 0; i < groupIds.size(); ++i) {
+                    groups.add(ParseObject.createWithoutData("Group", groupIds.get(i)));
+                }
+                final ProgressDialog pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                newRide.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        // Log.d(TAG, "new group!!");
+                        pd.dismiss();
+                        OfferRideActivity.this.startActivity(requestDetails);
+                        OfferRideActivity.this.finish();
+                    }
+                });
+
+
             }
         });
         groupsListView = (ListView) findViewById(R.id.offerGroupListView);
@@ -229,6 +276,19 @@ public class OfferRideActivity extends ActionBarActivity {
                 return true;
             }
         });
+    }
+
+    private void showError(String errorString, String errorTitle) {
+        new AlertDialog.Builder(OfferRideActivity.this)
+                .setMessage(errorString)
+                .setTitle(errorTitle)
+                .setCancelable(true)
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
     }
 
     @Override
