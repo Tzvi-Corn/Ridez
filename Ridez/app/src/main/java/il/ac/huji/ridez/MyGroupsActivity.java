@@ -13,6 +13,14 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +61,92 @@ public class MyGroupsActivity extends ActionBarActivity {
         adapter = new GroupsListArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+        query.whereEqualTo("users", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> groupList, ParseException e) {
+                if (e == null) {
+                    List<GroupInfo> tempList = new ArrayList<>();
+                    for (int i = 0; i < groupList.size(); ++i) {
+                        ParseObject group = groupList.get(i);
+                        String name = group.getString("name");
+                        String description = group.getString("description");
+                        ParseFile icon = group.getParseFile("icon");
+                        byte[] iconData = null;
+                        try {
+                            iconData = icon.getData();
+                        } catch (Exception ex) {
+
+                        }
+                        Bitmap bitmap = null;
+                        if (iconData != null) {
+                            bitmap = BitmapFactory.decodeByteArray(iconData, 0, iconData.length);
+                        }
+                        tempList.add(new GroupInfo(name, description, bitmap));
+                    }
+                    if (tempList.size() != DB.getGroups().size()) {
+                        DB.setGroups(tempList);
+                        runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
+                                groupsListView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    } else {
+                        for (int i = 0; i < tempList.size(); ++i) {
+                            GroupInfo newInfo = tempList.get(i);
+                            GroupInfo oldInfo = DB.getGroups().get(i);
+                            if (!(newInfo.getName().equals(oldInfo.getName())) || !(newInfo.getDescription().equals(oldInfo.getDescription()))) {
+                                DB.setGroups(tempList);
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
+                                        groupsListView.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                                break;
+                            }
+                            if (newInfo.getIcon() != null && !(newInfo.getIcon().sameAs(oldInfo.getIcon()))) {
+                                DB.setGroups(tempList);
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
+                                        groupsListView.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                                break;
+                            }
+                            if (newInfo.getIcon() == null && oldInfo.getIcon() != null) {
+                                DB.setGroups(tempList);
+                                runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        adapter = new GroupsListArrayAdapter(MyGroupsActivity.this, DB.getGroups());
+                                        groupsListView.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
+                                break;
+                            }
+                        }
+                    }
+
+                } else {
+                    Log.d("PARSE", "error getting groups");
+                }
+            }
+        });
     }
 
     @Override
@@ -81,6 +175,8 @@ public class MyGroupsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -95,5 +191,6 @@ public class MyGroupsActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+
     }
 }
