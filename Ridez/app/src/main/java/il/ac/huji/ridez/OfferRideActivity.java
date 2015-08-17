@@ -162,6 +162,10 @@ public class OfferRideActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
+                if (dateTextView.getText().toString().startsWith("no") || timeTextView.getText().toString().startsWith("no")) {
+                    //show alert
+                    return;
+                }
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
                 cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
@@ -170,18 +174,28 @@ public class OfferRideActivity extends ActionBarActivity {
                 //create request on server
                 //save to db
                 Intent requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
+                int len = groupsListView.getCount();
+                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                int checkedCounter = 0;
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i)) {
+                        checkedCounter++;
+                        String item = groupsList.get(i);
+                    }
+                }
+                if (checkedCounter == 0) {
+                    //show alert
+                    return;
+                }
+                if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
+                    //show alert
+                    return;
+                }
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
                 requestDetails.putExtra("isRequest", false);
-                int len = groupsListView.getCount();
-                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
-                for (int i = 0; i < len; i++) {
-                    if (checked.get(i)) {
-                        String item = groupsList.get(i);
-                    }
-                }
                 OfferRideActivity.this.startActivity(requestDetails);
                 OfferRideActivity.this.finish();
             }
