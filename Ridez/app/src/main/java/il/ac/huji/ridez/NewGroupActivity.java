@@ -1,5 +1,6 @@
 package il.ac.huji.ridez;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,10 +27,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
 public class NewGroupActivity extends ActionBarActivity {
@@ -38,7 +50,9 @@ public class NewGroupActivity extends ActionBarActivity {
     private ImageButton buttonGroupProfilePicture;
     private String iconPath = "blank";
     ListView memberListView;
-    List<String> members;
+    ArrayList<String> members;
+    List<String> waiting_members;
+    List<ParseUser> registered_members;
     ArrayAdapter<String> arrayAdapter;
 
 
@@ -49,7 +63,7 @@ public class NewGroupActivity extends ActionBarActivity {
         groupName = (EditText) findViewById(R.id.edtTextGroupName);
         groupDesc = (EditText) findViewById(R.id.edtTextGroupDescription);
         buttonGroupProfilePicture = (ImageButton) findViewById(R.id.buttonGroupProfilePicture);
-        ArrayList<String> emailAddressCollection = new ArrayList<String>();
+        ArrayList<String> emailAddressCollection = new ArrayList<>();
 
         ContentResolver cr = getContentResolver();
 
@@ -65,52 +79,74 @@ public class NewGroupActivity extends ActionBarActivity {
         String[] emailAddresses = new String[emailAddressCollection.size()];
         emailAddressCollection.toArray(emailAddresses);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, emailAddresses);
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.searchGruopMembers);
         textView.setAdapter(adapter);
         Button addMember = (Button) findViewById(R.id.addMemberButton);
-            addMember.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
+        addMember.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
 
-                    //add to list view
-                    members.add(textView.getText().toString());
-                    arrayAdapter.notifyDataSetChanged();
-                    textView.setText("");
-                    View view = NewGroupActivity.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                //add to list view
+                ParseUser.getQuery().whereEqualTo("username", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        if (e == null) {
+                            if (user == null) {
+                                // this mail is not in parse
+                                waiting_members.add(emailText);
+                            } else {
+                                registered_members.add(user);
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Cannot check this email. Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
+
+                    private String emailText;
+                    private GetCallback<ParseUser> setEmail(String email) {
+                        emailText = email;
+                        return this;
+                    }
+                }).setEmail(textView.getText().toString()));
+                members.add(textView.getText().toString());
+                arrayAdapter.notifyDataSetChanged();
+                textView.setText("");
+                View view = NewGroupActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-            });
+            }
+        });
         memberListView = (ListView) findViewById(R.id.listGroupMembers);
-        members = new ArrayList<String>();
-        arrayAdapter = new ArrayAdapter<String>(this,
+        members = new ArrayList<>();
+        waiting_members = new ArrayList<>();
+        registered_members = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, members);
         memberListView.setAdapter(arrayAdapter);
-    buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener()
+        buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener()
 
-    {
+                                                     {
 
-        @Override
-        public void onClick (View arg0){
+                                                         @Override
+                                                         public void onClick (View arg0){
 
-        Intent i = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, RESULT_GROUP_ICON);
-    }
-    }
+                                                             Intent i = new Intent(Intent.ACTION_PICK,
+                                                                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                                             startActivityForResult(i, RESULT_GROUP_ICON);
+                                                         }
+                                                     }
 
-    );
-    Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
-    buttonCreate.setOnClickListener(new View.OnClickListener()
+        );
+        Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
+        buttonCreate.setOnClickListener(new View.OnClickListener()
 
-    {
-        @Override
-        public void onClick (View v){
-        Intent intent = new Intent();
+        {
+            @Override
+            public void onClick (View v){
 
 //                buttonGroupProfilePicture.buildDrawingCache();
 //                Bitmap bitmap = buttonGroupProfilePicture.getDrawingCache();
@@ -125,11 +161,37 @@ public class NewGroupActivity extends ActionBarActivity {
 //                ByteArrayOutputStream bs = new ByteArrayOutputStream();
 //                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
 //                intent.putExtra("byteArray", bs.toByteArray());
+                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, "Please wait ...", "Saving your new group ...", true);
+                pd.setCancelable(false);
+                final RidezGroup newGroup = new RidezGroup();
+                newGroup.setName(groupName.getText().toString());
+                newGroup.setDescription(groupDesc.getText().toString());
+                newGroup.addUser(ParseUser.getCurrentUser(), true);
+                newGroup.setLocalIcon(BitmapFactory.decodeFile(iconPath));
+                newGroup.addUsersInBackground(members, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            DB.addGroupInBackground(newGroup, new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        setResult(RESULT_OK);
+                                        pd.dismiss();
+                                        finish();
 
-                intent.putExtra(MyGroupsActivity.GROUP_NAME, new String[] {groupName.getText().toString(), groupDesc.getText().toString(), iconPath});
-//                intent.putExtra(MyGroupsActivity.GROUP_NAME, new String[] {groupName.getText().toString(), groupDesc.getText().toString()});
-                setResult(RESULT_OK, intent);
-                finish();
+                                    } else {
+                                        pd.setMessage("Error! " + e.getMessage());
+                                        pd.setCancelable(true);
+                                    }
+                                }
+                            });
+                        } else {
+                            pd.setMessage("Error! " + e.getMessage());
+                            pd.setCancelable(true);
+                        }
+                    }
+                });
             }
         });
     }
