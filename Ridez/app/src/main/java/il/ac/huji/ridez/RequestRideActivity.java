@@ -45,6 +45,8 @@ import com.parse.SaveCallback;
 import java.util.Date;
 import java.util.Locale;
 
+import il.ac.huji.ridez.contentClasses.RidezGroup;
+
 
 public class RequestRideActivity extends ActionBarActivity {
     EditText origin;
@@ -177,11 +179,11 @@ final Calendar c = Calendar.getInstance();
                 int len = groupsListView.getCount();
                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
                 int checkedCounter = 0;
-                ArrayList<String> groupIds = new ArrayList<String>();
+                ArrayList<RidezGroup> groups = new ArrayList<>();
                 for (int i = 0; i < len; i++) {
                     if (checked.get(i)) {
                         checkedCounter++;
-                        groupIds.add(DB.getGroups().get(i).getParseId());
+                        groups.add(DB.getGroups().get(i));
                     }
                 }
                 if (checkedCounter == 0) {
@@ -229,9 +231,9 @@ final Calendar c = Calendar.getInstance();
                 newRide.put("request", true);
                 newRide.put("passengers", np.getValue());
                 newRide.put("user", ParseUser.getCurrentUser());
-                ParseRelation<ParseObject> groups = newRide.getRelation("groups");
-                for (int i = 0; i < groupIds.size(); ++i) {
-                    groups.add(ParseObject.createWithoutData("Group", groupIds.get(i)));
+                ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
+                for (int i = 0; i < groups.size(); ++i) {
+                    checked_groups.add(groups.get(i));
                 }
                 final ProgressDialog pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
                 newRide.saveInBackground(new SaveCallback() {

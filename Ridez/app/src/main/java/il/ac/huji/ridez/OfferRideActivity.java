@@ -67,6 +67,8 @@ import com.parse.ParseUser;
 import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
+import il.ac.huji.ridez.contentClasses.RidezGroup;
+
 
 public class OfferRideActivity extends ActionBarActivity {
     EditText origin;
@@ -201,11 +203,11 @@ public class OfferRideActivity extends ActionBarActivity {
                 int len = groupsListView.getCount();
                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
                 int checkedCounter = 0;
-                ArrayList<String> groupIds = new ArrayList<String>();
+                ArrayList<RidezGroup> groups = new ArrayList<>();
                 for (int i = 0; i < len; i++) {
                     if (checked.get(i)) {
                         checkedCounter++;
-                        groupIds.add(DB.getGroups().get(i).getParseId());
+                        groups.add(DB.getGroups().get(i));
                     }
                 }
                 if (checkedCounter == 0) {
@@ -253,9 +255,9 @@ public class OfferRideActivity extends ActionBarActivity {
                 newRide.put("request", false);
                 newRide.put("passengers", np.getValue());
                 newRide.put("user", ParseUser.getCurrentUser());
-                ParseRelation<ParseObject> groups = newRide.getRelation("groups");
-                for (int i = 0; i < groupIds.size(); ++i) {
-                    groups.add(ParseObject.createWithoutData("Group", groupIds.get(i)));
+                ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
+                for (int i = 0; i < groups.size(); ++i) {
+                    checked_groups.add(groups.get(i));
                 }
                 final ProgressDialog pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
 
