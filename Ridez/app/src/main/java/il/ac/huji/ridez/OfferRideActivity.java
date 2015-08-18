@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -36,6 +38,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +60,7 @@ import android.widget.Toast;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -212,6 +216,22 @@ public class OfferRideActivity extends ActionBarActivity {
                     showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
+                Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                double olatitude = 0;
+                double olongitude = 0;
+                double dlatitude = 0;
+                double dlongitude = 0;
+                try {
+                    List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
+                    olatitude = address.get(0).getLatitude();
+                    olongitude = address.get(0).getLongitude();
+                    List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
+                    dlatitude = address2.get(0).getLatitude();
+                    dlongitude = address2.get(0).getLongitude();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
@@ -221,8 +241,12 @@ public class OfferRideActivity extends ActionBarActivity {
                 final ParseObject newRide = new ParseObject("Ride");
                 ParseObject origin = new ParseObject("Place");
                 origin.put("address", autoCompViewOrigin.getText().toString());
+                ParseGeoPoint originGeo = new ParseGeoPoint(olatitude, olongitude);
+                origin.put("point", originGeo);
                 ParseObject destination = new ParseObject("Place");
                 destination.put("address", autoCompView.getText().toString());
+                ParseGeoPoint destinationGeo = new ParseGeoPoint(dlatitude, dlongitude);
+                destination.put("point", destinationGeo);
                 newRide.put("from", origin);
                 newRide.put("to", destination);
                 newRide.put("date", date);
@@ -234,6 +258,7 @@ public class OfferRideActivity extends ActionBarActivity {
                     groups.add(ParseObject.createWithoutData("Group", groupIds.get(i)));
                 }
                 final ProgressDialog pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+
                 newRide.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

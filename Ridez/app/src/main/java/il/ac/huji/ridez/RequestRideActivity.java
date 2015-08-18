@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+
+import java.io.IOException;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -32,12 +36,14 @@ import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Date;
+import java.util.Locale;
 
 
 public class RequestRideActivity extends ActionBarActivity {
@@ -186,6 +192,22 @@ final Calendar c = Calendar.getInstance();
                     showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
+                Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                double olatitude = 0;
+                double olongitude = 0;
+                double dlatitude = 0;
+                double dlongitude = 0;
+                try {
+                    List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
+                    olatitude = address.get(0).getLatitude();
+                    olongitude = address.get(0).getLongitude();
+                    List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
+                    dlatitude = address2.get(0).getLatitude();
+                    dlongitude = address2.get(0).getLongitude();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
@@ -195,8 +217,12 @@ final Calendar c = Calendar.getInstance();
                 final ParseObject newRide = new ParseObject("Ride");
                 ParseObject origin = new ParseObject("Place");
                 origin.put("address", autoCompViewOrigin.getText().toString());
+                ParseGeoPoint originGeo = new ParseGeoPoint(olatitude, olongitude);
+                origin.put("point", originGeo);
                 ParseObject destination = new ParseObject("Place");
                 destination.put("address", autoCompView.getText().toString());
+                ParseGeoPoint destinationGeo = new ParseGeoPoint(dlatitude, dlongitude);
+                destination.put("point", destinationGeo);
                 newRide.put("from", origin);
                 newRide.put("to", destination);
                 newRide.put("date", date);
