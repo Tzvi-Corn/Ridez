@@ -3,6 +3,8 @@ package il.ac.huji.ridez.sqlHelpers;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.util.ArrayList;
+
 /**
  * Created by Zahi on 04/08/2015.
  */
@@ -10,6 +12,7 @@ public class GroupInfo {
     private long id;
     private String name, description;//, iconPath;
     private Bitmap icon;
+    private ArrayList<String> members;
 
     public GroupInfo(String name, String description, Bitmap icon){
         this.name = name;
