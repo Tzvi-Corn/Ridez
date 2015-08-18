@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class RidezAdapter extends BaseAdapter {
-    private static ArrayList<String[]> ridezArrayList;
+    private ArrayList<String[]> ridezArrayList;
 
     private LayoutInflater mInflater;
 

@@ -1,7 +1,11 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -17,6 +21,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+
+import java.io.IOException;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -29,7 +35,17 @@ import java.util.List;
 import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import java.util.Date;
+import java.util.Locale;
+
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
 public class RequestRideActivity extends ActionBarActivity {
@@ -40,6 +56,7 @@ public class RequestRideActivity extends ActionBarActivity {
 //    Button passengerButton2;
 //    Button passengerButton3;
 //    Button passengerButton4;
+    Intent requestDetails;
 final Calendar c = Calendar.getInstance();
    int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
@@ -147,6 +164,10 @@ final Calendar c = Calendar.getInstance();
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
+                if (dateTextView.getText().toString().startsWith("No") || timeTextView.getText().toString().startsWith("No")) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
                 cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
@@ -154,21 +175,78 @@ final Calendar c = Calendar.getInstance();
 
                 //create request on server
                 //save to db
-                Intent requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                requestDetails = new Intent(RequestRideActivity.this, RequestDetails.class);
+                int len = groupsListView.getCount();
+                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                int checkedCounter = 0;
+                ArrayList<RidezGroup> groups = new ArrayList<>();
+                for (int i = 0; i < len; i++) {
+                    if (checked.get(i)) {
+                        checkedCounter++;
+                        groups.add(DB.getGroups().get(i));
+                    }
+                }
+                if (checkedCounter == 0) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
+                if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
+                    showError("Please fill in all the data, and then proceed", "Missing Data");
+                    return;
+                }
+                Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                double olatitude = 0;
+                double olongitude = 0;
+                double dlatitude = 0;
+                double dlongitude = 0;
+                try {
+                    List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
+                    olatitude = address.get(0).getLatitude();
+                    olongitude = address.get(0).getLongitude();
+                    List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
+                    dlatitude = address2.get(0).getLatitude();
+                    dlongitude = address2.get(0).getLongitude();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("isRequest", true);
                 requestDetails.putExtra("amount", np.getValue());
-                int len = groupsListView.getCount();
-                SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
-                for (int i = 0; i < len; i++) {
-                    if (checked.get(i)) {
-                        String item = groupsList.get(i);
-                    }
+
+                final ParseObject newRide = new ParseObject("Ride");
+                ParseObject origin = new ParseObject("Place");
+                origin.put("address", autoCompViewOrigin.getText().toString());
+                ParseGeoPoint originGeo = new ParseGeoPoint(olatitude, olongitude);
+                origin.put("point", originGeo);
+                ParseObject destination = new ParseObject("Place");
+                destination.put("address", autoCompView.getText().toString());
+                ParseGeoPoint destinationGeo = new ParseGeoPoint(dlatitude, dlongitude);
+                destination.put("point", destinationGeo);
+                newRide.put("from", origin);
+                newRide.put("to", destination);
+                newRide.put("date", date);
+                newRide.put("request", true);
+                newRide.put("passengers", np.getValue());
+                newRide.put("user", ParseUser.getCurrentUser());
+                ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
+                for (int i = 0; i < groups.size(); ++i) {
+                    checked_groups.add(groups.get(i));
                 }
-                RequestRideActivity.this.startActivity(requestDetails);
-                RequestRideActivity.this.finish();
+                final ProgressDialog pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
+                newRide.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        // Log.d(TAG, "new group!!");
+                        pd.dismiss();
+                        RequestRideActivity.this.startActivity(requestDetails);
+                        RequestRideActivity.this.finish();
+                    }
+                });
+
+
 
             }
         });
@@ -202,6 +280,20 @@ final Calendar c = Calendar.getInstance();
             }
         });
     }
+
+    private void showError(String errorString, String errorTitle) {
+        new AlertDialog.Builder(RequestRideActivity.this)
+                .setMessage(errorString)
+                .setTitle(errorTitle)
+                .setCancelable(true)
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
+    }
+
 
 
     @Override
