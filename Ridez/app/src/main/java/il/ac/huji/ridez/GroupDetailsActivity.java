@@ -20,6 +20,10 @@ private groupDetailsTabAdapter mAdapter;
 private ActionBar actionBar;
 // Tab titles
 private String[] tabs = { "Members", "Future Ride Requests" };
+int index;
+    public int getGroupIndex() {
+        return index;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,8 @@ private String[] tabs = { "Members", "Future Ride Requests" };
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.groupDetailsPager);
         actionBar = getActionBar();
-        int index = getIntent().getExtras().getInt("groupIndex");
-        mAdapter = new groupDetailsTabAdapter(getSupportFragmentManager(), index);
+        index = getIntent().getExtras().getInt("groupIndex");
+        mAdapter = new groupDetailsTabAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);

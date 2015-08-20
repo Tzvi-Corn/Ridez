@@ -35,11 +35,14 @@ import java.util.List;
 
 
 public class GroupRidesFragment extends Fragment {
+    int index;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_group_rides, container, false);
+        GroupDetailsActivity activity = (GroupDetailsActivity) getActivity();
+        index = activity.getGroupIndex();
         return rootView;
     }
 

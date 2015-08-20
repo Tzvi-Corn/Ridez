@@ -23,58 +23,64 @@ public class MainMenuActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         request = (Button) findViewById(R.id.buttonRequestRide);
+        UIHelper.buttonEffect(request);
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to request screen
-                Intent requestActivity = new Intent(MainMenuActivity.this, RequestRideActivity.class);
+            //send me to request screen
+            Intent requestActivity = new Intent(MainMenuActivity.this, RequestRideActivity.class);
 
-                // currentContext.startActivity(activityChangeIntent);
+            // currentContext.startActivity(activityChangeIntent);
 
-                MainMenuActivity.this.startActivity(requestActivity);
+            MainMenuActivity.this.startActivity(requestActivity);
             }
         });
         offer = (Button)findViewById(R.id.buttonOfferRide);
+        UIHelper.buttonEffect(offer);
         offer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to offer screen
-                Intent offerActivity = new Intent(MainMenuActivity.this, OfferRideActivity.class);
-                MainMenuActivity.this.startActivity(offerActivity);
+            //send me to offer screen
+            Intent offerActivity = new Intent(MainMenuActivity.this, OfferRideActivity.class);
+            MainMenuActivity.this.startActivity(offerActivity);
             }
         });
         myGroups = (Button)findViewById(R.id.buttonMyGroups);
+        UIHelper.buttonEffect(myGroups);
         myGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to myGroups screen
-                startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
+            //send me to myGroups screen
+            startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
             }
         });
         myRides = (Button)findViewById(R.id.buttonMyRides);
+        UIHelper.buttonEffect(myRides);
         myRides.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to myRides screen
-                startActivity(new Intent(getApplicationContext(),MyRidez.class));
+            //send me to myRides screen
+            startActivity(new Intent(getApplicationContext(), MyRidez.class));
             }
         });
         register = (Button)findViewById(R.id.buttonRegister);
+        UIHelper.buttonEffect(register);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to register screen
-                Intent registrationActivity = new Intent(MainMenuActivity.this, RegistrationActivity.class);
-                MainMenuActivity.this.startActivity(registrationActivity);
+            //send me to register screen
+            Intent registrationActivity = new Intent(MainMenuActivity.this, RegistrationActivity.class);
+            MainMenuActivity.this.startActivity(registrationActivity);
             }
         });
         login = (Button)findViewById(R.id.buttonLogin);
+        UIHelper.buttonEffect(login);
         login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //send me to register screen
-                Intent loginActivity = new Intent(MainMenuActivity.this, LoginActivity.class);
-                MainMenuActivity.this.startActivity(loginActivity);
+                    @Override
+                    public void onClick(View v) {
+            //send me to register screen
+            Intent loginActivity = new Intent(MainMenuActivity.this, LoginActivity.class);
+            MainMenuActivity.this.startActivity(loginActivity);
             }
         });
 
