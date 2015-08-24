@@ -1,0 +1,152 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:weightSum="2">
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="10dip"
+    android:paddingLeft="10dip"
+    android:layout_weight="0.6"
+    android:paddingTop="10dip" >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cellTitle"
+        android:text="Driver"
+        android:textSize="24dp"
+        android:textColor="#c26e20"
+        android:layout_marginTop="2dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Full Name: "
+        android:textSize="18dp"
+        android:textColor="#c2181d"
+        android:layout_marginTop="2dp"
+        android:id="@+id/cellFullName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email: "
+        android:textSize="18dp"
+        android:textColor="#b625c2"
+        android:layout_marginTop="2dp"
+        android:id="@+id/cellEmail"/>
+
+
+    <TextView
+        android:id="@+id/cellFromLocation"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#C20000"
+        android:text="Leaving from: "
+        android:layout_marginTop="2dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cellToLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#c26ba0"
+        android:layout_gravity="center_vertical"
+        android:text="Going to: "
+        android:layout_marginTop="2dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/cellDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#80c26f"
+        android:text="Date and time:"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:layout_marginTop="2dp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:layout_weight="1.4"
+        android:paddingTop="10dip" >
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Passenger"-->
+            <!--android:textSize="24dp"-->
+            <!--android:textColor="#c26e20"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Username: "-->
+            <!--android:textSize="18dp"-->
+            <!--android:textColor="#c2181d"-->
+            <!--android:id="@+id/requestUsername"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Email: "-->
+            <!--android:textSize="18dp"-->
+            <!--android:textColor="#b625c2"-->
+            <!--android:id="@+id/requestEmail"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/requestLocationFrom"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="#C20000"-->
+            <!--android:text="Pickup: "-->
+            <!--android:textSize="18sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/requestLocationTo"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="#c26ba0"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:text="Destination: "-->
+            <!--android:textSize="18sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/requestDate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="#80c26f"-->
+            <!--android:text="Date and Time"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:textSize="18sp"-->
+            <!--android:textStyle="bold" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@android:color/holo_green_light"
+            android:text="Confirmed"
+            android:layout_marginTop="30dp"
+            >
+
+        </TextView>
+<CheckBox
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:textAlignment="center"
+    android:layout_marginLeft="25dp"/>
+    </LinearLayout>
+</LinearLayout>

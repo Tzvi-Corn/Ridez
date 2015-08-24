@@ -2,6 +2,7 @@ package il.ac.huji.ridez;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,18 +13,21 @@ import android.view.ViewGroup;
 
 import il.ac.huji.ridez.R;
 import il.ac.huji.ridez.adpaters.RidezAdapter;
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -39,6 +43,14 @@ public class FutureRides extends Fragment {
 
         View rootView = inflater.inflate(R.layout.futurerides, container, false);
         futureListView = (ListView) rootView.findViewById(R.id.futureListView);
+        futureListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), RideDetails.class);
+                intent.putExtra("rideId", rides.get(position)[3]);
+                startActivity(intent);
+            }
+        });
         rides = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ride");
         // Include the post data with each comment
@@ -56,15 +68,27 @@ public class FutureRides extends Fragment {
                         ParseObject fromO = ride.getParseObject("from");
                         String from = fromO.getString("address");
                         String to = ride.getParseObject("to").getString("address");
+                        String id = ride.getObjectId();
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() >= System.currentTimeMillis()) {
-                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver"});
+                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver", id});
                         }
 
                     }
                     Context context = getActivity();
                     futureListView.setAdapter(new RidezAdapter(context, rides));
+//                    ParseObject possible = new ParseObject("potentialMatch");
+                    //possible.add("isConfirmed", false);
+//                    ParseRelation<ParseObject> offerRelation = possible.getRelation("offer");
+//                    ParseRelation<ParseObject> requestRelation = possible.getRelation("request");
+//                    requestRelation.add(ParseObject.createWithoutData("Ride", "Onl7ZzXGXU"));
+//                    offerRelation.add(ParseObject.createWithoutData("Ride", "EE26Z9Sshs"));
+//                    try {
+//                        possible.save();
+//                    } catch (Exception ex) {
+//                        Log.v("v", "lclc/c");
+//                    }
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }

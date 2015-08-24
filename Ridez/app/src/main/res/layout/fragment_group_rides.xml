@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#dbceff" >
+    <ListView
+        android:id="@+id/groupRidesListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
 
 </RelativeLayout>

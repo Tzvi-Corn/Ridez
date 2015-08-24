@@ -4,11 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#bbd5fa" >
+    <ImageButton
+        android:id="@+id/buttonShowCustomDialog"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/btn_plus"
+       />
 
     <ListView
         android:id="@+id/memberListView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        android:layout_below="@id/buttonShowCustomDialog"/>
+
 
 
 </RelativeLayout>
