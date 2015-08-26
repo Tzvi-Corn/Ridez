@@ -83,6 +83,10 @@
             android:name=".MyRidez"
             android:label="@string/title_activity_my_ridez" >
         </activity>
+        <activity
+            android:name=".RideDetails"
+            android:label="@string/title_activity_ride_details" >
+        </activity>
     </application>
 
 </manifest>

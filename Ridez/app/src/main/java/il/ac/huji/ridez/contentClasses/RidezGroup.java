@@ -174,6 +174,14 @@ public class RidezGroup extends ParseObject{
         }
     }
 
+    public void removeUser(ParseUser parseUser) {
+        ParseRelation<ParseUser> users = getRelation("users");
+        ParseRelation<ParseUser> admins = getRelation("admins");
+        users.remove(parseUser);
+        members.remove(parseUser.getEmail());
+        admins.remove(parseUser);
+    }
+
     public void setAdmin(Member member, boolean isAdmin) {
         ParseRelation<ParseUser> admins = getRelation("admins");
         if (isAdmin) {

@@ -49,7 +49,7 @@ public class MyGroupsActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), GroupDetailsActivity.class);
                 RidezGroup item = (RidezGroup) parent.getItemAtPosition(position);
-//                intent.putExtra(GROUP_NAME, item.getInfo());
+                intent.putExtra("groupIndex", DB.getGroups().indexOf(item));
                 startActivity(intent);
             }
         });
