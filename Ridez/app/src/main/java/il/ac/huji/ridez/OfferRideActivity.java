@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
@@ -20,51 +19,30 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.widget.NumberPicker.OnValueChangeListener;
 
 import java.util.Date;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
 import il.ac.huji.ridez.contentClasses.RidezGroup;
@@ -84,15 +62,19 @@ public class OfferRideActivity extends ActionBarActivity {
     int mMinute = c.get(Calendar.MINUTE);
     Button saveRequestButton;
     Button setDateButton;
-    Button setTimeButton;
+    Button setStartTimeButton;
+    Button setEndTimeButton;
     Button  setAmountButton;
     TextView dateTextView;
-    TextView timeTextView;
+    TextView startTimeTextView;
+    TextView endTimeTextView;
     int ourYear;
     int ourMonth;
     int ourDay;
-    int ourHour;
-    int ourMinute;
+    int startHour;
+    int startMinute;
+    int endHour;
+    int endMinute;
     ListView groupsListView;
     NumberPicker np;
 
@@ -124,7 +106,8 @@ public class OfferRideActivity extends ActionBarActivity {
             }
         });
         dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
-        timeTextView = (TextView) findViewById(R.id.timeTextViewOffering);
+        startTimeTextView = (TextView) findViewById(R.id.startTimeTextViewOffering);
+        endTimeTextView = (TextView) findViewById(R.id.endTimeTextViewOffering);
 
 
 
@@ -155,8 +138,8 @@ public class OfferRideActivity extends ActionBarActivity {
                 dpd.show();
             }
         });
-        setTimeButton = (Button) findViewById(R.id.timeButtonOffering);
-        setTimeButton.setOnClickListener(new View.OnClickListener() {
+        setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
+        setStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog tpd = new TimePickerDialog(OfferRideActivity.this,
@@ -166,16 +149,42 @@ public class OfferRideActivity extends ActionBarActivity {
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
                                 String minuteS = "";
-                                ourHour = hourOfDay;
-                                ourMinute = minute;
-                                if (ourMinute < 10) {
-                                    minuteS = "0" + ourMinute;
+                                startHour = hourOfDay;
+                                startMinute = minute;
+                                if (startMinute < 10) {
+                                    minuteS = "0" + startMinute;
                                 } else {
-                                    minuteS = Integer.toString(ourMinute);
+                                    minuteS = Integer.toString(startMinute);
                                 }
-                                timeTextView.setText(new StringBuilder()
+                                startTimeTextView.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
-                                        .append(ourHour).append(":").append(minuteS));
+                                        .append(startHour).append(":").append(minuteS));
+                            }
+                        }, mHour, mMinute, false);
+                tpd.show();
+            }
+        });
+        setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
+        setEndTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog tpd = new TimePickerDialog(OfferRideActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                String minuteS = "";
+                                endHour = hourOfDay;
+                                endMinute = minute;
+                                if (endMinute < 10) {
+                                    minuteS = "0" + endMinute;
+                                } else {
+                                    minuteS = Integer.toString(endMinute);
+                                }
+                                endTimeTextView.setText(new StringBuilder()
+                                        // Month is 0 based, just add 1
+                                        .append(endHour).append(":").append(minuteS));
                             }
                         }, mHour, mMinute, false);
                 tpd.show();
@@ -189,16 +198,24 @@ public class OfferRideActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //check if date is not null, all other fields valid
                 //and then register the request in parse server;
-                if (dateTextView.getText().toString().startsWith("No") || timeTextView.getText().toString().startsWith("No")) {
+                if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No")  || endTimeTextView.getText().toString().startsWith("No")) {
                     showError("Please fill in all the data, and then proceed", "Missing Data");
                     return;
                 }
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
-                cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
+                cal.set(ourYear, ourMonth, ourDay, startHour, startMinute, 0);
                 Date date = cal.getTime();
                 //create request on server
                 //save to db
+                int timeInterval = 0;
+                if (startHour < endHour || (startHour == endHour && startMinute <=endMinute)) {
+                    timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute)/2;
+                } else {
+                    timeInterval = ((24 - startHour + endHour) * 60  - endMinute + startMinute)/2;
+                }
+                cal.add(Calendar.MINUTE, timeInterval);
+                date = cal.getTime();
                 requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
                 int len = groupsListView.getCount();
                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
@@ -234,12 +251,23 @@ public class OfferRideActivity extends ActionBarActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
                 requestDetails.putExtra("destination", autoCompView.getText().toString());
                 requestDetails.putExtra("date", date.getTime());
                 requestDetails.putExtra("amount", np.getValue());
                 requestDetails.putExtra("isRequest", false);
+                requestDetails.putExtra("timeInterval", timeInterval);
+                ArrayList<String> groupsStr = new ArrayList<String>();
+                for (RidezGroup i : groups) {
+                    groupsStr.add(i.getName());
+                }
+                requestDetails.putExtra("groups",groupsStr);
+
+
                 final ParseObject newRide = new ParseObject("Ride");
                 ParseObject origin = new ParseObject("Place");
                 origin.put("address", autoCompViewOrigin.getText().toString());
@@ -255,6 +283,7 @@ public class OfferRideActivity extends ActionBarActivity {
                 newRide.put("request", false);
                 newRide.put("passengers", np.getValue());
                 newRide.put("user", ParseUser.getCurrentUser());
+                newRide.put("timeInterval", timeInterval);
                 ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
                 for (int i = 0; i < groups.size(); ++i) {
                     checked_groups.add(groups.get(i));
