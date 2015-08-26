@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="10dip"
+    android:paddingLeft="10dip"
+    android:paddingTop="10dip" >
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/tvLL">
+            <TextView
+                android:id="@+id/memberName"
+                android:layout_gravity="center_vertical"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textColor="#2bc252"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/memberEmail"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textColor="#8d1ac2"
+                android:layout_gravity="center_vertical"
+                android:text=""
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="regular member"
+                android:textSize="18sp"
+                android:id="@+id/isAdmin"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/deleteMember"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@id/tvLL"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/deleting"/>
+        <ImageButton
+            android:id="@+id/adminizeMember"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@id/deleteMember"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/admin"/>
+    </RelativeLayout>
+
+</LinearLayout>
