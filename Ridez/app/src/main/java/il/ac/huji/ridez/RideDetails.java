@@ -1,12 +1,18 @@
 package il.ac.huji.ridez;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +23,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
@@ -36,10 +43,38 @@ public class RideDetails extends ActionBarActivity {
     TextView numPassengers;
     ListView listOfPossibles;
     ListView listOfGroups;
+    ProgressDialog pd;
+    ArrayList<PotentialMatch> tempList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_details);
+        Button saveChangesButton = (Button) findViewById(R.id.saveChangesButton);
+        UIHelper.buttonEffect(saveChangesButton);
+        saveChangesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        final ProgressDialog pd = ProgressDialog.show(RideDetails.this, "Please Wait", "Saving changes", true);
+                        for (PotentialMatch pmatch : tempList) {
+                            ParseObject pma = ParseObject.createWithoutData("potentialMatch", pmatch.id);
+                            pma.put("isConfirmed", pmatch.isConfirmed);
+                            try {
+                                pma.save();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        pd.dismiss();
+                    }
+                });
+
+            }
+        });
+        pd = ProgressDialog.show(RideDetails.this, "Please wait ...", "Getting your ride details", true);
         String id = getIntent().getExtras().getString("rideId");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ride");
         query.include("from").include("to");
@@ -63,6 +98,27 @@ public class RideDetails extends ActionBarActivity {
         dateAndTime = (TextView) findViewById(R.id.rideDateAndTimeTextView);
         numPassengers = (TextView) findViewById(R.id.ridePassengersNumTextview);
         listOfPossibles = (ListView) findViewById(R.id.possibleConnectionsListView);
+        listOfPossibles.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
         //listOfPossibles.setHeaderDividersEnabled(true);
         LayoutInflater inflater = getLayoutInflater();
         ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header, listOfPossibles, false);
@@ -78,7 +134,7 @@ public class RideDetails extends ActionBarActivity {
         query3.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> possibleMatchList, com.parse.ParseException e) {
                 if (e == null) {
-                    final ArrayList<PotentialMatch> tempList = new ArrayList<>();
+                    tempList = new ArrayList<>();
                     for (int i = 0; i < possibleMatchList.size(); ++i) {
                         ParseRelation<ParseObject> offerRelation =  possibleMatchList.get(i).getRelation("offer");
                         ParseRelation<ParseObject> requestRelation =  possibleMatchList.get(i).getRelation("request");
@@ -97,6 +153,7 @@ public class RideDetails extends ActionBarActivity {
                         ParseUser requestUser = null;
                         requestUser = rideRequest.getParseUser("user");
                         PotentialMatch potentialMatch = new PotentialMatch();
+                        potentialMatch.id = possibleMatchList.get(i).getObjectId();
                         if (offerUser == null || requestUser == null) {
                             continue;
                         }
@@ -108,6 +165,7 @@ public class RideDetails extends ActionBarActivity {
                         potentialMatch.offerUserEmail = offerUser.getString("email");
                         potentialMatch.requestFullName = requestUser.getString("fullname");
                         potentialMatch.requestUserEmail = requestUser.getString("email");
+                        potentialMatch.isConfirmed = possibleMatchList.get(i).getBoolean("isConfirmed");
                         ParseObject offerFrom = null;
                         ParseObject offerTo = null;
                         ParseObject requestFrom = null;
@@ -138,10 +196,12 @@ public class RideDetails extends ActionBarActivity {
                             PotentialMatchAdapter adapter = new PotentialMatchAdapter(RideDetails.this, tempList);
                             listOfPossibles.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+                            pd.dismiss();
                         }
                     });
 
                 } else {
+                    pd.dismiss();
                     Log.d("PARSE", "error getting possibles");
                 }
             }

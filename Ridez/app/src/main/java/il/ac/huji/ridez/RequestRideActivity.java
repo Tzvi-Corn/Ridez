@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,9 +36,11 @@ import java.util.List;
 import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -45,6 +48,7 @@ import com.parse.SaveCallback;
 import java.util.Date;
 import java.util.Locale;
 
+import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
@@ -52,11 +56,18 @@ public class RequestRideActivity extends ActionBarActivity {
     EditText origin;
     EditText destination;
     int numOfPassengers = 0;
-//    Button passengerButton1;
+    static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+    //    Button passengerButton1;
 //    Button passengerButton2;
 //    Button passengerButton3;
 //    Button passengerButton4;
     Intent requestDetails;
+    double olatitude = 0;
+    double olongitude = 0;
+    double dlatitude = 0;
+    double dlongitude = 0;
+    Date date;
+    ArrayList<RidezGroup> groups;
 final Calendar c = Calendar.getInstance();
    int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
@@ -171,7 +182,7 @@ final Calendar c = Calendar.getInstance();
                 Calendar cal = Calendar.getInstance();
                 cal.setTimeInMillis(0);
                 cal.set(ourYear, ourMonth, ourDay, ourHour, ourMinute, 0);
-                Date date = cal.getTime();
+                date = cal.getTime();
 
                 //create request on server
                 //save to db
@@ -179,7 +190,7 @@ final Calendar c = Calendar.getInstance();
                 int len = groupsListView.getCount();
                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
                 int checkedCounter = 0;
-                ArrayList<RidezGroup> groups = new ArrayList<>();
+                groups = new ArrayList<>();
                 for (int i = 0; i < len; i++) {
                     if (checked.get(i)) {
                         checkedCounter++;
@@ -195,10 +206,10 @@ final Calendar c = Calendar.getInstance();
                     return;
                 }
                 Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                double olatitude = 0;
-                double olongitude = 0;
-                double dlatitude = 0;
-                double dlongitude = 0;
+                olatitude = 0;
+                olongitude = 0;
+                dlatitude = 0;
+                dlongitude = 0;
                 try {
                     List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
                     olatitude = address.get(0).getLatitude();
@@ -236,18 +247,86 @@ final Calendar c = Calendar.getInstance();
                     checked_groups.add(groups.get(i));
                 }
                 final ProgressDialog pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
+
                 newRide.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         // Log.d(TAG, "new group!!");
-                        pd.dismiss();
-                        RequestRideActivity.this.startActivity(requestDetails);
-                        RequestRideActivity.this.finish();
+                        for (int i = 0; i < groups.size(); ++i) {
+                            final Calendar c = Calendar.getInstance();
+                            int mYear = c.get(Calendar.YEAR);
+                            int mMonth = c.get(Calendar.MONTH);
+                            int mDay = c.get(Calendar.DAY_OF_MONTH);
+                            int mHour = c.get(Calendar.HOUR_OF_DAY);
+                            int mMinute = c.get(Calendar.MINUTE);
+                            c.set(mYear, mMonth, mDay, mHour, mMinute);
+                            c.add(Calendar.DATE, -1);
+                            Date d = c.getTime();
+
+                            RidezGroup g = groups.get(i);
+                            ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
+                            q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
+                            q.whereEqualTo("request", false);
+                            q.whereGreaterThan("date", d);
+                            q.include("from");
+                            q.include("to");
+                            q.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> rideList, ParseException e) {
+                                    final List<ParseObject> rideList2 = rideList;
+                                    if (e == null) {
+                                        Thread thread = new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                for (ParseObject ride: rideList2) {
+                                                    Date offerDate = ride.getDate("date");
+                                                    int timeInterval = (int) ride.getDouble("timeInterval");
+                                                    long t= offerDate.getTime();
+                                                    Date afterAddingMins=new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                    Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                    long requestT = date.getTime();
+                                                    Date afterAddingMinsRequest=new Date(requestT + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                    Date afterMinusMinutesRequest = new Date(requestT - (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                    ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
+                                                    ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
+                                                    if ((!afterMinusMinutesRequest.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsRequest))) {
+                                                        double hisOldDuration = GoogleDirectionsHelper.getDuration(fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude()) / 60;
+                                                        double newDuration = GoogleDirectionsHelper.getDuration(fromGeo.getLatitude(), fromGeo.getLongitude(), olatitude, olongitude , dlatitude, dlongitude, toGeo.getLatitude(), toGeo.getLongitude())/60;
+                                                        if (newDuration - hisOldDuration < 15) {
+                                                            ParseObject pm = new ParseObject("potentialMatch");
+                                                            pm.put("isConfirmed", false);
+                                                            ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
+                                                            ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
+                                                            offerRelation.add(ride);
+                                                            requestRelation.add(newRide);
+                                                            try {
+                                                                pm.save();
+                                                            } catch (Exception ex) {
+                                                                Log.v("v", "fewlvkm");
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+                                                pd.dismiss();
+                                                RequestRideActivity.this.startActivity(requestDetails);
+                                                RequestRideActivity.this.finish();
+                                            }
+                                        });
+                                        thread.start();
+                                    }   else {
+                                        Log.d("PARSE", "error getting matching rides");
+                                        pd.dismiss();
+                                        RequestRideActivity.this.startActivity(requestDetails);
+                                        RequestRideActivity.this.finish();
+                                    }
+                                }
+                            });
+                        }
+
                     }
+
+
                 });
-
-
-
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
@@ -293,6 +372,7 @@ final Calendar c = Calendar.getInstance();
                     }
                 }).create().show();
     }
+
 
 
 
