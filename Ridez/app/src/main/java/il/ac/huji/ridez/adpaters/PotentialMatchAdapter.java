@@ -61,7 +61,6 @@ public class PotentialMatchAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                // TODO Auto-generated method stub
 
                 // Toast.makeText(CheckBoxCheckedDemo.this, &quot;Checked =&gt; &quot;+isChecked, Toast.LENGTH_SHORT).show();
                 p.isConfirmed = isChecked;
