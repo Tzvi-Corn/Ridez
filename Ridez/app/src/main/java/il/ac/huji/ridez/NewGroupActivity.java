@@ -51,9 +51,8 @@ public class NewGroupActivity extends ActionBarActivity {
     private String iconPath = "blank";
     ListView memberListView;
     ArrayList<String> members;
-    List<String> waiting_members;
-    List<ParseUser> registered_members;
     ArrayAdapter<String> arrayAdapter;
+    RidezGroup newGroup = new RidezGroup();
 
 
     @Override
@@ -87,60 +86,46 @@ public class NewGroupActivity extends ActionBarActivity {
         addMember.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
-                //add to list view
-                ParseUser.getQuery().whereEqualTo("username", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
+                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, "Please wait", "", true, false);
+                final String emailText = textView.getText().toString();
+                newGroup.setName(groupName.getText().toString());
+                newGroup.addUserInBackground(emailText, NewGroupActivity.this, new GetCallback<ParseUser>() {
                     @Override
-                    public void done(ParseUser user, ParseException e) {
+                    public void done(ParseUser parseUser, ParseException e) {
                         if (e == null) {
-                            if (user == null) {
-                                // this mail is not in parse
-                                waiting_members.add(emailText);
-                            } else {
-                                registered_members.add(user);
+                            if (parseUser != null) {
+                                members.add(emailText);
+                                arrayAdapter.notifyDataSetChanged();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Cannot check this email. Error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(NewGroupActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        pd.dismiss();
+                        textView.setText("");
+                        View view = NewGroupActivity.this.getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                     }
+                });
 
-                    private String emailText;
-                    private GetCallback<ParseUser> setEmail(String email) {
-                        emailText = email;
-                        return this;
-                    }
-                }).setEmail(textView.getText().toString()));
-                members.add(textView.getText().toString());
-                arrayAdapter.notifyDataSetChanged();
-                textView.setText("");
-                View view = NewGroupActivity.this.getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
             }
         });
         memberListView = (ListView) findViewById(R.id.listGroupMembers);
         members = new ArrayList<>();
-        waiting_members = new ArrayList<>();
-        registered_members = new ArrayList<>();
         arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, members);
         memberListView.setAdapter(arrayAdapter);
-        buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener()
+        buttonGroupProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View arg0){
 
-                                                     {
-
-                                                         @Override
-                                                         public void onClick (View arg0){
-
-                                                             Intent i = new Intent(Intent.ACTION_PICK,
-                                                                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                                             startActivityForResult(i, RESULT_GROUP_ICON);
-                                                         }
-                                                     }
-
-        );
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_GROUP_ICON);
+            }
+        });
         Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
         buttonCreate.setOnClickListener(new View.OnClickListener()
 
@@ -163,29 +148,18 @@ public class NewGroupActivity extends ActionBarActivity {
 //                intent.putExtra("byteArray", bs.toByteArray());
                 final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, "Please wait ...", "Saving your new group ...", true);
                 pd.setCancelable(false);
-                final RidezGroup newGroup = new RidezGroup();
                 newGroup.setName(groupName.getText().toString());
                 newGroup.setDescription(groupDesc.getText().toString());
                 newGroup.addUser(ParseUser.getCurrentUser(), true);
                 newGroup.setLocalIcon(BitmapFactory.decodeFile(iconPath));
-                newGroup.addUsersInBackground(members, getApplicationContext(), new SaveCallback() {
+                DB.addGroupInBackground(newGroup, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            DB.addGroupInBackground(newGroup, new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        setResult(RESULT_OK);
-                                        pd.dismiss();
-                                        finish();
+                            setResult(RESULT_OK);
+                            pd.dismiss();
+                            finish();
 
-                                    } else {
-                                        pd.setMessage("Error! " + e.getMessage());
-                                        pd.setCancelable(true);
-                                    }
-                                }
-                            });
                         } else {
                             pd.setMessage("Error! " + e.getMessage());
                             pd.setCancelable(true);

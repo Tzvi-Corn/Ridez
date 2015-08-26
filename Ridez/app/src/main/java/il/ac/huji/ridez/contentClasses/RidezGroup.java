@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.FunctionCallback;
@@ -30,7 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 @ParseClassName("Group")
-public class RidezGroup extends ParseObject{
+public class RidezGroup extends ParseObject implements Comparable<RidezGroup> {
+
+    @Override
+    public int compareTo(@NonNull RidezGroup ridezGroup) {
+        return getName().compareTo(ridezGroup.getName());
+    }
 
     public class Member {
         public String id, name, email;
@@ -203,31 +210,39 @@ public class RidezGroup extends ParseObject{
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     addUser(parseUser);
-                    callback.done(parseUser, e);
+                    callback.done(parseUser, null);
                 } else {
                     if (e.getCode() == ParseException.OBJECT_NOT_FOUND && context != null) {
                         final String fullname = "";
                         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialogInterface, int i) {
-                                sendMail(email, fullname, new FunctionCallback<String>() {
+                        builder
+                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void done(String o, ParseException e) {
+                                    public void onClick(final DialogInterface dialogInterface, int i) {
+                                        sendMail(email, fullname, new FunctionCallback<String>() {
+                                            @Override
+                                            public void done(String o, ParseException e) {
+                                                if (e == null) {
+                                                    Toast.makeText(context, o, Toast.LENGTH_LONG).show();
+                                                    dialogInterface.dismiss();
+                                                    callback.done(null, null);
+                                                } else {
+                                                    Toast.makeText(context, "Failed to send mail. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                         callback.done(null, null);
                                     }
-                                });
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                callback.done(null, null);
-                            }
-                        });
-                        builder.create();
+                                })
+                                .setTitle("Send invitation mail")
+                                .setMessage(email + " is not registered to Ridez. Do you want to send him an invitation?");
+                        builder.create().show();
                     }
                 }
             }
@@ -259,11 +274,12 @@ public class RidezGroup extends ParseObject{
     }
 
     public void sendMail(String email, String fullname, FunctionCallback<String> callback) {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("name", fullname);
         params.put("email", email);
-        params.put("sender_name", ParseUser.getCurrentUser().get("fullname"));
+        params.put("sender_name", ParseUser.getCurrentUser().getString("fullname"));
+        params.put("sender_mail", ParseUser.getCurrentUser().getEmail());
         params.put("group", this.getName());
-        ParseCloud.callFunctionInBackground("sendMail", params, callback);
+        ParseCloud.callFunctionInBackground("sendInvitationMail", params, callback);
     }
 }

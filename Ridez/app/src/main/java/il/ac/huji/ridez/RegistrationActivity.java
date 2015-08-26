@@ -56,19 +56,12 @@ public class RegistrationActivity extends ActionBarActivity {
                                 @Override
                                 public void done(ParseUser parseUser, ParseException e) {
                                     if (e == null) {
-//                                        // save username & password
-//                                        Context context = getApplicationContext();
-//                                        SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
-//                                        SharedPreferences.Editor editor = pref.edit();
-//                                        editor.putString("username", emailText);
-//                                        editor.putString("password", passwordText);
-//                                        editor.apply();
                                         // save parseUser
                                         try {
                                             parseUser.pin();
                                         } catch (ParseException e1) {
-                                            Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
                                             pd.dismiss();
+                                            showError(e.getMessage());
                                         }
                                         // Hooray! Let them use the app now.
                                         pd.dismiss();
@@ -76,7 +69,8 @@ public class RegistrationActivity extends ActionBarActivity {
                                                 Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Please login!!!", Toast.LENGTH_LONG).show();
+                                        pd.dismiss();
+                                        showError(e.getMessage());
                                     }
                                 }
                             });

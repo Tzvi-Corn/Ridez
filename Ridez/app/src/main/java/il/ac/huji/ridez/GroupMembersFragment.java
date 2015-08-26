@@ -102,33 +102,45 @@ public class GroupMembersFragment extends Fragment {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //add user
-                        ParseUser.getQuery().whereEqualTo("email", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
+                        myGroup.addUserInBackground(textView.getText().toString(), getActivity(), new GetCallback<ParseUser>() {
                             @Override
-                            public void done(ParseUser user, ParseException e) {
+                            public void done(ParseUser parseUser, ParseException e) {
                                 if (e == null) {
-
-                                    if (user == null) {
-                                        // this user is not in parse
-                                       // waiting_members.add(emailText);
-                                    } else {
-                                       myGroup.addUser(user, false);
-                                        myGroup.saveInBackground();
-                                       setListView(myGroup.getMembers());
-                                    }
+                                    myGroup.saveInBackground();
+                                    setListView(myGroup.getMembers());
                                 } else {
-                                    //do
+                                    Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
-
                                 dialog.dismiss();
                             }
-
-                            private String emailText;
-                            private GetCallback<ParseUser> setEmail(String email) {
-                                emailText = email;
-                                return this;
-                            }
-                        }).setEmail(textView.getText().toString()));
+                        });
+                        //add user
+//                        ParseUser.getQuery().whereEqualTo("email", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
+//                            @Override
+//                            public void done(ParseUser user, ParseException e) {
+//                                if (e == null) {
+//
+//                                    if (user == null) {
+//                                        // this user is not in parse
+//                                       // waiting_members.add(emailText);
+//                                    } else {
+//                                       myGroup.addUser(user, false);
+//                                        myGroup.saveInBackground();
+//                                       setListView(myGroup.getMembers());
+//                                    }
+//                                } else {
+//                                    //do
+//                                }
+//
+//                                dialog.dismiss();
+//                            }
+//
+//                            private String emailText;
+//                            private GetCallback<ParseUser> setEmail(String email) {
+//                                emailText = email;
+//                                return this;
+//                            }
+//                        }).setEmail(textView.getText().toString()));
                     }
                 });
                 Button cancelButton = (Button) dialog.findViewById(R.id.dialogCancButton);
@@ -173,7 +185,7 @@ public class GroupMembersFragment extends Fragment {
         return rootView;
     }
     private void setListView(Map <String, RidezGroup.Member> members) {
-        ArrayList<RidezGroup.Member> memberList = new ArrayList<RidezGroup.Member>();
+        ArrayList<RidezGroup.Member> memberList = new ArrayList<>();
         ParseUser me = ParseUser.getCurrentUser();
         Boolean isAdmin = false;
         for (Map.Entry<String,RidezGroup.Member> entry : members.entrySet()) {

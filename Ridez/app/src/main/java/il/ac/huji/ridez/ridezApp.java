@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -33,11 +34,16 @@ public class ridezApp extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR", "lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM");
         if (ParseUser.getCurrentUser() != null) {
+            ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser parseUser, ParseException e) {
+                    parseUser.pinInBackground();
+                }
+            });
             Log.d("PARSE", "Logged in as " + ParseUser.getCurrentUser().getUsername());
             ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
-            // Include the post data with each comment
-            // suppose we have a author object, for which we want to get all books
             query.whereEqualTo("users", ParseUser.getCurrentUser());
+            query.orderByAscending("name");
             // execute the query
             query.findInBackground(new FindCallback<RidezGroup>() {
                 public void done(List<RidezGroup> groupList, ParseException e) {

@@ -15,6 +15,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import il.ac.huji.ridez.contentClasses.RidezGroup;
@@ -36,6 +37,7 @@ public class DB {
 
     public static void addGroupInBackground(final RidezGroup group, final SaveCallback callback) {
         groups.add(0, group);
+        Collections.sort(groups);
         group.uploadLocalIconInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
