@@ -309,13 +309,16 @@ public class OfferRideActivity extends ActionBarActivity {
                                                      long t= requestDate.getTime();
                                                      Date afterAddingMins=new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                     long offerT = date.getTime();
+                                                     Date afterAddingMinsOffer=new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                     Date afterMinusMinutesOffer = new Date(offerT - (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
                                                      ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
-                                                     if (date.before(afterAddingMins) && date.after(afterMinusMinutes)) {
+                                                     if ((!afterMinusMinutesOffer.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsOffer))) {
                                                          double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude)/60;
                                                          if (newDuration - myDuration < 15) {
                                                              ParseObject pm = new ParseObject("potentialMatch");
-                                                             pm.add("isConfirmed", false);
+                                                             pm.put("isConfirmed", false);
                                                              ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
                                                              ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
                                                              offerRelation.add(newRide);
@@ -341,13 +344,6 @@ public class OfferRideActivity extends ActionBarActivity {
                                          OfferRideActivity.this.startActivity(requestDetails);
                                          OfferRideActivity.this.finish();
                                      }
-
-
-
-
-
-
-
                                  }
                              });
                          }

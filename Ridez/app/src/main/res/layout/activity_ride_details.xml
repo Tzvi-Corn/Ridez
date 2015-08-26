@@ -87,6 +87,14 @@
             android:layout_below="@+id/ridePassengersNumTextview">
 
         </ListView>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveChangesButton"
+            android:text="Save changes"
+            android:layout_below="@+id/possibleConnectionsListView"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_background"/>
 
     </RelativeLayout>
 </ScrollView>
