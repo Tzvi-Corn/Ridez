@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class GroupDetailsActivity extends ActionBarActivity {
+public class GroupDetailsActivity extends LoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
