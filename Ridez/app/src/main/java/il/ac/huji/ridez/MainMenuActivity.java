@@ -3,10 +3,13 @@ package il.ac.huji.ridez;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
+import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
 
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -87,6 +90,26 @@ public class MainMenuActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    //Your code goes here
+                    double firstTime = GoogleDirectionsHelper.getDuration(31.7769849, 35.1925251, 31.8364605, 35.263231);
+                    double secondTime = GoogleDirectionsHelper.getDuration(31.7769849,35.1925251,31.8154942,35.2484252, 31.8273655,35.2456281, 31.8364605,35.263231);
+                    Log.v("v", "the first time is: " + firstTime + "the second time: " + secondTime);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

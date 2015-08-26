@@ -50,8 +50,8 @@ Parse.Cloud.afterSave("Ride", function(request) {
                 method: "GET",
                 url: 'https://maps.googleapis.com/maps/api/directions/json',
                 params: {
-                    origin:possibleFrom.latitude + "," + possibleFrom.longitude,
-					destination:possibleTo.latitude + "," + possibleTo.longitude,
+                    origin:myFrom.latitude + "," + myFrom.longitude,
+					destination:myTo.latitude + "," + myTo.longitude,
                     key:"AIzaSyDQljX1PO_KSvCaunIkp0XptCkitMVBE_U"
                 }).then(function(httpResponse) {
 				  console.log(httpResponse.text);
