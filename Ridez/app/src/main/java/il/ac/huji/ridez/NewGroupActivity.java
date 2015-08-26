@@ -168,7 +168,7 @@ public class NewGroupActivity extends ActionBarActivity {
                 newGroup.setDescription(groupDesc.getText().toString());
                 newGroup.addUser(ParseUser.getCurrentUser(), true);
                 newGroup.setLocalIcon(BitmapFactory.decodeFile(iconPath));
-                newGroup.addUsersInBackground(members, new SaveCallback() {
+                newGroup.addUsersInBackground(members, getApplicationContext(), new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {

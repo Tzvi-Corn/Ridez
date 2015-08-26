@@ -25,18 +25,12 @@ import il.ac.huji.ridez.sqlHelpers.SQLGroupsHelper;
 
 public class DB {
     private static final String TAG = "DB";
-//    private static GroupsDataSource datasource;
     private static List<RidezGroup> groups;
     private static List<RideInfo> ridesHistory;
 
     private DB() {}
 
     public static void initialize(Context context){
-//        SQLGroupsHelper helper = new SQLGroupsHelper(context);
-        context.deleteDatabase("groups.db");    //TODO delete after works
-//        datasource = new GroupsDataSource(context);
-//        datasource.open();
-//        groups = datasource.getAllGroupInfos();
         groups = new ArrayList<>();
     }
 

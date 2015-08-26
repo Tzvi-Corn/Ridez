@@ -1,13 +1,18 @@
 package il.ac.huji.ridez.contentClasses;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -192,34 +197,51 @@ public class RidezGroup extends ParseObject{
         member.isAdmin = isAdmin;
     }
 
-    public void addUserInBackground(final String email, final GetCallback<ParseUser> callback) {
+    public void addUserInBackground(final String email, final Context context, final GetCallback<ParseUser> callback) {
         ParseUser.getQuery().whereEqualTo("email", email).getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     addUser(parseUser);
+                    callback.done(parseUser, e);
                 } else {
-                    if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        Member newMember = new Member();
-                        newMember.email = email;
-                        addUnique("waitingUsers", email);
-                        members.put(email, newMember);
-                        e = null;
+                    if (e.getCode() == ParseException.OBJECT_NOT_FOUND && context != null) {
+                        final String fullname = "";
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialogInterface, int i) {
+                                sendMail(email, fullname, new FunctionCallback<String>() {
+                                    @Override
+                                    public void done(String o, ParseException e) {
+                                        dialogInterface.dismiss();
+                                        callback.done(null, null);
+                                    }
+                                });
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                callback.done(null, null);
+                            }
+                        });
+                        builder.create();
                     }
                 }
-                callback.done(parseUser, e);
             }
         });
     }
 
-    public void addUsersInBackground(final ArrayList<String> emails, final SaveCallback callback) {
+    public void addUsersInBackground(final ArrayList<String> emails, final Context context, final SaveCallback callback) {
         class myCallback implements GetCallback<ParseUser> {
             private int i = -1;
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 int next = i + 1;
                 if (e == null && next < emails.size()) {
-                    addUserInBackground(emails.get(next), new myCallback().init(next));
+                    addUserInBackground(emails.get(next), context, new myCallback().init(next));
                 } else {
                     callback.done(e);
                 }
@@ -234,5 +256,14 @@ public class RidezGroup extends ParseObject{
 
     public interface GetIconCallback {
         void done(Bitmap icon, ParseException e);
+    }
+
+    public void sendMail(String email, String fullname, FunctionCallback<String> callback) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("name", fullname);
+        params.put("email", email);
+        params.put("sender_name", ParseUser.getCurrentUser().get("fullname"));
+        params.put("group", this.getName());
+        ParseCloud.callFunctionInBackground("sendMail", params, callback);
     }
 }
