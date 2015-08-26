@@ -13,7 +13,9 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -41,6 +43,10 @@ public class ridezApp extends Application {
                 }
             });
             Log.d("PARSE", "Logged in as " + ParseUser.getCurrentUser().getUsername());
+            // Associate the device with a user
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("user", ParseUser.getCurrentUser());
+            installation.saveInBackground();
             ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
             query.whereEqualTo("users", ParseUser.getCurrentUser());
             query.orderByAscending("name");

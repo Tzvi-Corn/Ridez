@@ -330,8 +330,8 @@ final Calendar c = Calendar.getInstance();
             }
         });
         groupsListView = (ListView) findViewById(R.id.groupListView);
-        groupsListView.setChoiceMode(groupsListView.CHOICE_MODE_MULTIPLE);
-        groupsList = new ArrayList<String>();
+        groupsListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+        groupsList = new ArrayList<>();
         for (int i = 0; i < DB.getGroups().size(); ++i) {
             groupsList.add(DB.getGroups().get(i).getName());
         }
