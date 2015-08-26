@@ -52,24 +52,25 @@ public class RegistrationActivity extends ActionBarActivity {
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-                            ParseUser.logInInBackground(fullnameText, passwordText, new LogInCallback() {
+                            ParseUser.logInInBackground(emailText, passwordText, new LogInCallback() {
                                 @Override
                                 public void done(ParseUser parseUser, ParseException e) {
                                     if (e == null) {
-                                        // save username & password
-                                        Context context = getApplicationContext();
-                                        SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = pref.edit();
-                                        editor.putString("username", emailText);
-                                        editor.putString("password", passwordText);
-                                        editor.apply();
+                                        // save parseUser
+                                        try {
+                                            parseUser.pin();
+                                        } catch (ParseException e1) {
+                                            pd.dismiss();
+                                            showError(e.getMessage());
+                                        }
                                         // Hooray! Let them use the app now.
                                         pd.dismiss();
                                         Toast.makeText(getApplicationContext(), "You have successfully signed up",
                                                 Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Please login!!!", Toast.LENGTH_LONG).show();
+                                        pd.dismiss();
+                                        showError(e.getMessage());
                                     }
                                 }
                             });

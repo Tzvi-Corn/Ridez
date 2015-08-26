@@ -58,21 +58,20 @@ public class LoginActivity extends ActionBarActivity {
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
                         if (e == null) {
-                            // save username & password
-                            Context context = getApplicationContext();
-                            SharedPreferences pref = context.getSharedPreferences(getString(R.string.pref_username), Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = pref.edit();
-                            editor.putString("username", userText);
-                            editor.putString("password", passwordText);
-                            editor.apply();
+                            // save parseUser
+                            try {
+                                parseUser.pin();
+                            } catch (ParseException e1) {
+                                Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
+                                pd.dismiss();
+                            }
                             // Hooray! Let them use the app now.
                             pd.dismiss();
                             Toast.makeText(getApplicationContext(), "You have successfully signed in",
                                     Toast.LENGTH_LONG).show();
                             ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
-                            // Include the post data with each comment
-                            // suppose we have a author object, for which we want to get all books
                             query.whereEqualTo("users", parseUser);
+                            query.orderByAscending("name");
                             // execute the query
                             query.findInBackground(new FindCallback<RidezGroup>() {
                                 public void done(List<RidezGroup> groupList, ParseException e) {
@@ -85,7 +84,8 @@ public class LoginActivity extends ActionBarActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(getApplicationContext(), "Please login!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
+                            pd.dismiss();
                         }
                     }
                 });

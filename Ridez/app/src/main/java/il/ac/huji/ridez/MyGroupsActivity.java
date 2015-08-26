@@ -69,11 +69,7 @@ public class MyGroupsActivity extends ActionBarActivity {
         query.findInBackground(new FindCallback<RidezGroup>() {
             public void done(List<RidezGroup> groupList, ParseException e) {
                 if (e == null) {
-                    List<RidezGroup> tempList = new ArrayList<>();
-                    for (int i = 0; i < groupList.size(); ++i) {
-                        tempList.add(groupList.get(i));
-                    }
-                    DB.setGroups(tempList);
+                    DB.setGroups(groupList);
                     runOnUiThread(new Runnable() {
 
                         @Override
