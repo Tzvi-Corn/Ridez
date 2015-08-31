@@ -76,26 +76,26 @@
             android:text="Number Of Passengers: "
             android:textSize="20dp"
             android:textColor="#004C99" />
-        <TextView
-            android:id="@+id/ridePotentialMatchesHeader"
-            android:layout_margin="5dp"
-            android:paddingTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Potential Matches:"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textColor="#004C99" />
+        <!--<TextView-->
+            <!--android:id="@+id/ridePotentialMatchesHeader"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Potential Matches:"-->
+            <!--android:textSize="22dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:textColor="#004C99" />-->
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/ridePotentialMatchesListView"
-            android:isScrollContainer="false"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/ridePassengersNumTextview">
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="300dp"-->
+            <!--android:id="@+id/ridePotentialMatchesListView"-->
+            <!--android:isScrollContainer="false"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_below="@+id/ridePassengersNumTextview">-->
 
-        </ListView>
+        <!--</ListView>-->
     </LinearLayout>
 </ScrollView>

@@ -77,11 +77,13 @@ import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
 public class OfferRideActivity extends ActionBarActivity {
-    ProgressDialog pd;
     double olatitude = 0;
     double olongitude = 0;
     double dlatitude = 0;
     double dlongitude = 0;
+    ProgressDialog pd;
+    int taskCounter = 0;
+    int totalAmount = 0;
     static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     EditText origin;
     EditText destination;
@@ -344,6 +346,7 @@ public class OfferRideActivity extends ActionBarActivity {
                              public void done(ParseException e) {
                                  // Log.d(TAG, "new group!!");
                                  for (int i = 0; i < groups.size(); ++i) {
+                                     totalAmount = groups.size();
                                      final Calendar c = Calendar.getInstance();
                                      int mYear = c.get(Calendar.YEAR);
                                      int mMonth = c.get(Calendar.MONTH);
@@ -403,23 +406,23 @@ public class OfferRideActivity extends ActionBarActivity {
                                                          OfferRideActivity.this.startActivity(requestDetails);
                                                          OfferRideActivity.this.finish();
                                                      }
-                                                 });
-                                                 thread.start();
-                                             }   else {
-                                                 Log.d("PARSE", "error getting matching rides");
-                                                 pd.dismiss();
-                                                 OfferRideActivity.this.startActivity(requestDetails);
-                                                 OfferRideActivity.this.finish();
+                                                 }
+                                                 increaseCounter();
                                              }
-                                         }
-                                     });
+                                         });
+                                         thread.start();
+                                     } else {
+                                         increaseCounter();
+                                         Log.d("PARSE", "error getting matching rides");
+                                     }
                                  }
+                             });
+                         }
 
-                             }
-                         });
                      }
+
+
                  });
-                 t.start();
              }
          });
         groupsListView = (ListView) findViewById(R.id.offerGroupListView);
@@ -452,7 +455,14 @@ public class OfferRideActivity extends ActionBarActivity {
             }
         });
     }
-
+    private synchronized void increaseCounter() {
+        taskCounter++;
+        if (taskCounter == totalAmount) {
+            pd.dismiss();
+            OfferRideActivity.this.startActivity(requestDetails);
+            OfferRideActivity.this.finish();
+        }
+    }
     private void showError(String errorString, String errorTitle) {
         new AlertDialog.Builder(OfferRideActivity.this)
                 .setMessage(errorString)
