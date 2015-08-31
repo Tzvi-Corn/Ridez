@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class RegistrationActivity extends ActionBarActivity {
@@ -59,15 +61,28 @@ public class RegistrationActivity extends ActionBarActivity {
                                         // save parseUser
                                         try {
                                             parseUser.pin();
+                                            // Associate the device with a user
+                                            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                            installation.put("user", ParseUser.getCurrentUser());
+                                            installation.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        // Hooray! Let them use the app now.
+                                                        pd.dismiss();
+                                                        Toast.makeText(getApplicationContext(), "You have successfully signed up",
+                                                                Toast.LENGTH_LONG).show();
+                                                        finish();
+                                                    } else {
+                                                        pd.dismiss();
+                                                        showError(e.getMessage());
+                                                    }
+                                                }
+                                            });
                                         } catch (ParseException e1) {
                                             pd.dismiss();
-                                            showError(e.getMessage());
+                                            showError(e1.getMessage());
                                         }
-                                        // Hooray! Let them use the app now.
-                                        pd.dismiss();
-                                        Toast.makeText(getApplicationContext(), "You have successfully signed up",
-                                                Toast.LENGTH_LONG).show();
-                                        finish();
                                     } else {
                                         pd.dismiss();
                                         showError(e.getMessage());

@@ -21,9 +21,11 @@ import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
@@ -61,14 +63,22 @@ public class LoginActivity extends ActionBarActivity {
                             // save parseUser
                             try {
                                 parseUser.pin();
+                                // Associate the device with a user
+                                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                installation.put("user", ParseUser.getCurrentUser());
+                                installation.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        // Hooray! Let them use the app now.
+                                        pd.dismiss();
+                                        Toast.makeText(getApplicationContext(), "You have successfully signed in",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             } catch (ParseException e1) {
                                 Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
                                 pd.dismiss();
                             }
-                            // Hooray! Let them use the app now.
-                            pd.dismiss();
-                            Toast.makeText(getApplicationContext(), "You have successfully signed in",
-                                    Toast.LENGTH_LONG).show();
                             ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
                             query.whereEqualTo("users", parseUser);
                             query.orderByAscending("name");

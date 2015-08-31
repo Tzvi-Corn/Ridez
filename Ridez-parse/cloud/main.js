@@ -42,3 +42,48 @@ Parse.Cloud.define("sendInvitationMail", function(request, response) {
         }
     });
 });
+
+Parse.Cloud.afterSave("potentialMatch", function(request) {
+    console.log(request);
+    var sender_id = request.user.id;
+    var offer_relation = request.object.relation("offer");
+    var offer_query = offer_relation.query().include("user").first({
+        success: function(object) {
+            var offer_id = object.get("user").id;
+            var offer_email = object.get("user").get("email");
+            var request_relation = request.object.relation("request");
+            var request_query = offer_relation.query().include("user").first({
+                success: function(object) {
+                    var request_id = object.get("user").id;
+                    var request_email = object.get("user").get("email");
+                    var push_id = 0;
+                    var push_email = "";
+                    if (offer_id === sender_id) {
+                        push_id = request_id;
+                        push_email = request_email;
+                    } else {
+                        push_id = offer_id;
+                        push_email = offer_email;
+                    }
+                    var installation_query = new Parse.Query(Parse.Installation);
+                    query.equalTo("user", push_id);
+                    Parse.Push.send({
+                        where: installation_query, // Set our Installation query
+                        data: {
+                            alert: "There is a possible match with " + push_email + ". Click to see."
+                        }
+                    }, {
+                        success: function() {
+                            console.log("Success");
+                        },
+                        error: function(error) {
+                            console.log("ERROR");
+                        }
+                    });
+                }
+            });           
+        }
+    });
+    var query = new Parse.Query(Parse.User);
+    query.get(request)
+})
