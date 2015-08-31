@@ -21,7 +21,7 @@ public class MyRidez extends FragmentActivity implements
     private String[] tabs = { "Past Rides", "Future Rides" };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         super.onCreate(savedInstanceState);
         setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.activity_my_ridez);

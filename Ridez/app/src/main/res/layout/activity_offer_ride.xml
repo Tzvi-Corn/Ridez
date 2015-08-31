@@ -5,7 +5,6 @@
     android:layout_height="fill_parent"
     android:fillViewport="true">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,43 +33,40 @@
             android:isScrollContainer="false">
         </ListView>
 
-
-
         <LinearLayout
-
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/origin"
                 android:textSize="15dp"
-
-                android:gravity="bottom"/>
+                android:gravity="center_vertical"/>
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewOrigin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Please enter your place" >
+                android:hint="enter your starting address" >
 
                 <requestFocus />
             </AutoCompleteTextView>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/destination"
                 android:textSize="15dp"
-                android:gravity="bottom"/>
+                android:gravity="center_vertical"/>
             <!--<EditText-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent"-->
@@ -82,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Please enter your place" >
+            android:hint="enter your ending address" >
 
             <requestFocus />
         </AutoCompleteTextView>
@@ -100,45 +96,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.10"
             android:orientation="horizontal"
-            android:paddingLeft="40dp">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set a Date"
-                android:id="@+id/dateButtonOffering"
-                android:background="@drawable/button_background"/>
+            android:layout_margin="10dp"
+            android:baselineAligned="false">
             <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"></LinearLayout>
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Set a Time"
-                android:id="@+id/timeButtonOffering"
-                android:background="@drawable/button_background"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="0.05"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/dateTextViewOffering"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set a Date"
+                    android:id="@+id/dateButtonOffering"
+                    android:background="@drawable/button_background"/>
+                <TextView
+                    android:id="@+id/dateTextViewOffering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Date Set"
+                    android:textColor="#004C99"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Date Set"
-                android:paddingLeft="45dp"
-                android:textColor="#004C99"/>
-            <TextView
-                android:id="@+id/timeTextViewOffering"
-                android:paddingLeft="135dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set Start Time"
+                    android:id="@+id/startTimeButtonOffering"
+                    android:background="@drawable/button_background"/>
+                <TextView
+                    android:id="@+id/startTimeTextViewOffering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No time Set"
+                    android:textColor="#004C99"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Time Set"
-                android:textColor="#004C99"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Set end Time"
+                    android:id="@+id/endTimeButtonOffering"
+                    android:background="@drawable/button_background"/>
+                <TextView
+                    android:id="@+id/endTimeTextViewOffering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No time Set"
+                    android:textColor="#004C99"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -157,6 +187,8 @@
                 android:id="@+id/amountNumberPickerOffering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 />
 
         </LinearLayout>
@@ -174,9 +206,6 @@
                 android:text="Send Offer"
                 android:background="@drawable/button_background"/>
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 </ScrollView>

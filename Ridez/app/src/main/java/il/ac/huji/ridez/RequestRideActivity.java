@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.Toast;
 import java.util.List;
 import java.util.ArrayList;
@@ -56,6 +55,9 @@ public class RequestRideActivity extends ActionBarActivity {
     EditText origin;
     EditText destination;
     int numOfPassengers = 0;
+    int taskCounter = 0;
+    int totalAmount = 0;
+    ProgressDialog pd;
     static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     //    Button passengerButton1;
 //    Button passengerButton2;
@@ -246,13 +248,14 @@ final Calendar c = Calendar.getInstance();
                 for (int i = 0; i < groups.size(); ++i) {
                     checked_groups.add(groups.get(i));
                 }
-                final ProgressDialog pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
+                pd = ProgressDialog.show(RequestRideActivity.this, "Please wait ...", "Saving your request in our systems", true);
 
                 newRide.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         // Log.d(TAG, "new group!!");
                         for (int i = 0; i < groups.size(); ++i) {
+                            totalAmount = groups.size();
                             final Calendar c = Calendar.getInstance();
                             int mYear = c.get(Calendar.YEAR);
                             int mMonth = c.get(Calendar.MONTH);
@@ -262,7 +265,7 @@ final Calendar c = Calendar.getInstance();
                             c.set(mYear, mMonth, mDay, mHour, mMinute);
                             c.add(Calendar.DATE, -1);
                             Date d = c.getTime();
-
+                            requestDetails.putExtra("rideId", newRide.getObjectId());
                             RidezGroup g = groups.get(i);
                             ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
                             q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
@@ -307,17 +310,13 @@ final Calendar c = Calendar.getInstance();
 
                                                     }
                                                 }
-                                                pd.dismiss();
-                                                RequestRideActivity.this.startActivity(requestDetails);
-                                                RequestRideActivity.this.finish();
+                                                increaseCounter();
                                             }
                                         });
                                         thread.start();
                                     }   else {
                                         Log.d("PARSE", "error getting matching rides");
-                                        pd.dismiss();
-                                        RequestRideActivity.this.startActivity(requestDetails);
-                                        RequestRideActivity.this.finish();
+                                        increaseCounter();
                                     }
                                 }
                             });
@@ -374,7 +373,14 @@ final Calendar c = Calendar.getInstance();
     }
 
 
-
+    private synchronized void increaseCounter() {
+        taskCounter++;
+        if (taskCounter == totalAmount) {
+            pd.dismiss();
+            RequestRideActivity.this.startActivity(requestDetails);
+            RequestRideActivity.this.finish();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,38 +1,103 @@
 package il.ac.huji.ridez;
 
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.EditText;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import il.ac.huji.ridez.adpaters.RideDetailsAdapter;
+import il.ac.huji.ridez.adpaters.TabsPagerAdapter;
+import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
-
-public class RequestDetails extends ActionBarActivity {
-    EditText originEditText;
-    EditText destinationEditText;
-    TextView numOfPassengers;
-    TextView dateAndTime;
+public class RequestDetails extends FragmentActivity implements
+        ActionBar.TabListener  {
+    TextView originTextView;
+    TextView destinationTextView;
+    TextView dateTextView;
+    TextView timeTextView;
+    TextView numberPassengersTextView;
+    ListView groupsListView;
+    ListView matchesListView;
+    private ViewPager viewPager;
+    private RideDetailsAdapter mAdapter;
+    private ActionBar actionBar;
+    public String rideId;
+    // Tab titles
+    private String[] tabs = { "Ride Details", "Potential Matches" };
+    public String getRideId() {
+        return rideId;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_details);
-        originEditText = (EditText) findViewById(R.id.originEditText);
-        destinationEditText = (EditText) findViewById(R.id.destinationEditText);
-        numOfPassengers = (TextView) findViewById(R.id.passengersNumTextview);
-        dateAndTime = (TextView) findViewById(R.id.dateAndTimeTextView);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            originEditText.setText(extras.getString("origin"));
-            destinationEditText.setText(extras.getString("destination"));
-            Date date = new Date();
-            date.setTime(extras.getLong("date"));
-            dateAndTime.setText(dateAndTime.getText() + date.toString());
-            int numOfPass = extras.getInt("amount");
-            numOfPassengers.setText(numOfPassengers.getText().toString() + numOfPass);
+        setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
+        setContentView(R.layout.ridedetailsfragmented);
+        rideId = getIntent().getExtras().getString("rideId");
+        // Initilization
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        actionBar = getActionBar();
+        mAdapter = new RideDetailsAdapter(getSupportFragmentManager());
+
+        viewPager.setAdapter(mAdapter);
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // Adding Tabs
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
         }
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                // on changing the page
+                // make respected tab selected
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        // on tab selected
+        // show respected fragment view
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 
     @Override
