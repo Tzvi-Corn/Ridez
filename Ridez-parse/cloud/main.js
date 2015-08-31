@@ -58,6 +58,7 @@ Parse.Cloud.afterSave("potentialMatch", function(request) {
                     var request_email = object.get("user").get("email");
                     var push_id = 0;
                     var push_email = "";
+                    console.log("offer_id = " + offer_id + ". request_id = " + request_id + ". sender_id = " + sender_id);
                     if (offer_id === sender_id) {
                         push_id = request_id;
                         push_email = request_email;
