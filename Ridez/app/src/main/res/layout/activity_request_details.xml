@@ -5,14 +5,14 @@
     android:layout_height="fill_parent"
     android:fillViewport="true">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="1dp"
-        android:paddingRight="1dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="#dbedff">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:text="Ride Details"
             android:textColor="#004C99"
             android:textStyle="bold"
-            android:id="@+id/titleOfPage"/>
+            android:id="@+id/rideDetailsTitle"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,111 +30,72 @@
         <ListView
             android:id="@+id/groupListView"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="150dp"
             android:layout_weight="0.25"
             android:isScrollContainer="false">
         </ListView>
 
-
-
-        <LinearLayout
-
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/origin"
-                android:textSize="15dp"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"/>
-            <EditText
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:id="@+id/originEditText"
-                android:editable="false"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.25"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/destination"
-                android:textSize="15dp"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/destinationEditText"
-                android:editable="false"
-                android:gravity="center_horizontal"
-                />
-        </LinearLayout>
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="0.10"-->
-        <!--android:orientation="horizontal">-->
-        <!--<DatePicker-->
-        <!--android:id="@+id/requestDatePicker"-->
-        <!--android:datePickerMode="spinner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:calendarViewShown="false"/>-->
-        <!--<TimePicker-->
-        <!--android:id="@+id/requestTimePicker"-->
-        <!--android:timePickerMode="spinner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"/>-->
-
-        <!--</LinearLayout>-->
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.10"
-            android:orientation="horizontal"
-            android:paddingLeft="40dp">
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="0.05"
-            android:layout_width="match_parent"
+            android:text="Origin: "
+            android:layout_margin="5dp"
+            android:textColor="#004C99"
+            android:textSize="20dp"
+            android:id="@+id/rideOrigin"/>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/dateAndTimeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date And Time: "
-                android:textSize="22dp"
-                android:textColor="#004C99"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:text="Destination: "
+            android:textSize="20dp"
+            android:textColor="#004C99"
+            android:id="@+id/rideDestination"/>
+        <TextView
+            android:id="@+id/rideDateTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/passengersNumTextview"
-                android:paddingLeft="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Number Of Passengers: "
-                android:textSize="25dp"
-                android:textColor="#004C99"/>
+            android:layout_margin="5dp"
+            android:text="Date: "
+            android:textSize="20dp"
+            android:textColor="#004C99" />
+        <TextView
+            android:id="@+id/rideTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Time: "
+            android:textSize="20dp"
+            android:textColor="#004C99" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/ridePassengersNumTextview"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number Of Passengers: "
+            android:textSize="20dp"
+            android:textColor="#004C99" />
+        <TextView
+            android:id="@+id/ridePotentialMatchesHeader"
+            android:layout_margin="5dp"
+            android:paddingTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Potential Matches:"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="#004C99" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/ridePotentialMatchesListView"
+            android:isScrollContainer="false"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/ridePassengersNumTextview">
+
+        </ListView>
     </LinearLayout>
 </ScrollView>
