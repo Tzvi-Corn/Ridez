@@ -71,6 +71,7 @@ import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
 import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
+import il.ac.huji.ridez.GoogleDirections.GoogleMapsAPIGeocode;
 import il.ac.huji.ridez.adpaters.RidezGroupArrayAdapter;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
 
@@ -232,157 +233,178 @@ public class OfferRideActivity extends ActionBarActivity {
         saveRequestButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 //check if date is not null, all other fields valid
-                 //and then register the request in parse server;
-                 if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")){
-                     showError("Please fill in all the data, and then proceed", "Missing Data");
-                     return;
-                 }
-                 Calendar cal = Calendar.getInstance();
-                 cal.setTimeInMillis(0);
-                 cal.set(ourYear, ourMonth, ourDay, startHour, startMinute, 0);
-                 date = cal.getTime();
-                 int timeInterval = 0;
-                 if (startHour < endHour || (startHour == endHour && startMinute <=endMinute)) {
-                     timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute)/2;
-                 } else {
-                     timeInterval = ((24 - startHour + endHour) * 60  - endMinute + startMinute)/2;
-                 }
-                 cal.add(Calendar.MINUTE, timeInterval);
-                 date = cal.getTime();
-                 //create request on server
-                 //save to db
-                 requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
-                 int len = groupsListView.getCount();
-                 SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
-                 int checkedCounter = 0;
-                 final ArrayList<RidezGroup> groups = new ArrayList<>();
-                 for (int i = 0; i < len; i++) {
-                     if (checked.get(i)) {
-                         checkedCounter++;
-                         groups.add(DB.getGroups().get(i));
-                     }
-                 }
-                 if (checkedCounter == 0) {
-                     showError("Please fill in all the data, and then proceed", "Missing Data");
-                     return;
-                 }
-                 if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
-                     showError("Please fill in all the data, and then proceed", "Missing Data");
-                     return;
-                 }
-                 Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                 olatitude = 0;
-                 olongitude = 0;
-                 dlatitude = 0;
-                 dlongitude = 0;
-                 try {
-                     List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
-                     olatitude = address.get(0).getLatitude();
-                     olongitude = address.get(0).getLongitude();
-                     List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
-                     dlatitude = address2.get(0).getLatitude();
-                     dlongitude = address2.get(0).getLongitude();
-
-                 } catch (IOException e) {
-                     e.printStackTrace();
-                 }
-
-                 requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
-                 requestDetails.putExtra("destination", autoCompView.getText().toString());
-                 requestDetails.putExtra("date", date.getTime());
-                 requestDetails.putExtra("amount", np.getValue());
-                 requestDetails.putExtra("isRequest", false);
-                 requestDetails.putExtra("timeInterval", timeInterval);
-                 ArrayList<String> groupsStr = new ArrayList<String>();
-                 for (RidezGroup i : groups) {
-                     groupsStr.add(i.getName());
-                 }
-                 requestDetails.putExtra("groups",groupsStr);
-
-                 final ParseObject newRide = new ParseObject("Ride");
-                 ParseObject origin = new ParseObject("Place");
-                 origin.put("address", autoCompViewOrigin.getText().toString());
-                 ParseGeoPoint originGeo = new ParseGeoPoint(olatitude, olongitude);
-                 origin.put("point", originGeo);
-                 ParseObject destination = new ParseObject("Place");
-                 destination.put("address", autoCompView.getText().toString());
-                 ParseGeoPoint destinationGeo = new ParseGeoPoint(dlatitude, dlongitude);
-                 destination.put("point", destinationGeo);
-                 newRide.put("from", origin);
-                 newRide.put("to", destination);
-                 newRide.put("date", date);
-                 newRide.put("request", false);
-                 newRide.put("passengers", np.getValue());
-                 newRide.put("user", ParseUser.getCurrentUser());
-                 newRide.put("timeInterval", timeInterval);
-                 ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
-                 for (int i = 0; i < groups.size(); ++i) {
-                     checked_groups.add(groups.get(i));
-                 }
-                 pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
-
-                 newRide.saveInBackground(new SaveCallback() {
+                Thread t = new Thread(new Runnable() {
                      @Override
-                     public void done(ParseException e) {
-                         // Log.d(TAG, "new group!!");
+                     public void run() {
+                         //check if date is not null, all other fields valid
+                         //and then register the request in parse server;
+                         if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")){
+                             showError("Please fill in all the data, and then proceed", "Missing Data");
+                             return;
+                         }
+                         Calendar cal = Calendar.getInstance();
+                         cal.setTimeInMillis(0);
+                         cal.set(ourYear, ourMonth, ourDay, startHour, startMinute, 0);
+                         date = cal.getTime();
+                         int timeInterval = 0;
+                         if (startHour < endHour || (startHour == endHour && startMinute <=endMinute)) {
+                             timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute)/2;
+                         } else {
+                             timeInterval = ((24 - startHour + endHour) * 60  - endMinute + startMinute)/2;
+                         }
+                         cal.add(Calendar.MINUTE, timeInterval);
+                         date = cal.getTime();
+                         //create request on server
+                         //save to db
+                         requestDetails = new Intent(OfferRideActivity.this, RequestDetails.class);
+                         int len = groupsListView.getCount();
+                         SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
+                         int checkedCounter = 0;
+                         final ArrayList<RidezGroup> groups = new ArrayList<>();
+                         for (int i = 0; i < len; i++) {
+                             if (checked.get(i)) {
+                                 checkedCounter++;
+                                 groups.add(DB.getGroups().get(i));
+                             }
+                         }
+                         if (checkedCounter == 0) {
+                             showError("Please fill in all the data, and then proceed", "Missing Data");
+                             return;
+                         }
+                         if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompView.getText().toString().isEmpty()) {
+                             showError("Please fill in all the data, and then proceed", "Missing Data");
+                             return;
+                         }
+                         Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                         olatitude = 0;
+                         olongitude = 0;
+                         dlatitude = 0;
+                         dlongitude = 0;
+                         try {
+                             if (Geocoder.isPresent()) {
+                                 List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
+                                 olatitude = address.get(0).getLatitude();
+                                 olongitude = address.get(0).getLongitude();
+                                 List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
+                                 dlatitude = address2.get(0).getLatitude();
+                                 dlongitude = address2.get(0).getLongitude();
+                             } else {
+                                 double[] originGeo = GoogleMapsAPIGeocode.getLatLongFromAddress(autoCompViewOrigin.getText().toString());
+                                 olatitude = originGeo[0];
+                                 olongitude = originGeo[1];
+                                 double[] destGeo = GoogleMapsAPIGeocode.getLatLongFromAddress(autoCompView.getText().toString());
+                                 dlatitude = destGeo[0];
+                                 dlongitude = destGeo[1];
+                             }
 
+                         } catch (IOException e) {
+                             e.printStackTrace();
+                         }
+
+                         requestDetails.putExtra("origin", autoCompViewOrigin.getText().toString());
+                         requestDetails.putExtra("destination", autoCompView.getText().toString());
+                         requestDetails.putExtra("date", date.getTime());
+                         requestDetails.putExtra("amount", np.getValue());
+                         requestDetails.putExtra("isRequest", false);
+                         requestDetails.putExtra("timeInterval", timeInterval);
+                         ArrayList<String> groupsStr = new ArrayList<String>();
+                         for (RidezGroup i : groups) {
+                             groupsStr.add(i.getName());
+                         }
+                         requestDetails.putExtra("groups",groupsStr);
+
+                         final ParseObject newRide = new ParseObject("Ride");
+                         ParseObject origin = new ParseObject("Place");
+                         origin.put("address", autoCompViewOrigin.getText().toString());
+                         ParseGeoPoint originGeo = new ParseGeoPoint(olatitude, olongitude);
+                         origin.put("point", originGeo);
+                         ParseObject destination = new ParseObject("Place");
+                         destination.put("address", autoCompView.getText().toString());
+                         ParseGeoPoint destinationGeo = new ParseGeoPoint(dlatitude, dlongitude);
+                         destination.put("point", destinationGeo);
+                         newRide.put("from", origin);
+                         newRide.put("to", destination);
+                         newRide.put("date", date);
+                         newRide.put("request", false);
+                         newRide.put("passengers", np.getValue());
+                         newRide.put("user", ParseUser.getCurrentUser());
+                         newRide.put("timeInterval", timeInterval);
+                         ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
                          for (int i = 0; i < groups.size(); ++i) {
-                             totalAmount = groups.size();
-                             final Calendar c = Calendar.getInstance();
-                             int mYear = c.get(Calendar.YEAR);
-                             int mMonth = c.get(Calendar.MONTH);
-                             int mDay = c.get(Calendar.DAY_OF_MONTH);
-                             int mHour = c.get(Calendar.HOUR_OF_DAY);
-                             int mMinute = c.get(Calendar.MINUTE);
-                             c.set(mYear, mMonth, mDay, mHour, mMinute);
-                             c.add(Calendar.DATE, -1);
-                             Date d = c.getTime();
-                             requestDetails.putExtra("rideId", newRide.getObjectId());
-                             RidezGroup g = groups.get(i);
-                             ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
-                             q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
-                             q.whereEqualTo("request", true);
-                             q.whereGreaterThan("date", d);
-                             q.include("from");
-                             q.include("to");
-                             q.findInBackground(new FindCallback<ParseObject>() {
-                                 public void done(List<ParseObject> rideList, ParseException e) {
-                                     final List<ParseObject> rideList2 = rideList;
-                                     if (e == null) {
-                                         Thread thread = new Thread(new Runnable() {
-                                             @Override
-                                             public void run() {
-                                                 final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude) / 60;
-                                                 for (ParseObject ride : rideList2) {
-                                                     Date requestDate = ride.getDate("date");
-                                                     int timeInterval = (int) ride.getDouble("timeInterval");
+                             checked_groups.add(groups.get(i));
+                         }
 
-                                                     long t = requestDate.getTime();
-                                                     Date afterAddingMins = new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
-                                                     Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
-                                                     long offerT = date.getTime();
-                                                     Date afterAddingMinsOffer = new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
-                                                     Date afterMinusMinutesOffer = new Date(offerT - (timeInterval * ONE_MINUTE_IN_MILLIS));
-                                                     ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
-                                                     ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
-                                                     if ((!afterMinusMinutesOffer.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsOffer))) {
-                                                         double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude) / 60;
-                                                         if (newDuration - myDuration < 15) {
-                                                             ParseObject pm = new ParseObject("potentialMatch");
-                                                             pm.put("isConfirmed", false);
-                                                             ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
-                                                             ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
-                                                             offerRelation.add(newRide);
-                                                             requestRelation.add(ride);
-                                                             try {
-                                                                 pm.save();
-                                                             } catch (Exception ex) {
-                                                                 Log.v("v", "fewlvkm");
+                         runOnUiThread(new Runnable() {
+                             @Override
+                             public void run() {
+                                  pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                             }
+                         });
+
+                         newRide.saveInBackground(new SaveCallback() {
+                             @Override
+                             public void done(ParseException e) {
+                                 // Log.d(TAG, "new group!!");
+                                 for (int i = 0; i < groups.size(); ++i) {
+                                     totalAmount = groups.size();
+                                     final Calendar c = Calendar.getInstance();
+                                     int mYear = c.get(Calendar.YEAR);
+                                     int mMonth = c.get(Calendar.MONTH);
+                                     int mDay = c.get(Calendar.DAY_OF_MONTH);
+                                     int mHour = c.get(Calendar.HOUR_OF_DAY);
+                                     int mMinute = c.get(Calendar.MINUTE);
+                                     c.set(mYear, mMonth, mDay, mHour, mMinute);
+                                     c.add(Calendar.DATE, -1);
+                                     Date d = c.getTime();
+
+                                     RidezGroup g = groups.get(i);
+                                     ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
+                                     q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
+                                     q.whereEqualTo("request", true);
+                                     q.whereGreaterThan("date", d);
+                                     q.include("from");
+                                     q.include("to");
+                                     q.findInBackground(new FindCallback<ParseObject>() {
+                                         public void done(List<ParseObject> rideList, ParseException e) {
+                                             final List<ParseObject> rideList2 = rideList;
+                                             if (e == null) {
+                                                 Thread thread = new Thread(new Runnable() {
+                                                     @Override
+                                                     public void run() {
+                                                         final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude)/ 60;
+                                                         for (ParseObject ride: rideList2) {
+                                                             Date requestDate = ride.getDate("date");
+                                                             int timeInterval = (int) ride.getDouble("timeInterval");
+
+                                                             long t= requestDate.getTime();
+                                                             Date afterAddingMins=new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             long offerT = date.getTime();
+                                                             Date afterAddingMinsOffer=new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             Date afterMinusMinutesOffer = new Date(offerT - (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
+                                                             ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
+                                                             if ((!afterMinusMinutesOffer.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsOffer))) {
+                                                                 double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude)/60;
+                                                                 if (newDuration - myDuration < 15) {
+                                                                     ParseObject pm = new ParseObject("potentialMatch");
+                                                                     pm.put("isConfirmed", false);
+                                                                     ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
+                                                                     ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
+                                                                     offerRelation.add(newRide);
+                                                                     requestRelation.add(ride);
+                                                                     try {
+                                                                         pm.save();
+                                                                     } catch (Exception ex) {
+                                                                         Log.v("v", "fewlvkm");
+                                                                     }
+                                                                 }
+
                                                              }
-
                                                          }
-
+                                                         pd.dismiss();
+                                                         OfferRideActivity.this.startActivity(requestDetails);
+                                                         OfferRideActivity.this.finish();
                                                      }
                                                  }
                                                  increaseCounter();
