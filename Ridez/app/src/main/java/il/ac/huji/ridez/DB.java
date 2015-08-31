@@ -15,6 +15,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import il.ac.huji.ridez.contentClasses.RidezGroup;
@@ -25,23 +26,18 @@ import il.ac.huji.ridez.sqlHelpers.SQLGroupsHelper;
 
 public class DB {
     private static final String TAG = "DB";
-//    private static GroupsDataSource datasource;
     private static List<RidezGroup> groups;
     private static List<RideInfo> ridesHistory;
 
     private DB() {}
 
     public static void initialize(Context context){
-//        SQLGroupsHelper helper = new SQLGroupsHelper(context);
-        context.deleteDatabase("groups.db");    //TODO delete after works
-//        datasource = new GroupsDataSource(context);
-//        datasource.open();
-//        groups = datasource.getAllGroupInfos();
         groups = new ArrayList<>();
     }
 
     public static void addGroupInBackground(final RidezGroup group, final SaveCallback callback) {
         groups.add(0, group);
+        Collections.sort(groups);
         group.uploadLocalIconInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

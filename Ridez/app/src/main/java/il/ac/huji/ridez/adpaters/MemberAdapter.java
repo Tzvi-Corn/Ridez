@@ -68,6 +68,11 @@ public class MemberAdapter extends BaseAdapter {
                        memberArrayList.remove(m);
                         notifyDataSetChanged();
                         myGroup.removeUser(m.parseUser);
+                        try {
+                            myGroup.save();
+                        } catch (Exception ex) {
+                            Log.v("v", "vdsgs");
+                        }
                     }
                 });
                 adminButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +80,11 @@ public class MemberAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         myGroup.setAdmin(m, true);
+                        try {
+                            myGroup.save();
+                        } catch (Exception ex) {
+                            Log.v("v", "vdsgs");
+                        }
                         notifyDataSetChanged();
                     }
                 });
