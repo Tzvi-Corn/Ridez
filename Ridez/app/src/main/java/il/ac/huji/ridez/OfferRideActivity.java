@@ -233,12 +233,12 @@ public class OfferRideActivity extends ActionBarActivity {
         saveRequestButton.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                Thread t = new Thread(new Runnable() {
+                 Thread t = new Thread(new Runnable() {
                      @Override
                      public void run() {
                          //check if date is not null, all other fields valid
                          //and then register the request in parse server;
-                         if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")){
+                         if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
                              showError("Please fill in all the data, and then proceed", "Missing Data");
                              return;
                          }
@@ -247,10 +247,10 @@ public class OfferRideActivity extends ActionBarActivity {
                          cal.set(ourYear, ourMonth, ourDay, startHour, startMinute, 0);
                          date = cal.getTime();
                          int timeInterval = 0;
-                         if (startHour < endHour || (startHour == endHour && startMinute <=endMinute)) {
-                             timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute)/2;
+                         if (startHour < endHour || (startHour == endHour && startMinute <= endMinute)) {
+                             timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute) / 2;
                          } else {
-                             timeInterval = ((24 - startHour + endHour) * 60  - endMinute + startMinute)/2;
+                             timeInterval = ((24 - startHour + endHour) * 60 - endMinute + startMinute) / 2;
                          }
                          cal.add(Calendar.MINUTE, timeInterval);
                          date = cal.getTime();
@@ -311,7 +311,7 @@ public class OfferRideActivity extends ActionBarActivity {
                          for (RidezGroup i : groups) {
                              groupsStr.add(i.getName());
                          }
-                         requestDetails.putExtra("groups",groupsStr);
+                         requestDetails.putExtra("groups", groupsStr);
 
                          final ParseObject newRide = new ParseObject("Ride");
                          ParseObject origin = new ParseObject("Place");
@@ -337,7 +337,7 @@ public class OfferRideActivity extends ActionBarActivity {
                          runOnUiThread(new Runnable() {
                              @Override
                              public void run() {
-                                  pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                                 pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
                              }
                          });
 
@@ -371,21 +371,21 @@ public class OfferRideActivity extends ActionBarActivity {
                                                  Thread thread = new Thread(new Runnable() {
                                                      @Override
                                                      public void run() {
-                                                         final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude)/ 60;
-                                                         for (ParseObject ride: rideList2) {
+                                                         final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude) / 60;
+                                                         for (ParseObject ride : rideList2) {
                                                              Date requestDate = ride.getDate("date");
                                                              int timeInterval = (int) ride.getDouble("timeInterval");
 
-                                                             long t= requestDate.getTime();
-                                                             Date afterAddingMins=new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             long t = requestDate.getTime();
+                                                             Date afterAddingMins = new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                              Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                              long offerT = date.getTime();
-                                                             Date afterAddingMinsOffer=new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                             Date afterAddingMinsOffer = new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                              Date afterMinusMinutesOffer = new Date(offerT - (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                              ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
                                                              ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
                                                              if ((!afterMinusMinutesOffer.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsOffer))) {
-                                                                 double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude)/60;
+                                                                 double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude) / 60;
                                                                  if (newDuration - myDuration < 15) {
                                                                      ParseObject pm = new ParseObject("potentialMatch");
                                                                      pm.put("isConfirmed", false);
@@ -402,26 +402,26 @@ public class OfferRideActivity extends ActionBarActivity {
 
                                                              }
                                                          }
-                                                         pd.dismiss();
-                                                         OfferRideActivity.this.startActivity(requestDetails);
-                                                         OfferRideActivity.this.finish();
+                                                         increaseCounter();
+
                                                      }
-                                                 }
+                                                 });
+                                                 thread.start();
+
+
+                                             } else {
                                                  increaseCounter();
+                                                 Log.d("PARSE", "error getting matching rides");
                                              }
-                                         });
-                                         thread.start();
-                                     } else {
-                                         increaseCounter();
-                                         Log.d("PARSE", "error getting matching rides");
-                                     }
+                                         }
+                                     });
                                  }
-                             });
-                         }
 
+                             }
+
+
+                         });
                      }
-
-
                  });
              }
          });
