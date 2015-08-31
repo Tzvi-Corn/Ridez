@@ -30,7 +30,7 @@
     <application
         android:name=".ridezApp"
         android:allowBackup="true"
-        android:icon="@drawable/ridezicon"
+        android:icon="@drawable/admin"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data

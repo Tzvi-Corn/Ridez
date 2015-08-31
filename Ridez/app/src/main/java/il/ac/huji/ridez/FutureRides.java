@@ -46,7 +46,7 @@ public class FutureRides extends Fragment {
         futureListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), RideDetails.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
                 intent.putExtra("rideId", rides.get(position)[3]);
                 startActivity(intent);
             }

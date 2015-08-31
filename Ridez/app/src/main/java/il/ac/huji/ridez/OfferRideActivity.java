@@ -80,6 +80,9 @@ public class OfferRideActivity extends ActionBarActivity {
     double olongitude = 0;
     double dlatitude = 0;
     double dlongitude = 0;
+    ProgressDialog pd;
+    int taskCounter = 0;
+    int totalAmount = 0;
     static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
     EditText origin;
     EditText destination;
@@ -317,13 +320,15 @@ public class OfferRideActivity extends ActionBarActivity {
                  for (int i = 0; i < groups.size(); ++i) {
                      checked_groups.add(groups.get(i));
                  }
-                 final ProgressDialog pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                 pd = ProgressDialog.show(OfferRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
 
                  newRide.saveInBackground(new SaveCallback() {
                      @Override
                      public void done(ParseException e) {
                          // Log.d(TAG, "new group!!");
+
                          for (int i = 0; i < groups.size(); ++i) {
+                             totalAmount = groups.size();
                              final Calendar c = Calendar.getInstance();
                              int mYear = c.get(Calendar.YEAR);
                              int mMonth = c.get(Calendar.MONTH);
@@ -333,7 +338,7 @@ public class OfferRideActivity extends ActionBarActivity {
                              c.set(mYear, mMonth, mDay, mHour, mMinute);
                              c.add(Calendar.DATE, -1);
                              Date d = c.getTime();
-
+                             requestDetails.putExtra("rideId", newRide.getObjectId());
                              RidezGroup g = groups.get(i);
                              ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
                              q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
@@ -348,21 +353,21 @@ public class OfferRideActivity extends ActionBarActivity {
                                          Thread thread = new Thread(new Runnable() {
                                              @Override
                                              public void run() {
-                                                 final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude)/ 60;
-                                                 for (ParseObject ride: rideList2) {
+                                                 final double myDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, dlatitude, dlongitude) / 60;
+                                                 for (ParseObject ride : rideList2) {
                                                      Date requestDate = ride.getDate("date");
                                                      int timeInterval = (int) ride.getDouble("timeInterval");
 
-                                                     long t= requestDate.getTime();
-                                                     Date afterAddingMins=new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                     long t = requestDate.getTime();
+                                                     Date afterAddingMins = new Date(t + (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      Date afterMinusMinutes = new Date(t - (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      long offerT = date.getTime();
-                                                     Date afterAddingMinsOffer=new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
+                                                     Date afterAddingMinsOffer = new Date(offerT + (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      Date afterMinusMinutesOffer = new Date(offerT - (timeInterval * ONE_MINUTE_IN_MILLIS));
                                                      ParseGeoPoint fromGeo = ride.getParseObject("from").getParseGeoPoint("point");
                                                      ParseGeoPoint toGeo = ride.getParseObject("to").getParseGeoPoint("point");
                                                      if ((!afterMinusMinutesOffer.after(afterAddingMins)) && (!afterMinusMinutes.after(afterAddingMinsOffer))) {
-                                                         double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude)/60;
+                                                         double newDuration = GoogleDirectionsHelper.getDuration(olatitude, olongitude, fromGeo.getLatitude(), fromGeo.getLongitude(), toGeo.getLatitude(), toGeo.getLongitude(), dlatitude, dlongitude) / 60;
                                                          if (newDuration - myDuration < 15) {
                                                              ParseObject pm = new ParseObject("potentialMatch");
                                                              pm.put("isConfirmed", false);
@@ -375,21 +380,18 @@ public class OfferRideActivity extends ActionBarActivity {
                                                              } catch (Exception ex) {
                                                                  Log.v("v", "fewlvkm");
                                                              }
+
                                                          }
 
                                                      }
                                                  }
-                                                 pd.dismiss();
-                                                 OfferRideActivity.this.startActivity(requestDetails);
-                                                 OfferRideActivity.this.finish();
+                                                 increaseCounter();
                                              }
                                          });
                                          thread.start();
-                                     }   else {
+                                     } else {
+                                         increaseCounter();
                                          Log.d("PARSE", "error getting matching rides");
-                                         pd.dismiss();
-                                         OfferRideActivity.this.startActivity(requestDetails);
-                                         OfferRideActivity.this.finish();
                                      }
                                  }
                              });
@@ -431,7 +433,14 @@ public class OfferRideActivity extends ActionBarActivity {
             }
         });
     }
-
+    private synchronized void increaseCounter() {
+        taskCounter++;
+        if (taskCounter == totalAmount) {
+            pd.dismiss();
+            OfferRideActivity.this.startActivity(requestDetails);
+            OfferRideActivity.this.finish();
+        }
+    }
     private void showError(String errorString, String errorTitle) {
         new AlertDialog.Builder(OfferRideActivity.this)
                 .setMessage(errorString)
