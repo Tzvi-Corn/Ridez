@@ -87,7 +87,7 @@
             android:label="@string/title_activity_request_details" >
         </activity>
         <activity
-            android:name=".OfferRideActivity"
+            android:name=".OfferRequestRideActivity"
             android:label="@string/title_activity_offer_ride" >
         </activity>
         <activity

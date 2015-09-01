@@ -3,13 +3,10 @@ package il.ac.huji.ridez;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-
-import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
 
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -31,8 +28,9 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
             //send me to request screen
-            Intent requestActivity = new Intent(MainMenuActivity.this, RequestRideActivity.class);
-
+            //Intent requestActivity = new Intent(MainMenuActivity.this, RequestRideActivity.class);
+                Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                requestActivity.putExtra("isRequest", true);
             // currentContext.startActivity(activityChangeIntent);
 
             MainMenuActivity.this.startActivity(requestActivity);
@@ -44,7 +42,8 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
             //send me to offer screen
-            Intent offerActivity = new Intent(MainMenuActivity.this, OfferRideActivity.class);
+            Intent offerActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                offerActivity.putExtra("isRequest", false);
             MainMenuActivity.this.startActivity(offerActivity);
             }
         });
