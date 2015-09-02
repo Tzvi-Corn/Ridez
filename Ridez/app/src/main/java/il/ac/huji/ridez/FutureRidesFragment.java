@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FutureRides extends Fragment {
+public class FutureRidesFragment extends Fragment {
     ListView futureListView;
     ArrayList<String[]> rides;
     @Override

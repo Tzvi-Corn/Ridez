@@ -4,10 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import il.ac.huji.ridez.FutureRides;
 import il.ac.huji.ridez.GroupMembersFragment;
 import il.ac.huji.ridez.GroupRidesFragment;
-import il.ac.huji.ridez.PastRidesFragment;
 
 /**
  * Created by Tzvi on 18/08/2015.

@@ -2,6 +2,7 @@ package il.ac.huji.ridez;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -41,6 +43,14 @@ public class PastRidesFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.pastrides, container, false);
         pastListView = (ListView) rootView.findViewById(R.id.pastListView);
+        pastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
+                intent.putExtra("rideId", rides.get(position)[3]);
+                startActivity(intent);
+            }
+        });
         rides = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ride");
         // Include the post data with each comment
@@ -58,10 +68,11 @@ public class PastRidesFragment extends Fragment {
                         ParseObject fromO = ride.getParseObject("from");
                         String from = fromO.getString("address");
                         String to = ride.getParseObject("to").getString("address");
+                        String id = ride.getObjectId();
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() < System.currentTimeMillis()) {
-                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver"});
+                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver", id});
                         }
 
                     }

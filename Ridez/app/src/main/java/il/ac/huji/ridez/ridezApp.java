@@ -38,6 +38,7 @@ public class ridezApp extends Application {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR", "lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM");
         if (ParseUser.getCurrentUser() != null) {
+            DB.setIsLoggedIn(true);
             ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser parseUser, ParseException e) {

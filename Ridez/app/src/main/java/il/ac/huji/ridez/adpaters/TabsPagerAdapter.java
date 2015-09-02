@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import il.ac.huji.ridez.FutureRides;
+import il.ac.huji.ridez.FutureRidesFragment;
 import il.ac.huji.ridez.PastRidesFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
@@ -22,7 +22,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 return new PastRidesFragment();
             case 1:
                 // Games fragment activity
-                return new FutureRides();
+                return new FutureRidesFragment();
         }
 
         return null;
