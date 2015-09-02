@@ -26,6 +26,7 @@ import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 public class RequestDetails extends FragmentActivity implements
         ActionBar.TabListener  {
+    private final static int RIDE_DETAILES_TAB = 0, RIDE_POTENTIAL_MATCHES_TAB = 1;
     TextView originTextView;
     TextView destinationTextView;
     TextView dateTextView;
@@ -82,6 +83,9 @@ public class RequestDetails extends FragmentActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+//        if (getIntent().getIntExtra("fromPush", 0) == PushReceiver.MATCH_ACT) { TODO - open the potential match detailes
+//            viewPager.setCurrentItem(RIDE_POTENTIAL_MATCHES_TAB);
+//        }
 
     }
 

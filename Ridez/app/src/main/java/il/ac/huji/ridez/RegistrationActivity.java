@@ -72,6 +72,7 @@ public class RegistrationActivity extends ActionBarActivity {
                                                         pd.dismiss();
                                                         Toast.makeText(getApplicationContext(), "You have successfully signed up",
                                                                 Toast.LENGTH_LONG).show();
+                                                        DB.setIsLoggedIn(true);
                                                         finish();
                                                     } else {
                                                         pd.dismiss();

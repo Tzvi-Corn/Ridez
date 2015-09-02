@@ -71,10 +71,6 @@
                 android:value="il.ac.huji.ridez.MyGroupsActivity" />
         </activity>
         <activity
-            android:name=".RequestRideActivity"
-            android:label="@string/title_activity_request_ride" >
-        </activity>
-        <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration" >
         </activity>
@@ -105,7 +101,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        <receiver android:name=".PushReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

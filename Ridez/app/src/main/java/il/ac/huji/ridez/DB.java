@@ -28,6 +28,7 @@ public class DB {
     private static final String TAG = "DB";
     private static List<RidezGroup> groups;
     private static List<RideInfo> ridesHistory;
+    private static boolean isLoggedIn = false;
 
     private DB() {}
 
@@ -56,4 +57,15 @@ public class DB {
     public static void setGroups(List<RidezGroup> list) {
         groups = list;
     }
+    public static void emptyGroups() {
+        groups.clear();
+    }
+    public static boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public static void setIsLoggedIn(boolean logged) {
+        isLoggedIn = logged;
+    }
+
 }

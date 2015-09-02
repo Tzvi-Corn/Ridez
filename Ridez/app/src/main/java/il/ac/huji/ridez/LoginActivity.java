@@ -87,6 +87,7 @@ public class LoginActivity extends ActionBarActivity {
                                 public void done(List<RidezGroup> groupList, ParseException e) {
                                     if (e == null) {
                                         DB.setGroups(groupList);
+                                        DB.setIsLoggedIn(true);
                                     } else {
                                         Log.d("PARSE", "error getting groups");
                                     }
