@@ -42,7 +42,9 @@ public class ridezApp extends Application {
             ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseUser>() {
                 @Override
                 public void done(ParseUser parseUser, ParseException e) {
-                    parseUser.pinInBackground();
+                    if (parseUser != null) {
+                        parseUser.pinInBackground();
+                    }
                 }
             });
             Log.d("PARSE", "Logged in as " + ParseUser.getCurrentUser().getUsername());

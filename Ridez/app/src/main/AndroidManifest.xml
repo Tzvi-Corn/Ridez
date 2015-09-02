@@ -27,6 +27,9 @@
         android:name="il.ac.huji.ridez.permission.C2D_MESSAGE" />
     <uses-permission android:name="il.ac.huji.ridez.permission.C2D_MESSAGE" />
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+
     <application
         android:name=".ridezApp"
         android:allowBackup="true"
@@ -89,10 +92,6 @@
         <activity
             android:name=".MyRidez"
             android:label="@string/title_activity_my_ridez" >
-        </activity>
-        <activity
-            android:name=".RideDetails"
-            android:label="@string/title_activity_ride_details" >
         </activity>
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">

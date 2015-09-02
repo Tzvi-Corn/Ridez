@@ -46,31 +46,40 @@ Parse.Cloud.define("sendInvitationMail", function(request, response) {
 Parse.Cloud.afterSave("potentialMatch", function(request) {
     console.log(request);
     var sender_id = request.user.id;
-    var offer_relation = request.object.relation("offer");
-    var offer_query = offer_relation.query().include("user").first({
-        success: function(object) {
-            var offer_id = object.get("user").id;
-            var offer_email = object.get("user").get("email");
-            var request_relation = request.object.relation("request");
-            var request_query = offer_relation.query().include("user").first({
-                success: function(object) {
-                    var request_id = object.get("user").id;
-                    var request_email = object.get("user").get("email");
+    request.object.relation("offer").query().include("user").first({
+        success: function(offer_ride) {
+            var offer_user = offer_ride.get("user");
+            var offer_user_id = offer_user.id;
+            var offer_email = offer_user.get("email");
+            request.object.relation("request").query().include("user").first({
+                success: function(request_ride) {
+                    var request_user = request_ride.get("user");
+                    var request_user_id = request_user.id;
+                    var request_email = request_user.get("email");
+                    var push_user = null;
                     var push_id = 0;
                     var push_email = "";
-                    if (offer_id === sender_id) {
-                        push_id = request_id;
-                        push_email = request_email;
-                    } else {
-                        push_id = offer_id;
+                    if (offer_user_id === sender_id) {
+                        push_ride = request_ride;
+                        push_user = request_user;
+                        push_user_id = request_user_id;
                         push_email = offer_email;
+                    } else {
+                        push_ride = offer_ride;
+                        push_user = offer_user;
+                        push_user_id = offer_user_id;
+                        push_email = request_email;
                     }
+                    console.log("offer_user_id = " + offer_user_id + ". request_user_id = " + request_user_id + ". sender_id = " + sender_id + ". push_user_id = " + push_user_id);
                     var installation_query = new Parse.Query(Parse.Installation);
-                    query.equalTo("user", push_id);
+                    installation_query.equalTo("user", push_user);
                     Parse.Push.send({
                         where: installation_query, // Set our Installation query
                         data: {
-                            alert: "There is a possible match with " + push_email + ". Click to see."
+                            alert: "There is a possible match with " + push_email + ". Click to see.",
+                            type: 1,
+                            match_id: request.object.id,
+                            ride_id: push_ride.id,
                         }
                     }, {
                         success: function() {
@@ -84,6 +93,4 @@ Parse.Cloud.afterSave("potentialMatch", function(request) {
             });           
         }
     });
-    var query = new Parse.Query(Parse.User);
-    query.get(request)
 })
