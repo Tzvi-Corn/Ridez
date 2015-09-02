@@ -4,10 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import il.ac.huji.ridez.FutureRides;
-import il.ac.huji.ridez.PastRidesFragment;
 import il.ac.huji.ridez.PotentialMatchFragment;
-import il.ac.huji.ridez.RequestDetails;
 import il.ac.huji.ridez.RideDetails;
 
 public class RideDetailsAdapter extends FragmentPagerAdapter {

@@ -71,10 +71,6 @@
                 android:value="il.ac.huji.ridez.MyGroupsActivity" />
         </activity>
         <activity
-            android:name=".RequestRideActivity"
-            android:label="@string/title_activity_request_ride" >
-        </activity>
-        <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration" >
         </activity>

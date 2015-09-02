@@ -57,10 +57,6 @@ public class RequestDetails extends FragmentActivity implements
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        if (getIntent().getIntExtra("fromPush", 0) == PushReceiver.MATCH_ACT) {
-            viewPager.setCurrentItem(RIDE_POTENTIAL_MATCHES_TAB);
-        }
-            viewPager.setCurrentItem(2);
 
         // Adding Tabs
         for (String tab_name : tabs) {
@@ -87,6 +83,9 @@ public class RequestDetails extends FragmentActivity implements
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+//        if (getIntent().getIntExtra("fromPush", 0) == PushReceiver.MATCH_ACT) { TODO - open the potential match detailes
+//            viewPager.setCurrentItem(RIDE_POTENTIAL_MATCHES_TAB);
+//        }
 
     }
 
