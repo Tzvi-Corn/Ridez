@@ -17,15 +17,12 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
-import com.parse.ParseUser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import il.ac.huji.ridez.adpaters.PotentialMatchAdapter;
 import il.ac.huji.ridez.contentClasses.PotentialMatch;
 
 public class RideDetails extends Fragment {
@@ -76,7 +73,7 @@ public class RideDetails extends Fragment {
                     gq.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> list, ParseException e) {
-                            for (ParseObject group: list ) {
+                            for (ParseObject group : list) {
                                 groups.add(group.getString("name"));
                             }
                             groupListView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, groups));
@@ -91,11 +88,9 @@ public class RideDetails extends Fragment {
                     Date startDate = cal.getTime();
                     cal.add(Calendar.MINUTE, 2 * (int) timeInterval);
                     Date endDate = cal.getTime();
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yy");
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
 
-                    date.append(sdf1.format(startDate));
-                    time.append(sdf2.format(startDate) + " to" + sdf2.format(endDate));
+                    date.append(Toolbox.dateToLongDateString(startDate));
+                    time.append(Toolbox.dateToTimeString(startDate) + " to" + Toolbox.dateToTimeString(endDate));
                     pickup.setText("Origin: " + object.getParseObject("from").getString("address"));
                     destination.setText("Destination: " +  object.getParseObject("to").getString("address"));
                     numPassengers.setText("Number of passengers: " + object.getInt("passengers"));

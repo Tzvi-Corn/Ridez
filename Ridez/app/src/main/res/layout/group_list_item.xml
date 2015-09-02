@@ -15,7 +15,8 @@
             android:ellipsize="end"
             android:text="Name"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/list_text"/>
         <TextView
             android:id="@+id/textViewGroupDescription"
             android:layout_width="match_parent"
@@ -23,7 +24,8 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="Description"
-            android:textSize="12sp" />
+            android:textSize="14sp"
+            android:textColor="@color/list_text"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/groupIcon"

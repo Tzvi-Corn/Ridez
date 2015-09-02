@@ -11,25 +11,27 @@
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="@color/background">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="40dp"
             android:text="Offer A Ride"
-            android:textColor="#004C99"
+            android:textColor="@color/text"
             android:textStyle="bold"
-            android:id="@+id/titleOfPage"/>
+            android:id="@+id/titleOfPage"
+            android:typeface="serif"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="@string/chooseGroups"/>
+            android:text="@string/chooseGroups"
+            android:textColor="@color/text"/>
         <ListView
             android:id="@+id/offerRequestGroupListView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:isScrollContainer="false">
         </ListView>
 
@@ -43,14 +45,17 @@
                 android:layout_height="match_parent"
                 android:text="@string/origin"
                 android:textSize="15dp"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:textColor="@color/text"
+                android:typeface="serif"/>
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewOrigin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="enter your starting address" >
+                android:hint="enter your starting address"
+                android:textColor="@color/text">
 
                 <requestFocus />
             </AutoCompleteTextView>
@@ -66,19 +71,16 @@
                 android:layout_height="match_parent"
                 android:text="@string/destination"
                 android:textSize="15dp"
-                android:gravity="center_vertical"/>
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/destinationOffering"-->
-                <!--android:gravity="center_horizontal"-->
-                <!--/>-->
+                android:gravity="center_vertical"
+                android:textColor="@color/text"
+                android:typeface="serif"/>
             <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enter your ending address" >
+            android:hint="enter your ending address"
+                android:textColor="@color/text">
 
             <requestFocus />
         </AutoCompleteTextView>
@@ -117,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No Date Set"
-                    android:textColor="#004C99"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -140,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No time Set"
-                    android:textColor="#004C99"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -163,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No time Set"
-                    android:textColor="#004C99"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -176,12 +178,12 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Number Of Passengers"
                 android:textSize="25dp"
-                android:textColor="#004C99"/>
+                android:textColor="@color/text"/>
             <NumberPicker
                 android:paddingLeft="15dp"
                 android:id="@+id/amountNumberPickerOffering"

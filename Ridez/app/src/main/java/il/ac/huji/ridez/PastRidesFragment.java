@@ -1,31 +1,21 @@
 package il.ac.huji.ridez;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import il.ac.huji.ridez.R;
-import il.ac.huji.ridez.adpaters.RidezAdapter;
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
-import android.os.Bundle;
+import il.ac.huji.ridez.adpaters.RidezAdapter;
+
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -47,7 +37,7 @@ public class PastRidesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
-                intent.putExtra("rideId", rides.get(position)[3]);
+                intent.putExtra("rideId", rides.get(position)[4]);
                 startActivity(intent);
             }
         });
@@ -72,7 +62,7 @@ public class PastRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() < System.currentTimeMillis()) {
-                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver", id});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? "As Passenger" : "As Driver", id});
                         }
 
                     }

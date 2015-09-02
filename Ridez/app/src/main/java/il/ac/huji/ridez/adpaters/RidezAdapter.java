@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class RidezAdapter extends BaseAdapter {
-    private ArrayList<String[]> ridezArrayList;
+    protected ArrayList<String[]> ridezArrayList;
 
     private LayoutInflater mInflater;
 
@@ -34,11 +34,12 @@ public class RidezAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.ridescell, null);
+            convertView = mInflater.inflate(R.layout.rides_cell, null);
             holder = new ViewHolder();
+            holder.user = (TextView) convertView.findViewById(R.id.rideUsername);
             holder.date = (TextView) convertView.findViewById(R.id.rideDate);
-            holder.origDest = (TextView) convertView
-                    .findViewById(R.id.rideOriginAndDestination);
+            holder.orig = (TextView) convertView.findViewById(R.id.rideOrigin);
+            holder.dest = (TextView) convertView.findViewById(R.id.rideDestination);
             holder.kind = (TextView) convertView.findViewById(R.id.rideKind);
 
             convertView.setTag(holder);
@@ -47,15 +48,17 @@ public class RidezAdapter extends BaseAdapter {
         }
 
         holder.date.setText(ridezArrayList.get(position)[0]);
-        holder.origDest.setText(ridezArrayList.get(position)[1]);
-        holder.kind.setText(ridezArrayList.get(position)[2]);
-
+        holder.orig.setText(ridezArrayList.get(position)[1]);
+        holder.dest.setText(ridezArrayList.get(position)[2]);
+        holder.kind.setText(ridezArrayList.get(position)[3]);
         return convertView;
     }
 
     static class ViewHolder {
+        TextView user;
         TextView date;
-        TextView origDest;
+        TextView orig;
+        TextView dest;
         TextView kind;
     }
 }
