@@ -11,6 +11,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseCrashReporting;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
@@ -32,6 +33,7 @@ public class ridezApp extends Application {
         super.onCreate();
         // Enable Local Datastore.
         DB.initialize(this);
+        ParseCrashReporting.enable(this);
         ParseObject.registerSubclass(RidezGroup.class);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR", "lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM");

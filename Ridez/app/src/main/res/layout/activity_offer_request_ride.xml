@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fillViewport="true">
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:textSize="20dp"
             android:text="@string/chooseGroups"/>
         <ListView
-            android:id="@+id/offerGroupListView"
+            android:id="@+id/offerRequestGroupListView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:isScrollContainer="false">
@@ -74,7 +74,7 @@
                 <!--android:gravity="center_horizontal"-->
                 <!--/>-->
             <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+            android:id="@+id/autoCompleteTextViewDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -200,7 +200,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <Button
-                android:id="@+id/saveRequestButtonOffering"
+                android:id="@+id/saveRideButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Send Offer"
