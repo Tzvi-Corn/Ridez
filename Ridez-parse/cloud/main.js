@@ -59,24 +59,25 @@ Parse.Cloud.afterSave("potentialMatch", function(request) {
                     var push_user = null;
                     var push_id = 0;
                     var push_email = "";
-                    if (offer_id === sender_id) {
+                    if (offer_user_id === sender_id) {
                         push_ride = request_ride;
                         push_user = request_user;
                         push_user_id = request_user_id;
-                        push_email = request_email;
+                        push_email = offer_email;
                     } else {
                         push_ride = offer_ride;
                         push_user = offer_user;
                         push_user_id = offer_user_id;
-                        push_email = offer_email;
+                        push_email = request_email;
                     }
-                    console.log("offer_user_id = " + offer_user_id + ". request_user_id = " + request_user_id + ". sender_id = " + sender_id + ". push_id = " + push_id);
+                    console.log("offer_user_id = " + offer_user_id + ". request_user_id = " + request_user_id + ". sender_id = " + sender_id + ". push_user_id = " + push_user_id);
                     var installation_query = new Parse.Query(Parse.Installation);
                     installation_query.equalTo("user", push_user);
                     Parse.Push.send({
                         where: installation_query, // Set our Installation query
                         data: {
                             alert: "There is a possible match with " + push_email + ". Click to see.",
+                            type: 1,
                             match_id: request.object.id,
                             ride_id: push_ride.id,
                         }
