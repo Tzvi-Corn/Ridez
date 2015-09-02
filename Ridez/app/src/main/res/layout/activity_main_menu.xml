@@ -5,21 +5,29 @@
     android:paddingLeft="1dp"
     android:paddingRight="1dp"
     android:orientation="vertical"
-    android:background="#ffffff">
+    android:background="#d7c7ff">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="vertical"
+        android:padding="10dp">
+       <!-- <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Main Menu"
+            android:text="Ridez"
             android:textSize="30dp"
             android:gravity="center_horizontal"
             android:paddingTop="40dp"
             android:textColor="#004C99"
-            android:textStyle="bold"/>
+            android:textStyle="bold"/>-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ridezicon"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -64,6 +72,13 @@
             android:layout_height="wrap_content"
             android:text="@string/login"
             android:background="@drawable/button_background"/>
+        <Button
+            android:id="@+id/buttonLogOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:background="@drawable/button_background"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -26,6 +26,7 @@ import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 public class RequestDetails extends FragmentActivity implements
         ActionBar.TabListener  {
+    private final static int RIDE_DETAILES_TAB = 0, RIDE_POTENTIAL_MATCHES_TAB = 1;
     TextView originTextView;
     TextView destinationTextView;
     TextView dateTextView;
@@ -56,6 +57,10 @@ public class RequestDetails extends FragmentActivity implements
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (getIntent().getIntExtra("fromPush", 0) == PushReceiver.MATCH_ACT) {
+            viewPager.setCurrentItem(RIDE_POTENTIAL_MATCHES_TAB);
+        }
+            viewPager.setCurrentItem(2);
 
         // Adding Tabs
         for (String tab_name : tabs) {
