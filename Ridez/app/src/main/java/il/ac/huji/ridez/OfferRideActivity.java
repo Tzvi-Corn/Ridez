@@ -184,7 +184,7 @@ public class OfferRideActivity extends ActionBarActivity {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                String minuteS = "";
+                                String minuteS;
                                 startHour = hourOfDay;
                                 startMinute = minute;
                                 if (startMinute < 10) {
@@ -211,7 +211,7 @@ public class OfferRideActivity extends ActionBarActivity {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay,
                                                   int minute) {
-                                String minuteS = "";
+                                String minuteS;
                                 endHour = hourOfDay;
                                 endMinute = minute;
                                 if (endMinute < 10) {
@@ -246,7 +246,7 @@ public class OfferRideActivity extends ActionBarActivity {
                          cal.setTimeInMillis(0);
                          cal.set(ourYear, ourMonth, ourDay, startHour, startMinute, 0);
                          date = cal.getTime();
-                         int timeInterval = 0;
+                         int timeInterval;
                          if (startHour < endHour || (startHour == endHour && startMinute <= endMinute)) {
                              timeInterval = ((endHour - startHour) * 60 + endMinute - startMinute) / 2;
                          } else {
@@ -307,7 +307,7 @@ public class OfferRideActivity extends ActionBarActivity {
                          requestDetails.putExtra("amount", np.getValue());
                          requestDetails.putExtra("isRequest", false);
                          requestDetails.putExtra("timeInterval", timeInterval);
-                         ArrayList<String> groupsStr = new ArrayList<String>();
+                         ArrayList<String> groupsStr = new ArrayList<>();
                          for (RidezGroup i : groups) {
                              groupsStr.add(i.getName());
                          }
@@ -423,6 +423,7 @@ public class OfferRideActivity extends ActionBarActivity {
                          });
                      }
                  });
+                 t.start();
              }
          });
         groupsListView = (ListView) findViewById(R.id.offerGroupListView);

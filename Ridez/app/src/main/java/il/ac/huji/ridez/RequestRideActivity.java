@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
+import il.ac.huji.ridez.GoogleDirections.GoogleMapsAPIGeocode;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
@@ -213,12 +214,21 @@ final Calendar c = Calendar.getInstance();
                 dlatitude = 0;
                 dlongitude = 0;
                 try {
-                    List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
-                    olatitude = address.get(0).getLatitude();
-                    olongitude = address.get(0).getLongitude();
-                    List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
-                    dlatitude = address2.get(0).getLatitude();
-                    dlongitude = address2.get(0).getLongitude();
+                    if (Geocoder.isPresent()) {
+                        List<Address> address = geoCoder.getFromLocationName(autoCompViewOrigin.getText().toString(), 1);
+                        olatitude = address.get(0).getLatitude();
+                        olongitude = address.get(0).getLongitude();
+                        List<Address> address2 = geoCoder.getFromLocationName(autoCompView.getText().toString(), 1);
+                        dlatitude = address2.get(0).getLatitude();
+                        dlongitude = address2.get(0).getLongitude();
+                    } else {
+                        double[] originGeo = GoogleMapsAPIGeocode.getLatLongFromAddress(autoCompViewOrigin.getText().toString());
+                        olatitude = originGeo[0];
+                        olongitude = originGeo[1];
+                        double[] destGeo = GoogleMapsAPIGeocode.getLatLongFromAddress(autoCompView.getText().toString());
+                        dlatitude = destGeo[0];
+                        dlongitude = destGeo[1];
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -244,6 +254,7 @@ final Calendar c = Calendar.getInstance();
                 newRide.put("request", true);
                 newRide.put("passengers", np.getValue());
                 newRide.put("user", ParseUser.getCurrentUser());
+                newRide.put("timeInterval", 60);
                 ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
                 for (int i = 0; i < groups.size(); ++i) {
                     checked_groups.add(groups.get(i));
