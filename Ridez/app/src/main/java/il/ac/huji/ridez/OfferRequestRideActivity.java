@@ -326,6 +326,10 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                             @Override
                             public void done(ParseException e) {
                                 // Log.d(TAG, "new group!!");
+                                String id = newRide.getObjectId();
+                                if(id != null && !id.isEmpty() ){
+                                    requestDetails.putExtra("rideId", id);
+                                }
                                 for (int i = 0; i < groups.size(); ++i) {
                                     totalAmount = groups.size();
                                     final Calendar c = Calendar.getInstance();
@@ -400,6 +404,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
 
                             }
                         });
+
                     }
                 });
                 t.start();
