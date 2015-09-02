@@ -48,7 +48,7 @@ public class RegistrationActivity extends ActionBarActivity {
         signUp = (Button) findViewById (R.id.signUpButton);
         signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, "Please wait ...", "Verifying yur phone number...", true, false);
+                final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, "Please wait ...", "Verifying your phone number...", true, false);
                 final String fullnameText = fullName.getText().toString();
                 final String passwordText = password.getText().toString();
                 final String emailText = email.getText().toString();
@@ -89,10 +89,12 @@ public class RegistrationActivity extends ActionBarActivity {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        RegistrationActivity.this.unregisterReceiver(smsReceiver);
                         pd.dismiss();
                         final AlertDialog.Builder alert = new AlertDialog.Builder(RegistrationActivity.this);
 
                         final EditText edittext = new EditText(RegistrationActivity.this);
+                        edittext.setSingleLine();
                         alert.setMessage("Cannot verify your phone number. Please insert the code manually:");
                         alert.setTitle("Phone number verification");
 
@@ -118,9 +120,13 @@ public class RegistrationActivity extends ActionBarActivity {
                             }
                         });
 
-                        alert.show();
-                        showError("Cannot verify your phone number. Try again");
-                        RegistrationActivity.this.unregisterReceiver(smsReceiver);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert.show();
+                            }
+                        });
+
                     }
                 }, 60 * 1000);
                 SmsManager sm = SmsManager.getDefault();
