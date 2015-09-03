@@ -86,6 +86,12 @@ public class RequestDetails extends FragmentActivity implements
 //        if (getIntent().getIntExtra("fromPush", 0) == PushReceiver.MATCH_ACT) { TODO - open the potential match detailes
 //            viewPager.setCurrentItem(RIDE_POTENTIAL_MATCHES_TAB);
 //        }
+        String matchId = "";
+        matchId = getIntent().getExtras().getString("matchId");
+        if (matchId != null && !matchId.isEmpty()) {
+            getActionBar().setSelectedNavigationItem(1);
+        }
+
 
     }
 
