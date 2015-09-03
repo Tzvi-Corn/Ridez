@@ -345,7 +345,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                                     RidezGroup g = groups.get(i);
                                     ParseQuery<ParseObject> q = ParseQuery.getQuery("Ride");
                                     q.whereEqualTo("groups", ParseObject.createWithoutData("Group", g.getObjectId()));
-                                    q.whereEqualTo("request", isRequest);
+                                    q.whereEqualTo("request", !isRequest);
                                     q.whereGreaterThan("date", d);
                                     q.include("from");
                                     q.include("to");
