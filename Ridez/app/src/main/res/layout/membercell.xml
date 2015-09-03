@@ -6,7 +6,7 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/list_text"
-                android:text="memName"
+                android:text="@string/member_name_placeholder"
                 android:textSize="18sp"
                 android:textStyle="bold" />
             <TextView
@@ -26,13 +26,13 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/list_text"
                 android:layout_gravity="center_vertical"
-                android:text="memEmail"
+                android:text="@string/member_email_placeholder"
                 android:textSize="18sp"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="regular member"
+                android:text="@string/member_type_placeholder"
                 android:textSize="18sp"
                 android:id="@+id/isAdmin"
                 android:textColor="@color/list_text_emphasize"/>
@@ -44,11 +44,13 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@drawable/deleting"/>
+            android:src="@drawable/deleting"
+            android:contentDescription="@string/member_delete" />
         <ImageButton
             android:id="@+id/adminizeMember"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@drawable/admin"/>
+            android:src="@drawable/admin"
+            android:contentDescription="@string/member_set_admin" />
 </LinearLayout>

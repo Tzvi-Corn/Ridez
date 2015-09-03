@@ -75,7 +75,7 @@ public class GroupMembersFragment extends Fragment {
 
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_dropdown_item_1line, emailAddresses);
-                final AutoCompleteTextView textView = (AutoCompleteTextView) dialog.findViewById(R.id.searchGruopMember);
+                final AutoCompleteTextView textView = (AutoCompleteTextView) dialog.findViewById(R.id.searchGroupMember);
                 textView.setAdapter(adapter2);
                 Button okButton = (Button) dialog.findViewById(R.id.dialogOkButton);
                 okButton.setOnClickListener(new View.OnClickListener() {

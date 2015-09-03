@@ -8,8 +8,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Potential Rides"
-        android:textSize="24dp"
+        android:text="@string/potential_rides_header"
+        android:textSize="24sp"
         android:background="#cf9f99" />
 
 </LinearLayout>

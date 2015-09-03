@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
-            android:text="User: "
+            android:text="@string/ride_cell_user_description"
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="serif"/>
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
             android:layout_gravity="center_vertical"
-            android:text="Sami the Fireman"
+            android:text="@string/ride_cell_user_placeholder"
             android:textSize="18sp" />
     </LinearLayout>
     
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
-            android:text="On: "
+            android:text="@string/ride_cell_date_description"
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="serif"/>
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
             android:layout_gravity="center_vertical"
-            android:text="26/5/15"
+            android:text="@string/ride_cell_date_placeholder"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/list_text"
         android:layout_gravity="center_vertical"
-        android:text="From: "
+        android:text="@string/ride_cell_from_description"
         android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="serif"/>
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/list_text"
         android:layout_gravity="center_vertical"
-        android:text="where I started"
+        android:text="@string/ride_cell_from_placeholder"
         android:textSize="18sp"/>
     </LinearLayout>
 
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
             android:layout_gravity="center_vertical"
-            android:text="To: "
+            android:text="@string/ride_cell_to_description"
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="serif"/>
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/list_text"
             android:layout_gravity="center_vertical"
-            android:text="Where I ended"
+            android:text="@string/ride_cell_to_placeholder"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/list_text_emphasize"
-        android:text="As "
+        android:text="@string/ride_cell_as_description"
         android:layout_gravity="center_vertical"
         android:textSize="18sp"
         android:textStyle="bold|italic"
