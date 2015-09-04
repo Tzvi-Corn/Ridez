@@ -90,6 +90,7 @@ public class LoginActivity extends ActionBarActivity {
                                     if (e == null) {
                                         DB.setGroups(groupList);
                                         DB.setIsLoggedIn(true);
+                                        ridezApp.loadedGroups = true;
                                     } else {
                                         Log.d("PARSE", "error getting groups");
                                     }

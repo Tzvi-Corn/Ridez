@@ -31,9 +31,11 @@ import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
 public class ridezApp extends Application {
     ProgressDialog pd;
+    public static boolean loadedGroups;
     @Override
     public void onCreate() {
         super.onCreate();
+        loadedGroups = false;
         // Enable Local Datastore.
         DB.initialize(this);
         ParseCrashReporting.enable(this);
@@ -69,6 +71,7 @@ public class ridezApp extends Application {
                     } else {
                         Log.d("PARSE", "error getting groups");
                     }
+                    loadedGroups = true;
 
                 }
             });

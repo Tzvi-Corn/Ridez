@@ -167,6 +167,7 @@ public class RegistrationActivity extends ActionBarActivity {
                         public void done(ParseUser parseUser, ParseException e) {
                             if (e == null) {
                                 // save parseUser
+                                ridezApp.loadedGroups = true;
                                 try {
                                     parseUser.pin();
                                     // Associate the device with a user
