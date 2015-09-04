@@ -1,5 +1,7 @@
 package il.ac.huji.ridez;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,12 +29,14 @@ import java.util.List;
 public class PastRidesFragment extends Fragment {
     ListView pastListView;
     ArrayList<String[]> rides;
+    ProgressDialog pd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.pastrides, container, false);
         pastListView = (ListView) rootView.findViewById(R.id.pastListView);
+        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
         pastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,6 +75,7 @@ public class PastRidesFragment extends Fragment {
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }
+                pd.dismiss();
             }
         });
         Context context = getActivity();

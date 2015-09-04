@@ -3,6 +3,7 @@ package il.ac.huji.ridez;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -38,6 +39,7 @@ public class GroupMembersFragment extends Fragment {
     GroupDetailsActivity activity;
     ListView memberListview;
     ImageButton button;
+    ProgressDialog pd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class GroupMembersFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_group_members, container, false);
         activity = (GroupDetailsActivity) getActivity();
         button = (ImageButton) rootView.findViewById(R.id.buttonShowCustomDialog);
+        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
 
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -179,5 +182,6 @@ public class GroupMembersFragment extends Fragment {
         }
         MemberAdapter adapter = new MemberAdapter(activity, memberList, myGroup, isAdmin);
         memberListview.setAdapter(adapter);
+        pd.dismiss();
     }
 }

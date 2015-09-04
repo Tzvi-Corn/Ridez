@@ -15,6 +15,7 @@ import android.telephony.SmsMessage;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class RegistrationActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_registration);
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
@@ -165,6 +167,7 @@ public class RegistrationActivity extends ActionBarActivity {
                         public void done(ParseUser parseUser, ParseException e) {
                             if (e == null) {
                                 // save parseUser
+                                ridezApp.loadedGroups = true;
                                 try {
                                     parseUser.pin();
                                     // Associate the device with a user

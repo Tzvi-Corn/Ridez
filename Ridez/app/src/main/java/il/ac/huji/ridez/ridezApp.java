@@ -1,9 +1,11 @@
 package il.ac.huji.ridez;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,9 +30,12 @@ import java.util.List;
 import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
 public class ridezApp extends Application {
+    ProgressDialog pd;
+    public static boolean loadedGroups;
     @Override
     public void onCreate() {
         super.onCreate();
+        loadedGroups = false;
         // Enable Local Datastore.
         DB.initialize(this);
         ParseCrashReporting.enable(this);
@@ -63,6 +68,8 @@ public class ridezApp extends Application {
                     } else {
                         Log.d("PARSE", "error getting groups");
                     }
+                    loadedGroups = true;
+
                 }
             });
         } else {

@@ -45,8 +45,11 @@ ListView pListView;
         ParseQuery<ParseObject> query3 = ParseQuery.or(ql);
         query3.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> possibleMatchList, com.parse.ParseException e) {
+                String matchIdFromParse = getActivity().getIntent().getExtras().getString("matchId");
+
                 if (e == null) {
                     tempList = new ArrayList<>();
+                    int indexToScrollTo = -1;
                     for (int i = 0; i < possibleMatchList.size(); ++i) {
                         ParseRelation<ParseObject> offerRelation =  possibleMatchList.get(i).getRelation("offer");
                         ParseRelation<ParseObject> requestRelation =  possibleMatchList.get(i).getRelation("request");
@@ -66,6 +69,11 @@ ListView pListView;
                         requestUser = rideRequest.getParseUser("user");
                         PotentialMatch potentialMatch = new PotentialMatch();
                         potentialMatch.id = possibleMatchList.get(i).getObjectId();
+                        if (matchIdFromParse != null && !matchIdFromParse.isEmpty()) {
+                            if (matchIdFromParse.equals(potentialMatch.id)) {
+                                indexToScrollTo = i;
+                            }
+                        }
                         if (offerUser == null || requestUser == null) {
                             continue;
                         }
@@ -104,6 +112,11 @@ ListView pListView;
                     PotentialMatchAdapter adapter = new PotentialMatchAdapter(getActivity(), tempList);
                     pListView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                    if (indexToScrollTo >=0) {
+                        pListView.setSelection(indexToScrollTo)
+                        ;
+                    }
+
 
 
                 } else {
