@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="horizontal">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1">
 
         <TextView
@@ -13,23 +13,27 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="Name"
+            android:text="@string/group_name_placeholder"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/list_text"/>
         <TextView
             android:id="@+id/textViewGroupDescription"
             android:layout_width="match_parent"
             android:layout_height="26dip"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="Description"
-            android:textSize="12sp" />
+            android:text="@string/group_description_placeholder"
+            android:textSize="14sp"
+            android:textColor="@color/list_text"/>
     </LinearLayout>
     <ImageView
         android:id="@+id/groupIcon"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginRight="6dip"
+        android:layout_marginEnd="6dip"
         android:scaleType="fitXY"
-        android:src="@drawable/blank_image_icon"/>
+        android:src="@drawable/blank_image_icon"
+        android:contentDescription="@string/group_icon_description" />
 </LinearLayout>

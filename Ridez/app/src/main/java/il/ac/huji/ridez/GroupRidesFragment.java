@@ -1,44 +1,28 @@
 package il.ac.huji.ridez;
 
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import il.ac.huji.ridez.R;
-import il.ac.huji.ridez.adpaters.MemberAdapter;
-import il.ac.huji.ridez.adpaters.RidezAdapter;
-import il.ac.huji.ridez.contentClasses.RidezGroup;
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
-import il.ac.huji.ridez.sqlHelpers.RideInfo;
 
-import android.os.Bundle;
+import il.ac.huji.ridez.adpaters.OthersRidezAdapter;
+import il.ac.huji.ridez.contentClasses.RidezGroup;
+
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class GroupRidesFragment extends Fragment {
@@ -77,12 +61,12 @@ public class GroupRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() > System.currentTimeMillis() && isRequest) {
-                            rides.add(new String[]{user.getEmail(), date.toString(), "From " + from + " To " + to});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? "As Passenger" : "As Driver", user.getEmail()});
                         }
 
                     }
                     Context context = getActivity();
-                    groupRidesListView.setAdapter(new RidezAdapter(context, rides));
+                    groupRidesListView.setAdapter(new OthersRidezAdapter(context, rides));
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }

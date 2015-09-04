@@ -1,9 +1,7 @@
 package il.ac.huji.ridez;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,15 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import il.ac.huji.ridez.R;
 import il.ac.huji.ridez.adpaters.RidezAdapter;
-import il.ac.huji.ridez.contentClasses.RidezGroup;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -27,7 +19,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -65,14 +56,13 @@ public class FutureRidesFragment extends Fragment {
 
                     for (int i = 0; i < rideList.size(); ++i) {
                         ParseObject ride = rideList.get(i);
-                        ParseObject fromO = ride.getParseObject("from");
-                        String from = fromO.getString("address");
+                        String from = ride.getParseObject("from").getString("address");
                         String to = ride.getParseObject("to").getString("address");
                         String id = ride.getObjectId();
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() >= System.currentTimeMillis()) {
-                            rides.add(new String[]{date.toString(), "From " + from + " To " + to, isRequest ? "As Passenger" : "As Driver", id});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? "As Passenger" : "As Driver", id});
                         }
 
                     }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_purple">#d7c7ff</color>
+    <color name="light_blue">#b8d0ff</color>
+    <color name="light_blue2">#bbd5fa</color>
+    <color name="dark_blue">#3a16ff</color>
+    <color name="turkiz">#6efff2</color>
+    <color name="dark_purple">#640c93</color>
+    <color name="bright_purple">#b906ff</color>
+    <color name="blue_for_purple">#004C99</color>
+
+    <color name="background">@color/light_purple</color>
+    <color name="list_view_background">@color/light_blue</color>
+
+    <color name="text">@color/dark_purple</color>
+    <color name="text_emphasize">@color/bright_purple</color>
+    <color name="list_text">@color/dark_blue</color>
+    <color name="list_text_emphasize">@android:color/holo_blue_dark</color>
+</resources>

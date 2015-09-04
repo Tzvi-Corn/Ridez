@@ -11,7 +11,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:orientation="vertical"
-        android:background="#dbedff">
+        android:background="@color/background">
 
         <TextView
             android:layout_width="match_parent"

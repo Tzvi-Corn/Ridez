@@ -11,25 +11,27 @@
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="@color/background">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="40dp"
-            android:text="Offer A Ride"
-            android:textColor="#004C99"
+            android:textSize="40sp"
+            android:text="@string/offer_a_ride_header"
+            android:textColor="@color/text"
             android:textStyle="bold"
-            android:id="@+id/titleOfPage"/>
+            android:id="@+id/titleOfPage"
+            android:typeface="serif"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="@string/chooseGroups"/>
+            android:textSize="20sp"
+            android:text="@string/chooseGroups"
+            android:textColor="@color/text"/>
         <ListView
             android:id="@+id/offerRequestGroupListView"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:isScrollContainer="false">
         </ListView>
 
@@ -42,15 +44,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/origin"
-                android:textSize="15dp"
-                android:gravity="center_vertical"/>
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text"
+                android:typeface="serif"/>
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewOrigin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="enter your starting address" >
+                android:hint="@string/new_ride_from_description"
+                android:textColor="@color/text">
 
                 <requestFocus />
             </AutoCompleteTextView>
@@ -65,20 +70,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/destination"
-                android:textSize="15dp"
-                android:gravity="center_vertical"/>
-            <!--<EditText-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/destinationOffering"-->
-                <!--android:gravity="center_horizontal"-->
-                <!--/>-->
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text"
+                android:typeface="serif"/>
             <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enter your ending address" >
+            android:hint="@string/new_ride_to_description"
+                android:textColor="@color/text">
 
             <requestFocus />
         </AutoCompleteTextView>
@@ -109,15 +111,15 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set a Date"
+                    android:text="@string/new_ride_date_description"
                     android:id="@+id/dateButtonOffering"
                     android:background="@drawable/button_background"/>
                 <TextView
                     android:id="@+id/dateTextViewOffering"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Date Set"
-                    android:textColor="#004C99"
+                    android:text="@string/new_ride_date_placeholder"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -132,15 +134,15 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set Start Time"
+                    android:text="@string/new_ride_start_description"
                     android:id="@+id/startTimeButtonOffering"
                     android:background="@drawable/button_background"/>
                 <TextView
                     android:id="@+id/startTimeTextViewOffering"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No time Set"
-                    android:textColor="#004C99"
+                    android:text="@string/new_ride_start_placeholder"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -155,15 +157,15 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Set end Time"
+                    android:text="@string/new_ride_end_description"
                     android:id="@+id/endTimeButtonOffering"
                     android:background="@drawable/button_background"/>
                 <TextView
                     android:id="@+id/endTimeTextViewOffering"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No time Set"
-                    android:textColor="#004C99"
+                    android:text="@string/new_ride_end_placeholder"
+                    android:textColor="@color/text_emphasize"
                     android:layout_gravity="center"/>
 
             </LinearLayout>
@@ -176,14 +178,16 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number Of Passengers"
-                android:textSize="25dp"
-                android:textColor="#004C99"/>
+                android:text="@string/new_ride_num_of_passengers_description"
+                android:textSize="25sp"
+                android:textColor="@color/text"/>
             <NumberPicker
                 android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:id="@+id/amountNumberPickerOffering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,7 +207,7 @@
                 android:id="@+id/saveRideButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send Offer"
+                android:text="@string/new_ride_send_button"
                 android:background="@drawable/button_background"/>
         </LinearLayout>
 
