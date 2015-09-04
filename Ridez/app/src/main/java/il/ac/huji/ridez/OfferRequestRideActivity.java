@@ -101,9 +101,11 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         setContentView(R.layout.activity_offer_request_ride);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         isRequest =  getIntent().getExtras().getBoolean("isRequest");
+        saveRideButton = (Button) findViewById(R.id.saveRideButton);
         if (isRequest)
         {
             ((TextView) findViewById(R.id.titleOfPage)).setText("Request A Ride");
+            saveRideButton.setText("Request ride");
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);
         autoCompViewDestination.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
@@ -211,7 +213,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         });
 
 
-        saveRideButton = (Button) findViewById(R.id.saveRideButton);
+
         saveRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +222,10 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                     public void run() {
                         //check if date is not null, all other fields valid
                         //and then register the request in parse server;
+                        if (dateTextView == null || dateTextView.getText().toString() == null || startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
+                            showError("Please fill in all the data, and then proceed", "Missing Data");
+                            return;
+                        }
                         if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
                             showError("Please fill in all the data, and then proceed", "Missing Data");
                             return;
@@ -450,16 +456,24 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         }
     }
     private void showError(String errorString, String errorTitle) {
-        new AlertDialog.Builder(OfferRequestRideActivity.this)
-                .setMessage(errorString)
-                .setTitle(errorTitle)
-                .setCancelable(true)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).create().show();
+        final String errTitle = errorTitle;
+        final String errMessage = errorString;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(OfferRequestRideActivity.this)
+                        .setMessage(errMessage)
+                        .setTitle(errTitle)
+                        .setCancelable(true)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            }
+        });
+
     }
 
     @Override
