@@ -1,6 +1,7 @@
 package il.ac.huji.ridez;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -8,9 +9,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.*;
 
 import com.parse.ParseUser;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainMenuActivity extends ActionBarActivity {
@@ -21,11 +26,13 @@ public class MainMenuActivity extends ActionBarActivity {
     Button register;
     Button login;
     Button logout;
+    ProgressDialog pd;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_menu);
         request = (Button) findViewById(R.id.buttonRequestRide);
         UIHelper.buttonEffect(request);
@@ -35,9 +42,25 @@ public class MainMenuActivity extends ActionBarActivity {
                 //send me to request screen
                 Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
                 requestActivity.putExtra("isRequest", true);
-                // currentContext.startActivity(activityChangeIntent);
-
-                MainMenuActivity.this.startActivity(requestActivity);
+                if (ridezApp.loadedGroups) {
+                    // currentContext.startActivity(activityChangeIntent);
+                    MainMenuActivity.this.startActivity(requestActivity);
+                } else {
+                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    final Timer timer = new Timer();
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (ridezApp.loadedGroups) {
+                                pd.dismiss();
+                                timer.cancel();
+                                Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                                requestActivity.putExtra("isRequest", true);
+                                MainMenuActivity.this.startActivity(requestActivity);
+                            }
+                        }
+                    }, 1000, 1000);
+                }
             }
         });
         offer = (Button)findViewById(R.id.buttonOfferRide);
@@ -48,7 +71,24 @@ public class MainMenuActivity extends ActionBarActivity {
                 //send me to offer screen
                 Intent offerActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
                 offerActivity.putExtra("isRequest", false);
-                MainMenuActivity.this.startActivity(offerActivity);
+                if (ridezApp.loadedGroups) {
+                    MainMenuActivity.this.startActivity(offerActivity);
+                } else {
+                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    final Timer timer = new Timer();
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (ridezApp.loadedGroups) {
+                                pd.dismiss();
+                                timer.cancel();
+                                Intent offerActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                                offerActivity.putExtra("isRequest", false);
+                                MainMenuActivity.this.startActivity(offerActivity);
+                            }
+                        }
+                    }, 1000, 1000);
+                }
             }
         });
         myGroups = (Button)findViewById(R.id.buttonMyGroups);
@@ -56,8 +96,25 @@ public class MainMenuActivity extends ActionBarActivity {
         myGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //send me to myGroups screen
-                startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
+                if(ridezApp.loadedGroups) {
+                    //send me to myGroups screen
+                    startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
+                } else {
+                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    final Timer timer = new Timer();
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (ridezApp.loadedGroups) {
+                                pd.dismiss();
+                                timer.cancel();
+                                startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
+
+                            }
+                        }
+                    }, 1000, 1000);
+                }
+
             }
         });
         myRides = (Button)findViewById(R.id.buttonMyRides);

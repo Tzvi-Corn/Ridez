@@ -52,7 +52,7 @@
         <activity
             android:name=".MyGroupsActivity"
             android:label="@string/title_activity_my_groups"
-            android:parentActivityName=".MainMenuActivity" >
+            android:parentActivityName=".MainMenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="il.ac.huji.ridez.MainMenuActivity" />
