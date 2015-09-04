@@ -1,5 +1,7 @@
 package il.ac.huji.ridez;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +16,7 @@ public class UIHelper {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
                         break;
                     }

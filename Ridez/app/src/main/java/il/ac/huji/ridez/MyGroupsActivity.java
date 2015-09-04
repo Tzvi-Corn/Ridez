@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -41,6 +42,7 @@ public class MyGroupsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_my_groups);
         ImageButton newGroup = (ImageButton) findViewById(R.id.buttonCreateNewGroup);
         groupsListView = (ListView) findViewById(R.id.listMyGroups);

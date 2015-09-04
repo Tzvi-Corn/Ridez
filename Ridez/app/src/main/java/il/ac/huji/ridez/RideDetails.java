@@ -36,17 +36,18 @@ public class RideDetails extends Fragment {
     TextView numPassengers;
     ListView listOfPossibles;
     ListView listOfGroups;
-    ProgressDialog pd;
     ListView groupListView;
     ArrayList<PotentialMatch> tempList;
     View rootView;
     ArrayList<String> groups;
+    ProgressDialog pd;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_request_details, container, false);
         groupListView = (ListView) rootView.findViewById(R.id.groupListView);
+        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
         groups = new ArrayList<>();
 //        Button saveChangesButton = (Button) rootView.findViewById(R.id.saveChangesButton);
 //        UIHelper.buttonEffect(saveChangesButton);
@@ -103,6 +104,7 @@ public class RideDetails extends Fragment {
                     // something went wrong
                     Log.v("v", "Oh boy");
                 }
+                pd.dismiss();
             }
         });
         //get ride with this specific id

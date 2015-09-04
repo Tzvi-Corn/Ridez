@@ -2,12 +2,15 @@ package il.ac.huji.ridez;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,6 +41,7 @@ public class RequestDetails extends FragmentActivity implements
     private RideDetailsAdapter mAdapter;
     private ActionBar actionBar;
     public String rideId;
+
     // Tab titles
     private String[] tabs = { "Ride Details", "Potential Matches" };
     public String getRideId() {
@@ -93,6 +97,19 @@ public class RequestDetails extends FragmentActivity implements
         }
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        String matchId = "";
+        matchId = getIntent().getExtras().getString("matchId");
+        if (matchId != null && !matchId.isEmpty()) {
+            Intent mainActivity = new Intent(RequestDetails.this, MainMenuActivity.class);
+            RequestDetails.this.startActivity(mainActivity);
+            this.finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

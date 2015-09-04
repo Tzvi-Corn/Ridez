@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import il.ac.huji.ridez.adpaters.TabsPagerAdapter;
 import il.ac.huji.ridez.adpaters.groupDetailsTabAdapter;
@@ -28,6 +29,7 @@ int index;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.activity_group_details);
         // Initilization

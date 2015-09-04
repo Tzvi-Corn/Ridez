@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import il.ac.huji.ridez.adpaters.TabsPagerAdapter;
 
@@ -23,6 +24,7 @@ public class MyRidez extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         super.onCreate(savedInstanceState);
+
         setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.activity_my_ridez);
 

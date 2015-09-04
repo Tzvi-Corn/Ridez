@@ -1,6 +1,7 @@
 package il.ac.huji.ridez;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.*;
 
 import com.parse.ParseUser;
@@ -21,11 +23,13 @@ public class MainMenuActivity extends ActionBarActivity {
     Button register;
     Button login;
     Button logout;
+    ProgressDialog pd;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_menu);
         request = (Button) findViewById(R.id.buttonRequestRide);
         UIHelper.buttonEffect(request);
@@ -36,7 +40,6 @@ public class MainMenuActivity extends ActionBarActivity {
                 Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
                 requestActivity.putExtra("isRequest", true);
                 // currentContext.startActivity(activityChangeIntent);
-
                 MainMenuActivity.this.startActivity(requestActivity);
             }
         });
