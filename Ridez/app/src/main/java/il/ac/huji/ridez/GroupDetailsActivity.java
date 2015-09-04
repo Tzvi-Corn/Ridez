@@ -13,14 +13,13 @@ import il.ac.huji.ridez.adpaters.TabsPagerAdapter;
 import il.ac.huji.ridez.adpaters.groupDetailsTabAdapter;
 
 
-public class GroupDetailsActivity extends FragmentActivity implements
-        ActionBar.TabListener {
-private ViewPager viewPager;
-private groupDetailsTabAdapter mAdapter;
-private ActionBar actionBar;
-// Tab titles
-private String[] tabs = { "Members", "Future Ride Requests" };
-int index;
+public class GroupDetailsActivity extends FragmentActivity implements ActionBar.TabListener {
+    private ViewPager viewPager;
+    private groupDetailsTabAdapter mAdapter;
+    private ActionBar actionBar;
+    // Tab titles
+    private String[] tabs = { "Members", "Future Ride Requests" };
+    int index;
     public int getGroupIndex() {
         return index;
     }
