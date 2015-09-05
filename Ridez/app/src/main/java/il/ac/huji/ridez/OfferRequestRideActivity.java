@@ -106,6 +106,9 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         {
             ((TextView) findViewById(R.id.titleOfPage)).setText("Request A Ride");
             saveRideButton.setText("Request ride");
+            if (getActionBar() != null) {
+                getActionBar().setTitle("Request A Ride");
+            }
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);
         autoCompViewDestination.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));

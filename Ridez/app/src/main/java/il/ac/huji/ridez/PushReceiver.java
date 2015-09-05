@@ -27,6 +27,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
                 case MATCH_ACT:
                     intent.putExtra("rideId",pushData.getString("ride_id"));
                     intent.putExtra("matchId",pushData.getString("match_id"));
+                    intent.putExtra("isRequest", pushData.getBoolean("is_request"));
                     return RequestDetails.class;
 
                 case ADDED_TOO_GROUP:
