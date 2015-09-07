@@ -107,6 +107,8 @@ ListView pListView;
                         potentialMatch.requestToAddress = requestTo.getString("address");
                         potentialMatch.offerDate = rideOffer.getDate("date");
                         potentialMatch.requestdate = rideRequest.getDate("date");
+                        potentialMatch.offerPhoneNum = rideOffer.getString("phoneNum");
+                        potentialMatch.requestPhoneNum = rideRequest.getString("phoneNum");
                         tempList.add(potentialMatch);
                     }
                     PotentialMatchAdapter adapter = new PotentialMatchAdapter(getActivity(), tempList);
