@@ -48,7 +48,9 @@
             android:hint="@string/password"
             android:textColorHint="#bbbbbb"
             android:password="true"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textAlignment="viewStart"
+            android:layout_gravity="start"/>
             <!--android:drawableLeft="@drawable/password"/>-->
         <Button
             android:id="@+id/signInButton"
