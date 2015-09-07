@@ -15,11 +15,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "PARSE_ID", '"8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR"'
-            buildConfigField "String", "PARSE_KEY", '"lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM"'
+            buildConfigField "String", "PARSE_ID", '"HcUCaIHT0Hl5CIYgX4PJwEFgoDTwBuBgTXhUoOQP"'
+            buildConfigField "String", "PARSE_KEY", '"c9MwxKxWljpqC3cE5aXnY8RXWzeBJMQSKcbtIvSv"'
         }
         debug {
-            applicationIdSuffix '.debug'
             buildConfigField "String", "PARSE_ID", '"8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR"'
             buildConfigField "String", "PARSE_KEY", '"lhGtlfFbe2AAd3KFhF3kpj75PP37UkYHEbK1NTiM"'
         }

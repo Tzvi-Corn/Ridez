@@ -38,7 +38,8 @@ public class FutureRidesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
-                intent.putExtra("rideId", rides.get(position)[3]);
+                intent.putExtra("rideId", rides.get(position)[4]);
+                intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
                 startActivity(intent);
             }
         });

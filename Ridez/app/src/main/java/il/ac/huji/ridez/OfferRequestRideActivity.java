@@ -106,6 +106,9 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         {
             ((TextView) findViewById(R.id.titleOfPage)).setText("Request A Ride");
             saveRideButton.setText("Request ride");
+            if (getActionBar() != null) {
+                getActionBar().setTitle("Request A Ride");
+            }
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);
         autoCompViewDestination.setAdapter(new GooglePlacesAutocompleteAdapter(this, R.layout.list_item));
@@ -383,8 +386,13 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                                                                     pm.put("isConfirmed", false);
                                                                     ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
                                                                     ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
-                                                                    offerRelation.add(newRide);
-                                                                    requestRelation.add(ride);
+                                                                    if (isRequest) {
+                                                                        offerRelation.add(ride);
+                                                                        requestRelation.add(newRide);
+                                                                    } else {
+                                                                        offerRelation.add(newRide);
+                                                                        requestRelation.add(ride);
+                                                                    }
                                                                     try {
                                                                         pm.save();
                                                                     } catch (Exception ex) {
