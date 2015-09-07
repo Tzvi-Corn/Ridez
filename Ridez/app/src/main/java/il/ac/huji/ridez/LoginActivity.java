@@ -48,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
         signIn = (Button) findViewById (R.id.signInButton);
         signIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(LoginActivity.this, "Please wait ...", "Signing in to the system ...", true);
+                final ProgressDialog pd = ProgressDialog.show(LoginActivity.this, getString(R.string.pleaseWait), getString(R.string.signingIn), true);
                 pd.setCancelable(false);
                 final String userText = userName.getText().toString();
                 final String passwordText = password.getText().toString();
@@ -72,12 +72,12 @@ public class LoginActivity extends ActionBarActivity {
                                     public void done(ParseException e) {
                                         // Hooray! Let them use the app now.
                                         pd.dismiss();
-                                        Toast.makeText(getApplicationContext(), "You have successfully signed in",
+                                        Toast.makeText(getApplicationContext(), R.string.succesfullSignIn,
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 });
                             } catch (ParseException e1) {
-                                Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.loginFailed, Toast.LENGTH_LONG).show();
                                 pd.dismiss();
                             }
                             ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
@@ -97,7 +97,7 @@ public class LoginActivity extends ActionBarActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(getApplicationContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), R.string.loginFailed, Toast.LENGTH_LONG).show();
                             pd.dismiss();
                         }
                     }
@@ -107,9 +107,9 @@ public class LoginActivity extends ActionBarActivity {
             private void showError(String errorString) {
                 new AlertDialog.Builder(LoginActivity.this)
                         .setMessage(errorString)
-                        .setTitle("Login failed")
+                        .setTitle(R.string.loginFailed)
                         .setCancelable(true)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();

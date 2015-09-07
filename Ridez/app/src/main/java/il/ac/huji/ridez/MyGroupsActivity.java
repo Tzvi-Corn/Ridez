@@ -1,5 +1,7 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -39,7 +41,7 @@ public class MyGroupsActivity extends ActionBarActivity {
         groupsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), GroupDetailsActivity.class);
+                Intent intent = new Intent(MyGroupsActivity.this, GroupDetailsActivity.class);
                 RidezGroup item = (RidezGroup) parent.getItemAtPosition(position);
                 intent.putExtra("groupIndex", DB.getGroups().indexOf(item));
                 startActivity(intent);
@@ -48,10 +50,17 @@ public class MyGroupsActivity extends ActionBarActivity {
         newGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!DB.isLoggedIn()) {
+                    showError(getString(R.string.createGroupNotLoggedIn), getString(R.string.pleaseLogin));
+                    return;
+                }
                 Intent i = new Intent(getApplicationContext(), NewGroupActivity.class);
                 startActivityForResult(i, RESULT_NEW_GROUP);
             }
         });
+
+
+
         adapter = new GroupsArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -79,6 +88,26 @@ public class MyGroupsActivity extends ActionBarActivity {
         });
     }
 
+    private void showError(String errorString, String errorTitle) {
+        final String errTitle = errorTitle;
+        final String errMessage = errorString;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialog.Builder(MyGroupsActivity.this)
+                        .setMessage(errMessage)
+                        .setTitle(errTitle)
+                        .setCancelable(true)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            }
+        });
+
+    }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return false;

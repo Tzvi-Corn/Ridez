@@ -47,7 +47,7 @@ public class GroupMembersFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_group_members, container, false);
         activity = (GroupDetailsActivity) getActivity();
         button = (ImageButton) rootView.findViewById(R.id.buttonShowCustomDialog);
-        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
+        pd = ProgressDialog.show(getActivity(), activity.getString(R.string.pleaseWait), activity.getString(R.string.loadinYourData), true);
 
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class GroupMembersFragment extends Fragment {
                 // custom dialog
                 final Dialog dialog = new Dialog(getActivity());
                 dialog.setContentView(R.layout.addmember);
-                dialog.setTitle("Add a friend");
+                dialog.setTitle(R.string.addFriend);
                 dialog.setCancelable(true);
                 ArrayList<String> emailAddressCollection = new ArrayList<>();
 
@@ -91,38 +91,11 @@ public class GroupMembersFragment extends Fragment {
                                     myGroup.saveInBackground();
                                     setListView(myGroup.getMembers());
                                 } else {
-                                    Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity(), activity.getString(R.string.error) + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                                 }
                                 dialog.dismiss();
                             }
                         });
-                        //add user
-//                        ParseUser.getQuery().whereEqualTo("email", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
-//                            @Override
-//                            public void done(ParseUser user, ParseException e) {
-//                                if (e == null) {
-//
-//                                    if (user == null) {
-//                                        // this user is not in parse
-//                                       // waiting_members.add(emailText);
-//                                    } else {
-//                                       myGroup.addUser(user, false);
-//                                        myGroup.saveInBackground();
-//                                       setListView(myGroup.getMembers());
-//                                    }
-//                                } else {
-//                                    //do
-//                                }
-//
-//                                dialog.dismiss();
-//                            }
-//
-//                            private String emailText;
-//                            private GetCallback<ParseUser> setEmail(String email) {
-//                                emailText = email;
-//                                return this;
-//                            }
-//                        }).setEmail(textView.getText().toString()));
                     }
                 });
                 Button cancelButton = (Button) dialog.findViewById(R.id.dialogCancButton);
@@ -132,8 +105,6 @@ public class GroupMembersFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
-
-
 
                 dialog.show();
             }
@@ -147,9 +118,9 @@ public class GroupMembersFragment extends Fragment {
                 public void done(ParseException e) {
                     if (e != null) {
                         AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-                        alertDialog.setTitle("Server problem");
-                        alertDialog.setMessage("Problem getting updated member list");
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        alertDialog.setTitle(activity.getString(R.string.serverProbem));
+                        alertDialog.setMessage(activity.getString(R.string.problem));
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, activity.getString(R.string.OK),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();

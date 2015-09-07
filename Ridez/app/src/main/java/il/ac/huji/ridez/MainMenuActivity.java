@@ -40,11 +40,11 @@ public class MainMenuActivity extends ActionBarActivity {
                 //send me to request screen
                 Intent requestActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                 requestActivity.putExtra("isRequest", true);
-                if (ridezApp.loadedGroups) {
+                if (ridezApp.loadedGroups || !DB.isLoggedIn()) {
                     // currentContext.startActivity(activityChangeIntent);
                     MainMenuActivity.this.startActivity(requestActivity);
                 } else {
-                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    pd = ProgressDialog.show(MainMenuActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingPersonalData), true);
                     final Timer timer = new Timer();
                     timer.scheduleAtFixedRate(new TimerTask() {
                         @Override
@@ -69,10 +69,10 @@ public class MainMenuActivity extends ActionBarActivity {
                 //send me to offer screen
                 Intent offerActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                 offerActivity.putExtra("isRequest", false);
-                if (ridezApp.loadedGroups) {
+                if (ridezApp.loadedGroups || !DB.isLoggedIn()) {
                     MainMenuActivity.this.startActivity(offerActivity);
                 } else {
-                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    pd = ProgressDialog.show(MainMenuActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingPersonalData), true);
                     final Timer timer = new Timer();
                     timer.scheduleAtFixedRate(new TimerTask() {
                         @Override
@@ -94,11 +94,11 @@ public class MainMenuActivity extends ActionBarActivity {
         myGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ridezApp.loadedGroups) {
+                if(ridezApp.loadedGroups || !DB.isLoggedIn()) {
                     //send me to myGroups screen
                     startActivity(new Intent(getApplicationContext(), MyGroupsActivity.class));
                 } else {
-                    pd = ProgressDialog.show(MainMenuActivity.this, "Please wait...", "Loading your personal data", true);
+                    pd = ProgressDialog.show(MainMenuActivity.this, getString(R.string.pleaseWait), getString(R.string.loadingPersonalData), true);
                     final Timer timer = new Timer();
                     timer.scheduleAtFixedRate(new TimerTask() {
                         @Override
@@ -151,11 +151,11 @@ public class MainMenuActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainMenuActivity.this);
-                alertDialogBuilder.setTitle("Approve logout");
+                alertDialogBuilder.setTitle(R.string.approveLogout);
                 // set dialog message
-                alertDialogBuilder.setMessage("Are you sure you want to logout?")
+                alertDialogBuilder.setMessage(R.string.areYousureLogout)
                         .setCancelable(false)
-                        .setPositiveButton("logout", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.Logout, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 DB.setIsLoggedIn(false);
                                 DB.emptyGroups();
@@ -163,7 +163,7 @@ public class MainMenuActivity extends ActionBarActivity {
                                 loggedIn();
                             }
                         })
-                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // if this button is clicked, just close
                                 // the dialog box and do nothing
@@ -193,22 +193,6 @@ public class MainMenuActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         loggedIn();
-//        Thread thread = new Thread(new Runnable(){
-//            @Override
-//            public void run() {
-//                try {
-//                    //Your code goes here
-//                    double firstTime = GoogleDirectionsHelper.getDuration(31.7769849, 35.1925251, 31.8364605, 35.263231);
-//                    double secondTime = GoogleDirectionsHelper.getDuration(31.7769849,35.1925251,31.8154942,35.2484252, 31.8273655,35.2456281, 31.8364605,35.263231);
-//                    Log.v("v", "the first time is: " + firstTime + "the second time: " + secondTime);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
-       // thread.start();
-
     }
 
     @Override
