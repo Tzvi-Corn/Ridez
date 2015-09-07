@@ -386,8 +386,13 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                                                                     pm.put("isConfirmed", false);
                                                                     ParseRelation<ParseObject> offerRelation = pm.getRelation("offer");
                                                                     ParseRelation<ParseObject> requestRelation = pm.getRelation("request");
-                                                                    offerRelation.add(newRide);
-                                                                    requestRelation.add(ride);
+                                                                    if (isRequest) {
+                                                                        offerRelation.add(ride);
+                                                                        requestRelation.add(newRide);
+                                                                    } else {
+                                                                        offerRelation.add(newRide);
+                                                                        requestRelation.add(ride);
+                                                                    }
                                                                     try {
                                                                         pm.save();
                                                                     } catch (Exception ex) {
