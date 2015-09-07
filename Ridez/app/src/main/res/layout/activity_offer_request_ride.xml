@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_date_description"
                     android:id="@+id/dateButtonOffering"
-                    android:background="@drawable/button_background"/>
+                    android:background="@null"/>
                 <TextView
                     android:id="@+id/dateTextViewOffering"
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_end_description"
                     android:id="@+id/endTimeButtonOffering"
-                    android:background="@drawable/button_background"/>
+                    android:background="@null"/>
                 <TextView
                     android:id="@+id/endTimeTextViewOffering"
                     android:layout_width="wrap_content"

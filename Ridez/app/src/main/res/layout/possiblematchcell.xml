@@ -1,17 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="2"
     android:baselineAligned="false">
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dip"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:layout_weight="0.6"
+        android:layout_weight="1"
         android:paddingTop="10dip" >
         <TextView
             android:layout_width="wrap_content"
@@ -19,14 +18,14 @@
             android:id="@+id/cellTitle"
             android:text="@string/match_is_driver_placeholder"
             android:textSize="24sp"
-            android:textColor="#c26e20"
+            android:textColor="@color/text_emphasize"
             android:layout_marginTop="2dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/match_fullname_placeholder"
             android:textSize="18sp"
-            android:textColor="#c2181d"
+            android:textColor="@color/text"
             android:layout_marginTop="2dp"
             android:id="@+id/cellFullName"/>
 
@@ -35,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="@string/match_email_placeholder"
             android:textSize="18sp"
-            android:textColor="#b625c2"
+            android:textColor="@color/text"
             android:layout_marginTop="2dp"
             android:id="@+id/cellEmail"/>
 
@@ -45,7 +44,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#C20000"
+            android:textColor="@color/text"
             android:text="@string/match_from_placeholder"
             android:layout_marginTop="2dp"
             android:textSize="18sp"
@@ -55,7 +54,7 @@
             android:id="@+id/cellToLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#c26ba0"
+            android:textColor="@color/text"
             android:layout_gravity="center_vertical"
             android:text="@string/match_to_placeholder"
             android:layout_marginTop="2dp"
@@ -66,7 +65,7 @@
             android:id="@+id/cellDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#80c26f"
+            android:textColor="@color/text"
             android:text="@string/match_date_placeholder"
             android:layout_gravity="center_vertical"
             android:textSize="18sp"
@@ -74,18 +73,26 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
+    <ImageButton
+        android:id="@+id/callPotentialRide"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/phone"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/call_match"
+        android:background="@null"/>
+<!--
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dip"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:layout_weight="1.4"
         android:paddingTop="10dip" >
 
-        <!--<TextView-->
+        <!-<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:text="Passenger"-->
@@ -134,12 +141,12 @@
         <!--android:text="Date and Time"-->
         <!--android:layout_gravity="center_vertical"-->
         <!--android:textSize="18sp"-->
-        <!--android:textStyle="bold" />-->
+        <!--android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@android:color/holo_green_light"
+            android:textColor="@color/text_emphasize"
             android:text="@string/match_confirm"
             android:layout_marginTop="30dp" />
         <CheckBox
@@ -151,4 +158,5 @@
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"/>
     </LinearLayout>
+-->
 </LinearLayout>

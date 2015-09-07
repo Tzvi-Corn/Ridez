@@ -31,6 +31,7 @@ import android.app.TimePickerDialog;
 import java.util.Date;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -82,7 +83,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
     Button setStartTimeButton;
     Button setEndTimeButton;
     Button  setAmountButton;
-    TextView dateTextView;
+//    TextView dateTextView;
     TextView startTimeTextView;
     TextView endTimeTextView;
     int ourYear;
@@ -130,15 +131,22 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                 autoCompViewOrigin.setText(str);
             }
         });
-        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
+//        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
+        Calendar currCal = new GregorianCalendar();
+//        dateTextView.setText(Toolbox.dateToShortDateString(currCal.getTime()));
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextViewOffering);
+        currCal.add(Calendar.HOUR, 1);
+        startTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        currCal.add(Calendar.HOUR, 1);
         endTimeTextView = (TextView) findViewById(R.id.endTimeTextViewOffering);
+        endTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
 
         np = (NumberPicker) findViewById(R.id.amountNumberPickerOffering);
         np.setMinValue(1);
         np.setMaxValue(5);
         np.setValue(1);
         setDateButton = (Button) findViewById(R.id.dateButtonOffering);
+        setDateButton.setText(Toolbox.dateToShortDateString(currCal.getTime()));
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,13 +156,9 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                ourYear = year;
-                                ourMonth = monthOfYear;
-                                ourDay = dayOfMonth;
-                                dateTextView.setText(new StringBuilder()
-                                        // Month is 0 based, just add 1
-                                        .append(ourDay).append("-").append(ourMonth + 1).append("-")
-                                        .append(ourYear).append(" "));
+                                Date entered = new Date(year, monthOfYear,dayOfMonth);
+//                                dateTextView.setText(Toolbox.dateToShortDateString(entered));
+                                setDateButton.setText(Toolbox.dateToShortDateString(entered));
                             }
                         }, mYear, mMonth, mDay);
                 dpd.show();
@@ -225,11 +229,14 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                     public void run() {
                         //check if date is not null, all other fields valid
                         //and then register the request in parse server;
-                        if (dateTextView == null || dateTextView.getText().toString() == null || startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
+
+                        //dateTextView == null || dateTextView.getText().toString() == null ||
+                        if (startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
                             showError("Please fill in all the data, and then proceed", "Missing Data");
                             return;
                         }
-                        if (dateTextView.getText().toString().startsWith("No") || startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
+                        //dateTextView.getText().toString().startsWith("No") ||
+                        if ( startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
                             showError("Please fill in all the data, and then proceed", "Missing Data");
                             return;
                         }
