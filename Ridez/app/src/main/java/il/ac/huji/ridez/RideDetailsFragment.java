@@ -25,7 +25,7 @@ import java.util.List;
 
 import il.ac.huji.ridez.contentClasses.PotentialMatch;
 
-public class RideDetails extends Fragment {
+public class RideDetailsFragment extends Fragment {
     TextView pickup;
     TextView destination;
     TextView date;

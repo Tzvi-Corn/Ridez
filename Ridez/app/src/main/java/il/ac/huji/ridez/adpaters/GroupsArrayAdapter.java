@@ -17,13 +17,12 @@ import java.util.List;
 
 import il.ac.huji.ridez.R;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
-public class RidezGroupArrayAdapter extends ArrayAdapter<RidezGroup> {
+public class GroupsArrayAdapter extends ArrayAdapter<RidezGroup> {
     private final Context context;
     private List<RidezGroup> list;
 
-    public RidezGroupArrayAdapter(Context context, List<RidezGroup> objects) {
+    public GroupsArrayAdapter(Context context, List<RidezGroup> objects) {
         super(context, -1, objects);
         this.context = context;
         list = objects;

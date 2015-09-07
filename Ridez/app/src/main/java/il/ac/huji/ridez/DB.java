@@ -19,15 +19,10 @@ import java.util.Collections;
 import java.util.List;
 
 import il.ac.huji.ridez.contentClasses.RidezGroup;
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
-import il.ac.huji.ridez.sqlHelpers.GroupsDataSource;
-import il.ac.huji.ridez.sqlHelpers.RideInfo;
-import il.ac.huji.ridez.sqlHelpers.SQLGroupsHelper;
 
 public class DB {
     private static final String TAG = "DB";
     private static List<RidezGroup> groups;
-    private static List<RideInfo> ridesHistory;
     private static boolean isLoggedIn = false;
 
     private DB() {}

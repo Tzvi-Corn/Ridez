@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import il.ac.huji.ridez.contentClasses.RidezGroup;
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
 
 public class LoginActivity extends ActionBarActivity {
     EditText password;
@@ -55,7 +54,7 @@ public class LoginActivity extends ActionBarActivity {
                 final String passwordText = password.getText().toString();
                 if (userText.isEmpty() || passwordText.isEmpty()) {
                     pd.dismiss();
-                    showError("Please fill all fields!");
+                    showError(getString(R.string.fill_all_fields));
                     return;
                 }
                 ParseUser.logInInBackground(userText, passwordText, new LogInCallback() {
@@ -122,24 +121,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
     }
 }

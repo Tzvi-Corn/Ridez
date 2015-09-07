@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import il.ac.huji.ridez.FutureRidesFragment;
 import il.ac.huji.ridez.PastRidesFragment;
 
-public class TabsPagerAdapter extends FragmentPagerAdapter {
+public class MyRidesTabAdapter extends FragmentPagerAdapter {
 
-    public TabsPagerAdapter(FragmentManager fm) {
+    public MyRidesTabAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -19,10 +19,11 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Top Rated fragment activity
-                return new PastRidesFragment();
+                return new FutureRidesFragment();
+
             case 1:
                 // Games fragment activity
-                return new FutureRidesFragment();
+                return new PastRidesFragment();
         }
 
         return null;
