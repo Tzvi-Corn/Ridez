@@ -82,21 +82,14 @@ public class PotentialMatchAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
-        if (pm.iAmRequester) {
-            holder.email.setText("Email: " + pm.offerUserEmail);
-            holder.fullName.setText("Full name: " + ( pm.offerFullName == null ? "": pm.offerFullName));
-            holder.dest.setText("Going to: " + pm.offerToAddress);
-            holder.orig.setText("Leaving from: " + pm.offerFromAddress);
-            holder.date.setText("Date and Time: " + pm.offerDate.toString());
-        }
-        else {
+        if (!pm.iAmRequester) {
             holder.cellTitle.setText("Passenger");
-            holder.email.setText("Email: " + pm.requestUserEmail);
-            holder.fullName.setText("Full name: " + (pm.requestFullName  == null ? "": pm.requestFullName));
-            holder.dest.setText("Going to: " + pm.requestToAddress);
-            holder.orig.setText("Leaving from: " + pm.requestFromAddress);
-            holder.date.setText("Date and Time: " + pm.requestdate.toString());
         }
+            holder.email.setText("Email: " + pm.userEmail);
+            holder.fullName.setText("Full name: " + (pm.fullName  == null ? "": pm.fullName));
+            holder.dest.setText("Going to: " + pm.toAddress);
+            holder.orig.setText("Leaving from: " + pm.fromAddress);
+            holder.date.setText("Date and Time: " + pm.date.toString());
 
         return convertView;
     }

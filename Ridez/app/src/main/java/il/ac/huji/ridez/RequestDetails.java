@@ -41,6 +41,7 @@ public class RequestDetails extends FragmentActivity implements
     private RideDetailsAdapter mAdapter;
     private ActionBar actionBar;
     public String rideId;
+    private boolean isRequest;
 
     // Tab titles
     private String[] tabs = { "Ride Details", "Potential Matches" };
@@ -53,6 +54,7 @@ public class RequestDetails extends FragmentActivity implements
         setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.ridedetailsfragmented);
         rideId = getIntent().getExtras().getString("rideId");
+        isRequest = getIntent().getExtras().getBoolean("isRequest");
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();

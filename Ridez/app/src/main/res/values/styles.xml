@@ -2,7 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowBackground">@color/background</item>
         <!-- Customize your theme here. -->
+    </style>
+    <style name="MyActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/dark_purple</item>
+        <item name="background">@color/dark_purple</item>
     </style>
     <style name="DefaultButtonText">
         <item name="android:layout_width">fill_parent</item>
