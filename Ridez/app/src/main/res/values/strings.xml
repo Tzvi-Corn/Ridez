@@ -82,5 +82,10 @@
     <string name="fill_all_fields">Please fill all fields!</string>
     <string name="call_match">Call</string>
     <string name="leave_group">Leave Group</string>
+    <string name="delete_member_dialog_header">Delete Member?</string>
+    <string name="leave_group_dialog_header">Leave Group?</string>
+    <string name="delete_member_dialog_yes_button">Delete</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="set_admin_dialog_header">Set as Admin?</string>
 
 </resources>

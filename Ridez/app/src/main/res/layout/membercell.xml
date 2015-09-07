@@ -45,12 +45,14 @@
             android:layout_height="60dp"
             android:scaleType="fitXY"
             android:src="@drawable/deleting"
-            android:contentDescription="@string/member_delete" />
+            android:contentDescription="@string/member_delete"
+            android:background="@color/background" />
         <ImageButton
             android:id="@+id/adminizeMember"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
             android:src="@drawable/admin"
+            android:background="@color/list_view_background"
             android:contentDescription="@string/member_set_admin" />
 </LinearLayout>

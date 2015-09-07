@@ -2,6 +2,7 @@ package il.ac.huji.ridez.adpaters;
 import java.util.ArrayList;
 
 import il.ac.huji.ridez.R;
+import il.ac.huji.ridez.UIHelper;
 import il.ac.huji.ridez.contentClasses.PotentialMatch;
 
 import android.content.Context;
@@ -82,6 +83,7 @@ public class PotentialMatchAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
+        UIHelper.buttonEffect(holder.callButton);
         if (!pm.iAmRequester) {
             holder.cellTitle.setText("Passenger");
         }
