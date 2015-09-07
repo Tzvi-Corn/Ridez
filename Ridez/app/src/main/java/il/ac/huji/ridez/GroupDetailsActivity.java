@@ -5,7 +5,9 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import il.ac.huji.ridez.adpaters.groupDetailsTabAdapter;
 
@@ -30,7 +32,18 @@ public class GroupDetailsActivity extends FragmentActivity implements ActionBar.
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.groupDetailsPager);
         actionBar = getActionBar();
-        index = getIntent().getExtras().getInt("groupIndex");
+
+        String addedGroupId = getIntent().getExtras().getString("groupAdded");
+        if (addedGroupId != null) {
+            DB.refreshGroups();
+            index = DB.getPositionFromId(addedGroupId);
+            if(index == -1) {
+                Log.v("AddedGroup", "relieved notification, but no info from parse.");
+                Toast.makeText(getApplicationContext(), R.string.added_to_group_error_msg, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            index = getIntent().getExtras().getInt("groupIndex");
+        }
         mAdapter = new groupDetailsTabAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(mAdapter);

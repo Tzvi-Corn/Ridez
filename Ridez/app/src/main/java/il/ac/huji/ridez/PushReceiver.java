@@ -13,7 +13,7 @@ import org.json.JSONObject;
  * Created by Zahi on 02/09/2015.
  */
 public class PushReceiver extends ParsePushBroadcastReceiver {
-    final static int MATCH_ACT = 1, ADDED_TOO_GROUP = 2;
+    final static int MATCH_ACT = 1, ADDED_TOO_GROUP = 2, ASSIGNED_ADMIN = 3, DELETED_FROM_GROUP = 4;
     @Override
 
     protected Class<? extends Activity> getActivity(Context context, Intent intent) {
@@ -32,7 +32,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
 
                 case ADDED_TOO_GROUP:
                     intent.putExtra("groupAdded",pushData.getString("group_id"));
-                    return MyGroupsActivity.class;
+                    return GroupDetailsActivity.class;
 
                 default:
                     return MainMenuActivity.class;

@@ -42,17 +42,17 @@
     <string name="ride_details_header">Ride Details</string>
     <string name="pickup_placeholder">Pickup: Gedera</string>
     <string name="destination_placeholder">Destination: Petach Tikvah</string>
-    <string name="date_placeholder">Date And Time:</string>
+    <string name="date_placeholder">Date And Time: </string>
     <string name="num_of_passengers_placeholder">Number Of Passengers:</string>
     <string name="save_canges_button">Save changes</string>
     <string name="match_is_driver_placeholder">Driver</string>
-    <string name="match_fullname_placeholder">Full Name:</string>
-    <string name="match_email_placeholder">Email:</string>
-    <string name="match_from_placeholder">Leaving from:</string>
-    <string name="match_to_placeholder">Going to:</string>
-    <string name="match_date_placeholder">Date and time:</string>
+    <string name="match_fullname_placeholder">Full Name: </string>
+    <string name="match_email_placeholder">Email: </string>
+    <string name="match_from_placeholder">Leaving from: </string>
+    <string name="match_to_placeholder">Going to: </string>
+    <string name="match_date_placeholder">Date and time: </string>
     <string name="match_confirm">Confirmed</string>
-    <string name="ride_cell_user_description">User:</string>
+    <string name="ride_cell_user_description">User: </string>
     <string name="ride_cell_user_placeholder">Sami the Fireman</string>
     <string name="ride_cell_date_description">On:</string>
     <string name="ride_cell_date_placeholder">26/5/15</string>
@@ -87,5 +87,6 @@
     <string name="delete_member_dialog_yes_button">Delete</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="set_admin_dialog_header">Set as Admin?</string>
+    <string name="added_to_group_error_msg">Error! We know you were added to a group, but we can\'t find it...</string>
 
 </resources>
