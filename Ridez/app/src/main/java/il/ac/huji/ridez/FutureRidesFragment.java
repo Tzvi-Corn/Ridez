@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import il.ac.huji.ridez.adpaters.RidezAdapter;
+import il.ac.huji.ridez.adpaters.RideDetailsAdapter;
 
 import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
@@ -37,7 +37,7 @@ public class FutureRidesFragment extends Fragment {
         futureListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
                 intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
                 startActivity(intent);
@@ -68,7 +68,7 @@ public class FutureRidesFragment extends Fragment {
 
                     }
                     Context context = getActivity();
-                    futureListView.setAdapter(new RidezAdapter(context, rides));
+                    futureListView.setAdapter(new RideDetailsAdapter(context, rides));
 //                    ParseObject possible = new ParseObject("potentialMatch");
                     //possible.add("isConfirmed", false);
 //                    ParseRelation<ParseObject> offerRelation = possible.getRelation("offer");
@@ -87,7 +87,7 @@ public class FutureRidesFragment extends Fragment {
         });
         Context context = getActivity();
         if (context != null) {
-            RidezAdapter adapter = new RidezAdapter(context, rides);
+            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides);
             futureListView.setAdapter(adapter);
             return rootView;
         }

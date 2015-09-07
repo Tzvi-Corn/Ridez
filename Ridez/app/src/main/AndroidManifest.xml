@@ -77,15 +77,15 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".RequestDetails"
+            android:name=".RideDetailsActivity"
             android:label="@string/title_activity_request_details" >
         </activity>
         <activity
-            android:name=".OfferRequestRideActivity"
+            android:name=".NewRideActivity"
             android:label="@string/title_activity_offer_ride" >
         </activity>
         <activity
-            android:name=".MyRidez"
+            android:name=".MyRidezActivity"
             android:label="@string/title_activity_my_ridez" >
         </activity>
         <service android:name="com.parse.PushService" />

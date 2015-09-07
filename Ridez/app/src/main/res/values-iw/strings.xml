@@ -11,4 +11,5 @@
     <string name="myGroups">הקבוצות שלי</string>
     <string name="login">התחבר</string>
     <string name="logout">התנתק</string>
+    <string name="fill_all_fields">אנא מלא את כל השדות!</string>
 </resources>
