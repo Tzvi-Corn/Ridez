@@ -2,6 +2,7 @@ package il.ac.huji.ridez.adpaters;
 import java.util.ArrayList;
 
 import il.ac.huji.ridez.R;
+import il.ac.huji.ridez.Toolbox;
 import il.ac.huji.ridez.UIHelper;
 import il.ac.huji.ridez.contentClasses.PotentialMatch;
 
@@ -85,13 +86,13 @@ public class PotentialMatchAdapter extends BaseAdapter {
         });
         UIHelper.buttonEffect(holder.callButton);
         if (!pm.iAmRequester) {
-            holder.cellTitle.setText(R.string.passenger);
+            holder.cellTitle.setText("Passenger");
         }
-            holder.email.setText(mContext.getString(R.string.email) + pm.userEmail);
-            holder.fullName.setText(mContext.getString(R.string.fullname) + (pm.fullName  == null ? "": pm.fullName));
-            holder.dest.setText(mContext.getString(R.string.goingTO) + pm.toAddress);
-            holder.orig.setText(mContext.getString(R.string.leavingFrom) + pm.fromAddress);
-            holder.date.setText(mContext.getString(R.string.dateAndTime) + pm.date.toString());
+            holder.email.setText(pm.userEmail);
+            holder.fullName.setText((pm.fullName  == null ? "": pm.fullName));
+            holder.dest.setText(pm.toAddress);
+            holder.orig.setText(pm.fromAddress);
+            holder.date.setText(Toolbox.dateToShortDateAndTimeString(pm.date));
 
         return convertView;
     }

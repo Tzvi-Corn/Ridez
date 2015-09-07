@@ -1,5 +1,8 @@
 package il.ac.huji.ridez;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,10 +27,11 @@ public class Toolbox {
     }
 
     public static String dateToShortDateAndTimeString(Date date) {
-        return dateShortFormat.format(date) + ", " + timeForamt.format(date);
+        return dateShortFormat.format(date) + " - " + timeForamt.format(date);
     }
 
     public static String dateToLongDateAndTimeString(Date date) {
-        return dateLongFormat.format(date) + ", " + timeForamt.format(date);
+        return dateLongFormat.format(date) + " - " + timeForamt.format(date);
     }
+
 }
