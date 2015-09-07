@@ -11,6 +11,7 @@ import android.view.View;
  */
 public class UIHelper {
     public static void buttonEffect(View button){
+
         button.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {

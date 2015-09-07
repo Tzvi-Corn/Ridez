@@ -110,6 +110,26 @@ public class MyGroupsActivity extends ActionBarActivity {
         adapter = new GroupsArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("users", ParseUser.getCurrentUser());
         query.orderByAscending("name");
@@ -132,26 +152,5 @@ public class MyGroupsActivity extends ActionBarActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return false;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-
     }
 }
