@@ -1,6 +1,7 @@
 package il.ac.huji.ridez;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -18,6 +19,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Map;
 
 import il.ac.huji.ridez.adpaters.GroupsArrayAdapter;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
@@ -58,12 +60,83 @@ public class MyGroupsActivity extends ActionBarActivity {
                 startActivityForResult(i, RESULT_NEW_GROUP);
             }
         });
+        groupsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyGroupsActivity.this);
+                builder.setTitle(R.string.leave_group);
+                builder.setCancelable(false);
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("Leave", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RidezGroup group = (RidezGroup) parent.getItemAtPosition(position);
+                        group.removeUser(ParseUser.getCurrentUser());
+                        try {
+                            group.save();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        DB.getGroups().remove(position);
+                        adapter.notifyDataSetChanged();
+                        Map<String, RidezGroup.Member> members = group.getMembers();
+                        if (members.isEmpty()) {
+                            group.deleteInBackground();
+                            return;
+                        }
+
+                        boolean otherAdminExist = false;
+                        for (RidezGroup.Member i : members.values()) {
+                            if (i.isAdmin) {
+                                otherAdminExist = true;
+                                break;
+                            }
+                        }
+                        if (!otherAdminExist) {
+                            group.setAdmin(members.values().iterator().next(), true);
+                            try {
+                                group.save();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                builder.create().show();
+                return true;
+            }
+        });
 
 
 
         adapter = new GroupsArrayAdapter(this, DB.getGroups());
         groupsListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         ParseQuery<RidezGroup> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("users", ParseUser.getCurrentUser());
         query.orderByAscending("name");
@@ -106,26 +179,6 @@ public class MyGroupsActivity extends ActionBarActivity {
                         }).create().show();
             }
         });
-
-    }
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return false;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
 
     }
 }
