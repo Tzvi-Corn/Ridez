@@ -80,5 +80,6 @@
     <string name="member_delete" />
     <string name="member_set_admin" />
     <string name="call_match">Call</string>
+    <string name="leave_group">Leave Group</string>
 
 </resources>

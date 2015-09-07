@@ -1,5 +1,8 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +28,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import il.ac.huji.ridez.adpaters.RidezGroupArrayAdapter;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
@@ -60,6 +64,57 @@ public class MyGroupsActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), NewGroupActivity.class);
                 startActivityForResult(i, RESULT_NEW_GROUP);
+            }
+        });
+        groupsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyGroupsActivity.this);
+                builder.setTitle(R.string.leave_group);
+                builder.setCancelable(false);
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("Leave", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RidezGroup group = (RidezGroup) parent.getItemAtPosition(position);
+                        group.removeUser(ParseUser.getCurrentUser());
+                        try {
+                            group.save();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        DB.getGroups().remove(position);
+                        adapter.notifyDataSetChanged();
+                        Map<String, RidezGroup.Member> members = group.getMembers();
+                        if (members.isEmpty()) {
+                            group.deleteInBackground();
+                            return;
+                        }
+
+                        boolean otherAdminExist = false;
+                        for (RidezGroup.Member i : members.values()) {
+                            if (i.isAdmin) {
+                                otherAdminExist = true;
+                                break;
+                            }
+                        }
+                        if (!otherAdminExist) {
+                            group.setAdmin(members.values().iterator().next(), true);
+                            try {
+                                group.save();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                builder.create().show();
+                return true;
             }
         });
         adapter = new RidezGroupArrayAdapter(this, DB.getGroups());

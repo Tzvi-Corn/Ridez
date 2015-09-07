@@ -78,7 +78,7 @@ public class PotentialMatchAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:0123456789"));
+                intent.setData(Uri.parse("tel:"+pm.phoneNum));
                 mContext.startActivity(intent);
             }
         });
