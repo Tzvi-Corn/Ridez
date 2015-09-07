@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:gravity="center_horizontal"
+        android:hint="@string/exampeEmail"
         android:ems="10"
         android:imeOptions="actionNext">
     </AutoCompleteTextView>

@@ -39,7 +39,7 @@ public class FutureRidesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
-                intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
+                intent.putExtra("isRequest", rides.get(position)[3].equals(getString(R.string.asPassenger)));
                 startActivity(intent);
             }
         });
@@ -63,23 +63,12 @@ public class FutureRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() >= System.currentTimeMillis()) {
-                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? "As Passenger" : "As Driver", id});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), id});
                         }
 
                     }
                     Context context = getActivity();
                     futureListView.setAdapter(new RideDetailsAdapter(context, rides));
-//                    ParseObject possible = new ParseObject("potentialMatch");
-                    //possible.add("isConfirmed", false);
-//                    ParseRelation<ParseObject> offerRelation = possible.getRelation("offer");
-//                    ParseRelation<ParseObject> requestRelation = possible.getRelation("request");
-//                    requestRelation.add(ParseObject.createWithoutData("Ride", "Onl7ZzXGXU"));
-//                    offerRelation.add(ParseObject.createWithoutData("Ride", "EE26Z9Sshs"));
-//                    try {
-//                        possible.save();
-//                    } catch (Exception ex) {
-//                        Log.v("v", "lclc/c");
-//                    }
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }

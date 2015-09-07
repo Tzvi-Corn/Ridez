@@ -1,5 +1,6 @@
 package il.ac.huji.ridez;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class RideDetailsFragment extends Fragment {
     TextView date;
     TextView time;
     TextView numPassengers;
+    Activity activity;
     ListView listOfPossibles;
     ListView listOfGroups;
     ListView groupListView;
@@ -44,24 +46,9 @@ public class RideDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_request_details, container, false);
         groupListView = (ListView) rootView.findViewById(R.id.groupListView);
-        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
+        activity = getActivity();
+        pd = ProgressDialog.show(getActivity(), getString(R.string.pleaseWait), getString(R.string.loadinYourData), true);
         groups = new ArrayList<>();
-//        Button saveChangesButton = (Button) rootView.findViewById(R.id.saveChangesButton);
-//        UIHelper.buttonEffect(saveChangesButton);
-//        saveChangesButton.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View v) {
-//                 for (PotentialMatch pmatch : tempList) {
-//                     ParseObject pma = ParseObject.createWithoutData("potentialMatch", pmatch.id);
-//                     pma.put("isConfirmed", pmatch.isConfirmed);
-//                     try {
-//                         pma.save();
-//                     } catch (Exception ex) {
-//                         ex.printStackTrace();
-//                     }
-//                 }
-//            }
-//        })
         String id = getActivity().getIntent().getExtras().getString("rideId");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ride");
         query.include("from").include("to");
@@ -92,9 +79,9 @@ public class RideDetailsFragment extends Fragment {
 
                     date.append(Toolbox.dateToLongDateString(startDate));
                     time.append(Toolbox.dateToTimeString(startDate) + " to" + Toolbox.dateToTimeString(endDate));
-                    pickup.setText("Origin: " + object.getParseObject("from").getString("address"));
-                    destination.setText("Destination: " +  object.getParseObject("to").getString("address"));
-                    numPassengers.setText("Number of passengers: " + object.getInt("passengers"));
+                    pickup.setText(activity.getString(R.string.Origin) + object.getParseObject("from").getString("address"));
+                    destination.setText(activity.getString(R.string.Destination) +  object.getParseObject("to").getString("address"));
+                    numPassengers.setText(activity.getString(R.string.numOfPassengers) + object.getInt("passengers"));
                 } else {
                     // something went wrong
                     Log.v("v", "Oh boy");
@@ -108,32 +95,6 @@ public class RideDetailsFragment extends Fragment {
         date = (TextView) rootView.findViewById(R.id.rideDateTextView);
         time = (TextView) rootView.findViewById(R.id.rideTimeTextView);
         numPassengers = (TextView) rootView.findViewById(R.id.ridePassengersNumTextview);
-//        listOfPossibles = (ListView) rootView.findViewById(R.id.possibleConnectionsListView);
-//        listOfPossibles.setOnTouchListener(new ListView.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int action = event.getAction();
-//                switch (action) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Disallow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(true);
-//                        break;
-//
-//                    case MotionEvent.ACTION_UP:
-//                        // Allow ScrollView to intercept touch events.
-//                        v.getParent().requestDisallowInterceptTouchEvent(false);
-//                        break;
-//                }
-//
-//                // Handle ListView touch events.
-//                v.onTouchEvent(event);
-//                return true;
-//            }
-//        });
-        //listOfPossibles.setHeaderDividersEnabled(true);
-//        LayoutInflater inflater = getLayoutInflater();
-//        ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header, listOfPossibles, false);
-//        listOfPossibles.addHeaderView(header, null, false);
 
         return rootView;
     }

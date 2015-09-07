@@ -110,7 +110,7 @@ public class MemberAdapter extends BaseAdapter {
         holder.name.setText(memberArrayList.get(position).name);
         holder.email.setText(memberArrayList.get(position).email);
         if (memberArrayList.get(position).isAdmin) {
-            holder.permissions.setText("Admin");
+            holder.permissions.setText(R.string.admin);
         }
         return convertView;
     }
