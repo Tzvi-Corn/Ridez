@@ -30,7 +30,7 @@ public class RideDetailsActivity extends FragmentActivity implements
     private boolean isRequest;
 
     // Tab titles
-    private String[] tabs = { "Ride Details", "Potential Matches" };
+    private String[] tabs = new String[2];
     public String getRideId() {
         return rideId;
     }
@@ -49,7 +49,8 @@ public class RideDetailsActivity extends FragmentActivity implements
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        tabs[0] = getString(R.string.rideDetails);
+        tabs[1]= getString(R.string.potentiaMatches);
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)

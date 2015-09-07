@@ -50,19 +50,19 @@ public class RegistrationActivity extends ActionBarActivity {
         signUp = (Button) findViewById (R.id.signUpButton);
         signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, "Please wait ...", "Verifying your phone number...", true, false);
+                final ProgressDialog pd = ProgressDialog.show(RegistrationActivity.this, getString(R.string.pleaseWait), getString(R.string.phoneNumberVerification), true, false);
                 final String fullnameText = fullName.getText().toString();
                 final String passwordText = password.getText().toString();
                 final String emailText = email.getText().toString();
                 final String phoneNumText = phoneNum.getText().toString();
                 if (emailText.isEmpty() || fullnameText.isEmpty() || passwordText.isEmpty() || phoneNumText.isEmpty()) {
                     pd.dismiss();
-                    showError("Please fill all fields!");
+                    showError(getString(R.string.fillAllFields));
                     return;
                 }
                 final Timer timer = new Timer();
                 final String verificationCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
-                final String msgText = "Ridez verification code: " + verificationCode;
+                final String msgText = getString(R.string.ridesVerificationCode) + verificationCode;
                 smsReceiver = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
@@ -97,12 +97,12 @@ public class RegistrationActivity extends ActionBarActivity {
 
                         final EditText edittext = new EditText(RegistrationActivity.this);
                         edittext.setSingleLine();
-                        alert.setMessage("Cannot verify your phone number. Please insert the code manually:");
-                        alert.setTitle("Phone number verification");
+                        alert.setMessage(R.string.cannotVerify);
+                        alert.setTitle(R.string.phoneverif);
 
                         alert.setView(edittext);
 
-                        alert.setPositiveButton("Verify", new DialogInterface.OnClickListener() {
+                        alert.setPositiveButton(R.string.verify, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String codeText = edittext.getText().toString();
                                 if (verificationCode.equals(codeText)) {
@@ -110,13 +110,13 @@ public class RegistrationActivity extends ActionBarActivity {
                                     pd.show();
                                     registerUser(pd, emailText, passwordText, fullnameText, phoneNumText);
                                 } else {
-                                    showError("The verification code is not match. Try again");
+                                    showError(getString(R.string.verificationWrong));
                                     edittext.setText("");
                                 }
                             }
                         });
 
-                        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.cancel();
                             }
@@ -141,9 +141,9 @@ public class RegistrationActivity extends ActionBarActivity {
     private void showError(String errorString) {
         new AlertDialog.Builder(RegistrationActivity.this)
                 .setMessage(errorString)
-                .setTitle("Registration failed")
+                .setTitle(R.string.registrationFailed)
                 .setCancelable(true)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -152,7 +152,7 @@ public class RegistrationActivity extends ActionBarActivity {
     }
 
     private void registerUser(final ProgressDialog pd, final String emailText, final String passwordText, final String fullnameText, final String phoneNumText) {
-        pd.setMessage("Phone number verified. Signing up to the system...");
+        pd.setMessage(getString(R.string.phoneNumberVerified));
         final ParseUser user = new ParseUser();
         user.setUsername(emailText);
         user.setPassword(passwordText);
@@ -179,22 +179,22 @@ public class RegistrationActivity extends ActionBarActivity {
                                             if (e == null) {
                                                 // Hooray! Let them use the app now.
                                                 pd.dismiss();
-                                                Toast.makeText(getApplicationContext(), "You have successfully signed up",
+                                                Toast.makeText(getApplicationContext(), R.string.succesfullsignUp,
                                                         Toast.LENGTH_LONG).show();
                                                 finish();
                                             } else {
                                                 pd.dismiss();
-                                                showError(e.getMessage());
+                                                showError(e.getLocalizedMessage());
                                             }
                                         }
                                     });
                                 } catch (ParseException e1) {
                                     pd.dismiss();
-                                    showError(e1.getMessage());
+                                    showError(e1.getLocalizedMessage());
                                 }
                             } else {
                                 pd.dismiss();
-                                showError(e.getMessage());
+                                showError(e.getLocalizedMessage());
                             }
                         }
                     });
@@ -202,7 +202,7 @@ public class RegistrationActivity extends ActionBarActivity {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                     pd.dismiss();
-                    showError(e.getMessage());
+                    showError(e.getLocalizedMessage());
                 }
             }
         });

@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Registration"
+            android:text="@string/registration"
             android:textSize="35dp"
             android:textColor="#004C99"
             android:textStyle="bold"
@@ -34,7 +34,7 @@
             android:background="@drawable/edittext_default_bg"
             android:layout_marginTop="-2dp"
             android:padding="10dp"
-            android:hint="Full Name"
+            android:hint="@string/FullName"
             android:textColorHint="#bbbbbb"
             android:inputType="text"
             android:singleLine="true" />
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_default_bg"
             android:padding="10dp"
-            android:hint="Phone Number"
+            android:hint="@string/phoneNumber"
             android:textColorHint="#bbbbbb"
             android:inputType="phone" />
         <!--android:drawableLeft="@drawable/email"/>-->
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_default_bg"
             android:padding="10dp"
-            android:hint="Email"
+            android:hint="@string/Email"
             android:textColorHint="#bbbbbb"
             android:inputType="textEmailAddress" />
             <!--android:drawableLeft="@drawable/email"/>-->
@@ -66,7 +66,7 @@
             android:background="@drawable/edittext_bottom_bg"
             android:layout_marginTop="-2dp"
             android:padding="10dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:textColorHint="#bbbbbb"
             android:password="true"
             android:inputType="textPassword" />
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_margin="4dp"
-            android:text="Sign Up"
+            android:text="@string/signup"
             android:textSize="17dp"
 
 

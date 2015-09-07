@@ -88,7 +88,7 @@ public class NewGroupActivity extends ActionBarActivity {
         addMember.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, "Please wait", "", true, false);
+                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, getString(R.string.pleaseWait), "", true, false);
                 final String emailText = textView.getText().toString();
                 newGroup.setName(groupName.getText().toString());
                 newGroup.addUserInBackground(emailText, NewGroupActivity.this, new GetCallback<ParseUser>() {
@@ -100,7 +100,7 @@ public class NewGroupActivity extends ActionBarActivity {
                                 arrayAdapter.notifyDataSetChanged();
                             }
                         } else {
-                            Toast.makeText(NewGroupActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(NewGroupActivity.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                         pd.dismiss();
                         textView.setText("");
@@ -134,21 +134,7 @@ public class NewGroupActivity extends ActionBarActivity {
         {
             @Override
             public void onClick (View v){
-
-//                buttonGroupProfilePicture.buildDrawingCache();
-//                Bitmap bitmap = buttonGroupProfilePicture.getDrawingCache();
-
-
-//                Bitmap bitmap = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
-//                Canvas canvas = new Canvas(bitmap);
-//                Drawable d = buttonGroupProfilePicture.getDrawable();
-//                d.setBounds(0, 0, 40, 40);
-//                d.draw(canvas);
-
-//                ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-//                intent.putExtra("byteArray", bs.toByteArray());
-                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, "Please wait ...", "Saving your new group ...", true);
+                final ProgressDialog pd = ProgressDialog.show(NewGroupActivity.this, getString(R.string.pleaseWait), getString(R.string.savingNewGroup), true);
                 pd.setCancelable(false);
                 newGroup.setName(groupName.getText().toString());
                 newGroup.setDescription(groupDesc.getText().toString());
@@ -163,7 +149,7 @@ public class NewGroupActivity extends ActionBarActivity {
                             finish();
 
                         } else {
-                            pd.setMessage("Error! " + e.getMessage());
+                            pd.setMessage(getString(R.string.Error) + e.getMessage());
                             pd.setCancelable(true);
                         }
                     }
@@ -196,11 +182,6 @@ public class NewGroupActivity extends ActionBarActivity {
             ImageView imageView = (ImageView) findViewById(R.id.buttonGroupProfilePicture);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             iconPath = picturePath;
-            //setPic();
-            //imageView.setMaxHeight(60);
-//            imageView.setMaxWidth(60);
-
-
         }
     }
 

@@ -85,13 +85,13 @@ public class PotentialMatchAdapter extends BaseAdapter {
         });
         UIHelper.buttonEffect(holder.callButton);
         if (!pm.iAmRequester) {
-            holder.cellTitle.setText("Passenger");
+            holder.cellTitle.setText(R.string.passenger);
         }
-            holder.email.setText("Email: " + pm.userEmail);
-            holder.fullName.setText("Full name: " + (pm.fullName  == null ? "": pm.fullName));
-            holder.dest.setText("Going to: " + pm.toAddress);
-            holder.orig.setText("Leaving from: " + pm.fromAddress);
-            holder.date.setText("Date and Time: " + pm.date.toString());
+            holder.email.setText(mContext.getString(R.string.email) + pm.userEmail);
+            holder.fullName.setText(mContext.getString(R.string.fullname) + (pm.fullName  == null ? "": pm.fullName));
+            holder.dest.setText(mContext.getString(R.string.goingTO) + pm.toAddress);
+            holder.orig.setText(mContext.getString(R.string.leavingFrom) + pm.fromAddress);
+            holder.date.setText(mContext.getString(R.string.dateAndTime) + pm.date.toString());
 
         return convertView;
     }

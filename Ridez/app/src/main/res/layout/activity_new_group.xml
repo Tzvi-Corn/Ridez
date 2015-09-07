@@ -72,6 +72,7 @@
         android:orientation="horizontal">
     <AutoCompleteTextView
         android:id="@+id/searchGruopMembers"
+        android:hint="@string/exampeEmail"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:ems="10"

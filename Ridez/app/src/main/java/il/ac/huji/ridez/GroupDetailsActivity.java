@@ -15,7 +15,7 @@ public class GroupDetailsActivity extends FragmentActivity implements ActionBar.
     private groupDetailsTabAdapter mAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = { "Members", "Future Ride Requests" };
+    private String[] tabs = new String[2];
     int index;
     public int getGroupIndex() {
         return index;
@@ -36,7 +36,8 @@ public class GroupDetailsActivity extends FragmentActivity implements ActionBar.
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        tabs[0] = getString(R.string.members);
+        tabs[1] = getString(R.string.futureRideRequests);
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)

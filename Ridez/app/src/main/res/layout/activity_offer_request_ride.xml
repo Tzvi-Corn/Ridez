@@ -53,6 +53,8 @@
                 android:id="@+id/autoCompleteTextViewOrigin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:ems="10"
                 android:hint="@string/new_ride_from_description"
                 android:textColor="@color/text">
@@ -79,6 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:hint="@string/new_ride_to_description"
                 android:textColor="@color/text">
 
