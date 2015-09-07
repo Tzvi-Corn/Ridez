@@ -11,8 +11,8 @@ import il.ac.huji.ridez.R;
 /**
  * Created by Zahi on 03/09/2015.
  */
-public class OthersRidezAdapter extends RidezAdapter {
-    public OthersRidezAdapter(Context context, ArrayList<String[]> results) {
+public class GroupRidesAdapter extends RideDetailsAdapter {
+    public GroupRidesAdapter(Context context, ArrayList<String[]> results) {
         super(context, results);
 
     }

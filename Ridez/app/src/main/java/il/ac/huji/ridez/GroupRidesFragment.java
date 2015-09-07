@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import il.ac.huji.ridez.adpaters.OthersRidezAdapter;
+import il.ac.huji.ridez.adpaters.GroupRidesAdapter;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 import android.support.v4.app.Fragment;
@@ -66,7 +66,7 @@ public class GroupRidesFragment extends Fragment {
 
                     }
                     Context context = getActivity();
-                    groupRidesListView.setAdapter(new OthersRidezAdapter(context, rides));
+                    groupRidesListView.setAdapter(new GroupRidesAdapter(context, rides));
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }

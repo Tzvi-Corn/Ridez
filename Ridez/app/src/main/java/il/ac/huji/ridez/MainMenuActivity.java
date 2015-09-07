@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.*;
 
 import com.parse.ParseUser;
@@ -40,7 +38,7 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to request screen
-                Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                Intent requestActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                 requestActivity.putExtra("isRequest", true);
                 if (ridezApp.loadedGroups) {
                     // currentContext.startActivity(activityChangeIntent);
@@ -54,7 +52,7 @@ public class MainMenuActivity extends ActionBarActivity {
                             if (ridezApp.loadedGroups) {
                                 pd.dismiss();
                                 timer.cancel();
-                                Intent requestActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                                Intent requestActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                                 requestActivity.putExtra("isRequest", true);
                                 MainMenuActivity.this.startActivity(requestActivity);
                             }
@@ -69,7 +67,7 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to offer screen
-                Intent offerActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                Intent offerActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                 offerActivity.putExtra("isRequest", false);
                 if (ridezApp.loadedGroups) {
                     MainMenuActivity.this.startActivity(offerActivity);
@@ -82,7 +80,7 @@ public class MainMenuActivity extends ActionBarActivity {
                             if (ridezApp.loadedGroups) {
                                 pd.dismiss();
                                 timer.cancel();
-                                Intent offerActivity = new Intent(MainMenuActivity.this, OfferRequestRideActivity.class);
+                                Intent offerActivity = new Intent(MainMenuActivity.this, NewRideActivity.class);
                                 offerActivity.putExtra("isRequest", false);
                                 MainMenuActivity.this.startActivity(offerActivity);
                             }
@@ -123,7 +121,7 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //send me to myRides screen
-                startActivity(new Intent(getApplicationContext(), MyRidez.class));
+                startActivity(new Intent(getApplicationContext(), MyRidezActivity.class));
             }
         });
         register = (Button)findViewById(R.id.buttonRegister);
@@ -214,24 +212,7 @@ public class MainMenuActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
     }
 }

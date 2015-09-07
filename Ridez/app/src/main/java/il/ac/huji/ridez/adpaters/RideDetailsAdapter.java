@@ -1,37 +1,64 @@
 package il.ac.huji.ridez.adpaters;
+import java.util.ArrayList;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import il.ac.huji.ridez.R;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
-import il.ac.huji.ridez.PotentialMatchFragment;
-import il.ac.huji.ridez.RideDetails;
+public class RideDetailsAdapter extends BaseAdapter {
+    protected ArrayList<String[]> ridezArrayList;
 
-public class RideDetailsAdapter extends FragmentPagerAdapter {
+    private LayoutInflater mInflater;
 
-    public RideDetailsAdapter(FragmentManager fm) {
-        super(fm);
+    public RideDetailsAdapter(Context context, ArrayList<String[]> results) {
+        ridezArrayList = results;
+        mInflater = LayoutInflater.from(context);
     }
 
-    @Override
-    public Fragment getItem(int index) {
+    public int getCount() {
+        return ridezArrayList.size();
+    }
 
-        switch (index) {
-            case 0:
-                // Top Rated fragment activity
-                return new RideDetails();
-            case 1:
-                // Games fragment activity
-                return new PotentialMatchFragment();
+    public Object getItem(int position) {
+        return ridezArrayList.get(position);
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.rides_cell, null);
+            holder = new ViewHolder();
+            holder.user = (TextView) convertView.findViewById(R.id.rideUsername);
+            holder.date = (TextView) convertView.findViewById(R.id.rideDate);
+            holder.orig = (TextView) convertView.findViewById(R.id.rideOrigin);
+            holder.dest = (TextView) convertView.findViewById(R.id.rideDestination);
+            holder.kind = (TextView) convertView.findViewById(R.id.rideKind);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        return null;
+        holder.date.setText(ridezArrayList.get(position)[0]);
+        holder.orig.setText(ridezArrayList.get(position)[1]);
+        holder.dest.setText(ridezArrayList.get(position)[2]);
+        holder.kind.setText(ridezArrayList.get(position)[3]);
+        return convertView;
     }
 
-    @Override
-    public int getCount() {
-        // get item count - equal to number of tabs
-        return 2;
+    static class ViewHolder {
+        TextView user;
+        TextView date;
+        TextView orig;
+        TextView dest;
+        TextView kind;
     }
-
 }

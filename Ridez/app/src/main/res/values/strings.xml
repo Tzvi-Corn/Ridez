@@ -79,6 +79,7 @@
     <string name="member_type_placeholder">regular member</string>
     <string name="member_delete" />
     <string name="member_set_admin" />
+    <string name="fill_all_fields">Please fill all fields!</string>
     <string name="call_match">Call</string>
     <string name="leave_group">Leave Group</string>
 

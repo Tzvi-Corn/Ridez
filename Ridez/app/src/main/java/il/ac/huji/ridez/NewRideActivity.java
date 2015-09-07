@@ -10,10 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -53,10 +51,11 @@ import com.parse.SaveCallback;
 
 import il.ac.huji.ridez.GoogleDirections.GoogleDirectionsHelper;
 import il.ac.huji.ridez.GoogleDirections.GoogleMapsAPIGeocode;
+import il.ac.huji.ridez.adpaters.GooglePlacesAutocompleteAdapter;
 import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 
-public class OfferRequestRideActivity extends ActionBarActivity {
+public class NewRideActivity extends ActionBarActivity {
     boolean isRequest = true;
     double olatitude = 0;
     double olongitude = 0;
@@ -117,7 +116,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
                 String str = (String) adapterView.getItemAtPosition(position);
-                Toast.makeText(OfferRequestRideActivity.this, str, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewRideActivity.this, str, Toast.LENGTH_SHORT).show();
                 autoCompViewDestination.setText(str);
             }
         });
@@ -127,7 +126,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView adapterView, View view, int position, long id) {
                 String str = (String) adapterView.getItemAtPosition(position);
-                Toast.makeText(OfferRequestRideActivity.this, str, Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewRideActivity.this, str, Toast.LENGTH_SHORT).show();
                 autoCompViewOrigin.setText(str);
             }
         });
@@ -150,7 +149,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(OfferRequestRideActivity.this,
+                DatePickerDialog dpd = new DatePickerDialog(NewRideActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -169,7 +168,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         setStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog tpd = new TimePickerDialog(OfferRequestRideActivity.this,
+                TimePickerDialog tpd = new TimePickerDialog(NewRideActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
@@ -196,7 +195,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         setEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog tpd = new TimePickerDialog(OfferRequestRideActivity.this,
+                TimePickerDialog tpd = new TimePickerDialog(NewRideActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
 
                             @Override
@@ -254,7 +253,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                         date = cal.getTime();
                         //create request on server
                         //save to db
-                        requestDetails = new Intent(OfferRequestRideActivity.this, RequestDetails.class);
+                        requestDetails = new Intent(NewRideActivity.this, RideDetailsActivity.class);
                         int len = groupsListView.getCount();
                         SparseBooleanArray checked = groupsListView.getCheckedItemPositions();
                         int checkedCounter = 0;
@@ -335,7 +334,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                pd = ProgressDialog.show(OfferRequestRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                                pd = ProgressDialog.show(NewRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
                             }
                         });
 
@@ -466,8 +465,8 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         taskCounter++;
         if (taskCounter == totalAmount) {
             pd.dismiss();
-            OfferRequestRideActivity.this.startActivity(requestDetails);
-            OfferRequestRideActivity.this.finish();
+            NewRideActivity.this.startActivity(requestDetails);
+            NewRideActivity.this.finish();
         }
     }
     private void showError(String errorString, String errorTitle) {
@@ -476,7 +475,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialog.Builder(OfferRequestRideActivity.this)
+                new AlertDialog.Builder(NewRideActivity.this)
                         .setMessage(errMessage)
                         .setTitle(errTitle)
                         .setCancelable(true)
@@ -492,24 +491,7 @@ public class OfferRequestRideActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offer_request_ride, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
     }
 }

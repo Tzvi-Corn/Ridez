@@ -1,6 +1,5 @@
 package il.ac.huji.ridez;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import il.ac.huji.ridez.adpaters.RidezAdapter;
+import il.ac.huji.ridez.adpaters.RideDetailsAdapter;
 
 import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
@@ -40,7 +39,7 @@ public class PastRidesFragment extends Fragment {
         pastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), RequestDetails.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
                 intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
                 startActivity(intent);
@@ -72,7 +71,7 @@ public class PastRidesFragment extends Fragment {
 
                     }
                     Context context = getActivity();
-                    pastListView.setAdapter(new RidezAdapter(context, rides));
+                    pastListView.setAdapter(new RideDetailsAdapter(context, rides));
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }
@@ -81,7 +80,7 @@ public class PastRidesFragment extends Fragment {
         });
         Context context = getActivity();
         if (context != null) {
-            RidezAdapter adapter = new RidezAdapter(context, rides);
+            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides);
             pastListView.setAdapter(adapter);
             return rootView;
         }

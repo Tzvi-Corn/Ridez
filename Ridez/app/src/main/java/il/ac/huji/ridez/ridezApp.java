@@ -27,8 +27,6 @@ import il.ac.huji.ridez.contentClasses.RidezGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import il.ac.huji.ridez.sqlHelpers.GroupInfo;
-
 public class ridezApp extends Application {
     ProgressDialog pd;
     public static boolean loadedGroups;
