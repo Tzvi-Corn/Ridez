@@ -52,17 +52,6 @@ public class MyGroupsActivity extends ActionBarActivity {
             }
         });
         noGroupsTextView = (TextView) findViewById(R.id.noGroupsTextView);
-        newGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!DB.isLoggedIn()) {
-                    showError(getString(R.string.createGroupNotLoggedIn), getString(R.string.pleaseLogin));
-                    return;
-                }
-                Intent i = new Intent(getApplicationContext(), NewGroupActivity.class);
-                startActivityForResult(i, RESULT_NEW_GROUP);
-            }
-        });
         groupsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
@@ -123,19 +112,6 @@ public class MyGroupsActivity extends ActionBarActivity {
 
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return false;
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_NEW_GROUP && resultCode == RESULT_OK) {
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -186,6 +162,10 @@ public class MyGroupsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_add_group) {
+            if (!DB.isLoggedIn()) {
+                showError(getString(R.string.createGroupNotLoggedIn), getString(R.string.pleaseLogin));
+                return true;
+            }
             Intent i = new Intent(getApplicationContext(), NewGroupActivity.class);
             startActivityForResult(i, RESULT_NEW_GROUP);
             return true;
@@ -204,10 +184,6 @@ public class MyGroupsActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
     private void showError(String errorString, String errorTitle) {
         final String errTitle = errorTitle;
         final String errMessage = errorString;

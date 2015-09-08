@@ -105,8 +105,8 @@ public class NewRideActivity extends ActionBarActivity {
         if (isRequest)
         {
             saveRideButton.setText(R.string.resquestRide);
-            if (getActionBar() != null) {
-                getActionBar().setTitle(R.string.resquestRide);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.resquestRide);
             }
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);
@@ -234,7 +234,7 @@ public class NewRideActivity extends ActionBarActivity {
                         //and then register the request in parse server;
 
                         //dateTextView == null || dateTextView.getText().toString() == null ||
-                        if (startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
+                        if (startTimeTextView == null || endTimeTextView == null) {
                             showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }

@@ -75,8 +75,7 @@
         </activity>
         <activity
             android:name=".NewRideActivity"
-            android:label="@string/title_activity_offer_ride"
-            android:parentActivityName=".MainMenuActivity">
+            android:label="@string/title_activity_offer_ride" >
         </activity>
         <activity
             android:name=".MyRidezActivity"

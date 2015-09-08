@@ -38,7 +38,6 @@ public class GroupMembersFragment extends Fragment {
     RidezGroup myGroup;
     GroupDetailsActivity activity;
     ListView memberListview;
-    ImageButton button;
     ProgressDialog pd;
     public boolean isAdmin = false;
     @Override
@@ -48,7 +47,6 @@ public class GroupMembersFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_group_members, container, false);
         activity = (GroupDetailsActivity) getActivity();
         activity.setFragment(this);
-        button = (ImageButton) rootView.findViewById(R.id.buttonShowCustomDialog);
         pd = ProgressDialog.show(getActivity(), activity.getString(R.string.pleaseWait), activity.getString(R.string.loadinYourData), true);
 
         memberListview = (ListView) rootView.findViewById(R.id.memberListView);
@@ -89,9 +87,6 @@ public class GroupMembersFragment extends Fragment {
                 isAdmin = entry.getValue().isAdmin;
 
             }
-        }
-        if (!isAdmin) {
-            button.setVisibility(View.GONE);
         }
         MemberAdapter adapter = new MemberAdapter(activity, memberList, myGroup, isAdmin);
         memberListview.setAdapter(adapter);
