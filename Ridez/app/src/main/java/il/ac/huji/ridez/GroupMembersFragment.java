@@ -40,104 +40,18 @@ public class GroupMembersFragment extends Fragment {
     ListView memberListview;
     ImageButton button;
     ProgressDialog pd;
+    public boolean isAdmin = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_group_members, container, false);
         activity = (GroupDetailsActivity) getActivity();
+        activity.setFragment(this);
         button = (ImageButton) rootView.findViewById(R.id.buttonShowCustomDialog);
         pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
 
         // add button listener
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                // custom dialog
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.addmember);
-                dialog.setTitle("Add a friend");
-                dialog.setCancelable(true);
-                ArrayList<String> emailAddressCollection = new ArrayList<>();
-
-                ContentResolver cr = getActivity().getContentResolver();
-
-                Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
-
-                while (emailCur.moveToNext())
-                {
-                    String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                    emailAddressCollection.add(email);
-                }
-                emailCur.close();
-
-                String[] emailAddresses = new String[emailAddressCollection.size()];
-                emailAddressCollection.toArray(emailAddresses);
-
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_dropdown_item_1line, emailAddresses);
-                final AutoCompleteTextView textView = (AutoCompleteTextView) dialog.findViewById(R.id.searchGroupMember);
-                textView.setAdapter(adapter2);
-                Button okButton = (Button) dialog.findViewById(R.id.dialogOkButton);
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        myGroup.addUserInBackground(textView.getText().toString(), getActivity(), new GetCallback<ParseUser>() {
-                            @Override
-                            public void done(ParseUser parseUser, ParseException e) {
-                                if (e == null) {
-                                    myGroup.saveInBackground();
-                                    setListView(myGroup.getMembers());
-                                } else {
-                                    Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                                dialog.dismiss();
-                            }
-                        });
-                        //add user
-//                        ParseUser.getQuery().whereEqualTo("email", textView.getText().toString()).getFirstInBackground((new GetCallback<ParseUser>() {
-//                            @Override
-//                            public void done(ParseUser user, ParseException e) {
-//                                if (e == null) {
-//
-//                                    if (user == null) {
-//                                        // this user is not in parse
-//                                       // waiting_members.add(emailText);
-//                                    } else {
-//                                       myGroup.addUser(user, false);
-//                                        myGroup.saveInBackground();
-//                                       setListView(myGroup.getMembers());
-//                                    }
-//                                } else {
-//                                    //do
-//                                }
-//
-//                                dialog.dismiss();
-//                            }
-//
-//                            private String emailText;
-//                            private GetCallback<ParseUser> setEmail(String email) {
-//                                emailText = email;
-//                                return this;
-//                            }
-//                        }).setEmail(textView.getText().toString()));
-                    }
-                });
-                Button cancelButton = (Button) dialog.findViewById(R.id.dialogCancButton);
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-
-
-                dialog.show();
-            }
-        });
         memberListview = (ListView) rootView.findViewById(R.id.memberListView);
         index = activity.getGroupIndex();
         myGroup = DB.getGroups().get(index);
@@ -169,7 +83,6 @@ public class GroupMembersFragment extends Fragment {
     private void setListView(Map <String, RidezGroup.Member> members) {
         ArrayList<RidezGroup.Member> memberList = new ArrayList<>();
         ParseUser me = ParseUser.getCurrentUser();
-        Boolean isAdmin = false;
         for (Map.Entry<String,RidezGroup.Member> entry : members.entrySet()) {
             memberList.add(entry.getValue());
             if (me.getObjectId().equals(entry.getValue().id)) {
@@ -183,5 +96,62 @@ public class GroupMembersFragment extends Fragment {
         MemberAdapter adapter = new MemberAdapter(activity, memberList, myGroup, isAdmin);
         memberListview.setAdapter(adapter);
         pd.dismiss();
+    }
+
+    public void add_member() {
+        // custom dialog
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.addmember);
+        dialog.setTitle("Add a friend");
+        dialog.setCancelable(true);
+        ArrayList<String> emailAddressCollection = new ArrayList<>();
+
+        ContentResolver cr = getActivity().getContentResolver();
+
+        Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, null, null, null);
+
+        while (emailCur.moveToNext())
+        {
+            String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+            emailAddressCollection.add(email);
+        }
+        emailCur.close();
+
+        String[] emailAddresses = new String[emailAddressCollection.size()];
+        emailAddressCollection.toArray(emailAddresses);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, emailAddresses);
+        final AutoCompleteTextView textView = (AutoCompleteTextView) dialog.findViewById(R.id.searchGroupMember);
+        textView.setAdapter(adapter2);
+        Button okButton = (Button) dialog.findViewById(R.id.dialogOkButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myGroup.addUserInBackground(textView.getText().toString(), getActivity(), new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser parseUser, ParseException e) {
+                        if (e == null) {
+                            myGroup.saveInBackground();
+                            setListView(myGroup.getMembers());
+                        } else {
+                            Toast.makeText(getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        Button cancelButton = (Button) dialog.findViewById(R.id.dialogCancButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+
+        dialog.show();
     }
 }

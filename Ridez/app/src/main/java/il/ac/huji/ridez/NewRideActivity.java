@@ -104,10 +104,9 @@ public class NewRideActivity extends ActionBarActivity {
         saveRideButton = (Button) findViewById(R.id.saveRideButton);
         if (isRequest)
         {
-            ((TextView) findViewById(R.id.titleOfPage)).setText("Request A Ride");
             saveRideButton.setText("Request ride");
-            if (getActionBar() != null) {
-                getActionBar().setTitle("Request A Ride");
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Request A Ride");
             }
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);

@@ -46,22 +46,6 @@ public class RideDetailsFragment extends Fragment {
         groupListView = (ListView) rootView.findViewById(R.id.groupListView);
         pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
         groups = new ArrayList<>();
-//        Button saveChangesButton = (Button) rootView.findViewById(R.id.saveChangesButton);
-//        UIHelper.buttonEffect(saveChangesButton);
-//        saveChangesButton.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View v) {
-//                 for (PotentialMatch pmatch : tempList) {
-//                     ParseObject pma = ParseObject.createWithoutData("potentialMatch", pmatch.id);
-//                     pma.put("isConfirmed", pmatch.isConfirmed);
-//                     try {
-//                         pma.save();
-//                     } catch (Exception ex) {
-//                         ex.printStackTrace();
-//                     }
-//                 }
-//            }
-//        })
         String id = getActivity().getIntent().getExtras().getString("rideId");
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ride");
         query.include("from").include("to");

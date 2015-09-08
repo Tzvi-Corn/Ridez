@@ -11,6 +11,7 @@ import il.ac.huji.ridez.GroupRidesFragment;
  * Created by Tzvi on 18/08/2015.
  */
 public class groupDetailsTabAdapter extends FragmentPagerAdapter {
+    public GroupMembersFragment fragment;
 
     public groupDetailsTabAdapter(FragmentManager fm) {
         super(fm);
@@ -22,7 +23,8 @@ public class groupDetailsTabAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Top Rated fragment activity
-                return new GroupMembersFragment(/*groupIndex*/);
+                fragment = new GroupMembersFragment(/*groupIndex*/);
+                return fragment;
             case 1:
                 // Games fragment activity
                 return new GroupRidesFragment(/*groupIndex*/);

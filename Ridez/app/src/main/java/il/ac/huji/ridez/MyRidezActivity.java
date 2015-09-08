@@ -1,16 +1,15 @@
 package il.ac.huji.ridez;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 
 import il.ac.huji.ridez.adpaters.MyRidesTabAdapter;
 
-public class MyRidezActivity extends FragmentActivity implements
-        ActionBar.TabListener {
+public class MyRidezActivity extends ActionBarActivity implements ActionBar.TabListener {
 
     private ViewPager viewPager;
     private MyRidesTabAdapter mAdapter;
@@ -19,15 +18,13 @@ public class MyRidezActivity extends FragmentActivity implements
     private String[] tabs = {"Future Rides", "Past Rides" };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.activity_my_ridez);
 
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         mAdapter = new MyRidesTabAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(mAdapter);
