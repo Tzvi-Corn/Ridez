@@ -149,4 +149,6 @@
     <string name="registration">הרשמה</string>
     <string name="signin">התחברות</string>
     <string name="signup">הרשמה</string>
+    <string name="requested_in_groups_header">פורסם ב:</string>
+    <string name="time_ride_details_header">זמן: </string>
 </resources>

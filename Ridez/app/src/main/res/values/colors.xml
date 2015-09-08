@@ -8,6 +8,7 @@
     <color name="dark_purple">#640c93</color>
     <color name="bright_purple">#b906ff</color>
     <color name="blue_for_purple">#004C99</color>
+    <color name="blue_for_le">#990099</color>
 
     <color name="background">@color/light_purple</color>
     <color name="list_view_background">@color/light_blue</color>

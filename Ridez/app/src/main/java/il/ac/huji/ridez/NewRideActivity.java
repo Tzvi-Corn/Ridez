@@ -82,9 +82,6 @@ public class NewRideActivity extends ActionBarActivity {
     Button setStartTimeButton;
     Button setEndTimeButton;
     Button  setAmountButton;
-//    TextView dateTextView;
-    TextView startTimeTextView;
-    TextView endTimeTextView;
     int ourYear;
     int ourMonth;
     int ourDay;
@@ -133,19 +130,21 @@ public class NewRideActivity extends ActionBarActivity {
 //        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
         Calendar currCal = new GregorianCalendar();
 //        dateTextView.setText(Toolbox.dateToShortDateString(currCal.getTime()));
-        startTimeTextView = (TextView) findViewById(R.id.startTimeTextViewOffering);
+        setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
         currCal.add(Calendar.HOUR, 1);
-        startTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        setStartTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        UIHelper.buttonEffect2(setStartTimeButton);
         currCal.add(Calendar.HOUR, 1);
-        endTimeTextView = (TextView) findViewById(R.id.endTimeTextViewOffering);
-        endTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
-
+        setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
+        setEndTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        UIHelper.buttonEffect2(setEndTimeButton);
         np = (NumberPicker) findViewById(R.id.amountNumberPickerOffering);
         np.setMinValue(1);
         np.setMaxValue(5);
         np.setValue(1);
         setDateButton = (Button) findViewById(R.id.dateButtonOffering);
         setDateButton.setText(Toolbox.dateToShortDateString(currCal.getTime()));
+        UIHelper.buttonEffect2(setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +163,7 @@ public class NewRideActivity extends ActionBarActivity {
             }
         });
 
-        setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
+
         setStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +181,7 @@ public class NewRideActivity extends ActionBarActivity {
                                 } else {
                                     minuteS = Integer.toString(startMinute);
                                 }
-                                startTimeTextView.setText(new StringBuilder()
+                                setStartTimeButton.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
                                         .append(startHour).append(":").append(minuteS));
                             }
@@ -191,7 +190,7 @@ public class NewRideActivity extends ActionBarActivity {
             }
         });
 
-        setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
+
         setEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +208,7 @@ public class NewRideActivity extends ActionBarActivity {
                                 } else {
                                     minuteS = Integer.toString(endMinute);
                                 }
-                                endTimeTextView.setText(new StringBuilder()
+                                setEndTimeButton.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
                                         .append(endHour).append(":").append(minuteS));
                             }
@@ -235,12 +234,12 @@ public class NewRideActivity extends ActionBarActivity {
                         //and then register the request in parse server;
 
                         //dateTextView == null || dateTextView.getText().toString() == null ||
-                        if (startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
+                        if (setStartTimeButton == null || setStartTimeButton.getText().toString() == null || setEndTimeButton == null || setEndTimeButton.getText().toString() == null) {
                             showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
                         //dateTextView.getText().toString().startsWith("No") ||
-                        if (startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
+                        if (setStartTimeButton.getText().toString().startsWith("No") || setEndTimeButton.getText().toString().startsWith("No")) {
                             showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }

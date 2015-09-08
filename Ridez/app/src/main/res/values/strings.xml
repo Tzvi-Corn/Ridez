@@ -24,7 +24,7 @@
     <string name="title_activity_request_ride">Request A Ride</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>
-    <string name="chooseGroups">Choose Groups</string>
+    <string name="chooseGroups">Choose Groups: </string>
     <string name="requestRideHeader">Request A Ride</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_registration">Registration</string>
@@ -151,5 +151,8 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="set_admin_dialog_header">Set as Admin?</string>
     <string name="added_to_group_error_msg">Error! We know you were added to a group, but we can\'t find it...</string>
+    <string name="requested_in_groups_header">Requested in:</string>
+    <string name="time_ride_details_header">Time:</string>
+    <string name="date_ride_details_header">Date:</string>
 
 </resources>

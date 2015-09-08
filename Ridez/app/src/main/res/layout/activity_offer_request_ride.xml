@@ -23,11 +23,8 @@
             android:id="@+id/titleOfPage"
             android:typeface="serif"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/chooseGroups"
-            android:textColor="@color/text"/>
+            style="@style/subHeader"
+            android:text="@string/chooseGroups"/>
         <ListView
             android:id="@+id/offerRequestGroupListView"
             android:layout_width="match_parent"
@@ -38,16 +35,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/detailsLineHeader"
                 android:text="@string/origin"
-                android:textSize="15sp"
                 android:gravity="center_vertical"
-                android:textColor="@color/text"
-                android:typeface="serif"/>
+                />
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewOrigin"
@@ -66,16 +59,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/detailsLineHeader"
                 android:text="@string/destination"
-                android:textSize="15sp"
                 android:gravity="center_vertical"
-                android:textColor="@color/text"
-                android:typeface="serif"/>
+                />
             <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewDestination"
             android:layout_width="match_parent"
@@ -95,78 +84,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:baselineAligned="false">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+            android:layout_margin="5dp">
+            <TextView
+                style="@style/detailsLineHeader"
+                android:text="On: " />
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_date_description"
                     android:id="@+id/dateButtonOffering"
-                    android:background="@null"/>
-                <TextView
-                    android:id="@+id/dateTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_date_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
+                    android:background="@drawable/bordered_button" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <TextView
+                    style="@style/detailsLineHeader"
+                    android:text="Between: "
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_start_description"
                     android:id="@+id/startTimeButtonOffering"
-                    android:background="@drawable/button_background"/>
+                    android:background="@drawable/bordered_button"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
+
                 <TextView
-                    android:id="@+id/startTimeTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_start_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+                    style="@style/detailsLineHeader"
+                    android:text="To: "
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_end_description"
                     android:id="@+id/endTimeButtonOffering"
-                    android:background="@null"/>
-                <TextView
-                    android:id="@+id/endTimeTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_end_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
+                    android:background="@drawable/bordered_button" />
 
             </LinearLayout>
 
-    </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,6 +173,5 @@
                 android:text="@string/new_ride_send_button"
                 android:background="@drawable/button_background"/>
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>
