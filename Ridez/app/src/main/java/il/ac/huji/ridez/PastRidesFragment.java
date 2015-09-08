@@ -14,6 +14,7 @@ import il.ac.huji.ridez.adpaters.RideDetailsAdapter;
 import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class PastRidesFragment extends Fragment {
     ListView pastListView;
+    TextView noPastRidesTextView;
     ArrayList<String[]> rides;
     ProgressDialog pd;
     @Override
@@ -35,6 +37,7 @@ public class PastRidesFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.pastrides, container, false);
         pastListView = (ListView) rootView.findViewById(R.id.pastListView);
+        noPastRidesTextView = (TextView) rootView.findViewById(R.id.noPastRidesTextView);
         pd = ProgressDialog.show(getActivity(), getString(R.string.pleaseWait), getString(R.string.loadinYourData), true);
         pastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,8 +73,15 @@ public class PastRidesFragment extends Fragment {
                         }
 
                     }
-                    Context context = getActivity();
-                    pastListView.setAdapter(new RideDetailsAdapter(context, rides));
+                    if (rides.size() == 0) {
+                        pastListView.setVisibility(View.GONE);
+                        noPastRidesTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        pastListView.setVisibility(View.VISIBLE);
+                        noPastRidesTextView.setVisibility(View.GONE);
+                        Context context = getActivity();
+                        pastListView.setAdapter(new RideDetailsAdapter(context, rides));
+                    }
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }
@@ -84,6 +94,6 @@ public class PastRidesFragment extends Fragment {
             pastListView.setAdapter(adapter);
             return rootView;
         }
-       return rootView;
+        return rootView;
     }
 }

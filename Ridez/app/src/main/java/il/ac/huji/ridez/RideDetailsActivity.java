@@ -1,11 +1,11 @@
 package il.ac.huji.ridez;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,8 +13,7 @@ import android.widget.TextView;
 import il.ac.huji.ridez.adpaters.RideDetailsTabAdapter;
 
 
-public class RideDetailsActivity extends FragmentActivity implements
-        ActionBar.TabListener  {
+public class RideDetailsActivity extends ActionBarActivity implements ActionBar.TabListener  {
     private final static int RIDE_DETAILES_TAB = 0, RIDE_POTENTIAL_MATCHES_TAB = 1;
     TextView originTextView;
     TextView destinationTextView;
@@ -37,13 +36,15 @@ public class RideDetailsActivity extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         setContentView(R.layout.ridedetailsfragmented);
         rideId = getIntent().getExtras().getString("rideId");
         isRequest = getIntent().getExtras().getBoolean("isRequest");
+        if (isRequest && getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Offer Details");
+        }
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         mAdapter = new RideDetailsTabAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(mAdapter);
@@ -82,7 +83,7 @@ public class RideDetailsActivity extends FragmentActivity implements
         String matchId = "";
         matchId = getIntent().getExtras().getString("matchId");
         if (matchId != null && !matchId.isEmpty()) {
-            getActionBar().setSelectedNavigationItem(1);
+            getSupportActionBar().setSelectedNavigationItem(1);
         }
 
 

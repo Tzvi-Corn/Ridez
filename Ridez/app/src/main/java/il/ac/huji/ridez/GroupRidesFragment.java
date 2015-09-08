@@ -13,6 +13,7 @@ import il.ac.huji.ridez.contentClasses.RidezGroup;
 
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -30,6 +31,7 @@ public class GroupRidesFragment extends Fragment {
     RidezGroup myGroup;
     ArrayList<String[]> rides;
     ListView groupRidesListView;
+    TextView noGroupRidesTextView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class GroupRidesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_group_rides, container, false);
         GroupDetailsActivity activity = (GroupDetailsActivity) getActivity();
         groupRidesListView = (ListView) rootView.findViewById(R.id.groupRidesListView);
+        noGroupRidesTextView = (TextView) rootView.findViewById(R.id.noGroupRidesTextView);
         index = activity.getGroupIndex();
         myGroup = DB.getGroups().get(index);
         rides = new ArrayList<>();
@@ -67,6 +70,13 @@ public class GroupRidesFragment extends Fragment {
                     }
                     Context context = getActivity();
                     groupRidesListView.setAdapter(new GroupRidesAdapter(context, rides));
+                    if (rides.size() == 0) {
+                        groupRidesListView.setVisibility(View.GONE);
+                        noGroupRidesTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        groupRidesListView.setVisibility(View.VISIBLE);
+                        noGroupRidesTextView.setVisibility(View.GONE);
+                    }
                 } else {
                     Log.d("PARSE", "error getting groups");
                 }

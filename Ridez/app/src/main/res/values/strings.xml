@@ -81,6 +81,10 @@
     <string name="member_set_admin" />
     <string name="fill_all_fields">Please fill all fields!</string>
     <string name="call_match">Call</string>
+    <string name="no_rides">There are no rides yet.</string>
+    <string name="new_group_button">New Group</string>
+    <string name="no_groups">You are not a member in any group yet.</string>
+    <string name="action_add_new_member">Add new member</string>
     <string name="exampeEmail">example@gmail.com</string>
     <string name="resquestRide">Request ride</string>
     <string name="futureRides">Future Rides</string>

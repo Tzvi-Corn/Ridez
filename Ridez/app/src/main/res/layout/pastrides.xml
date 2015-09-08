@@ -9,6 +9,14 @@
         android:id="@+id/pastListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
+    <TextView
+        android:id="@+id/noPastRidesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:textSize="24sp"
+        android:text="@string/no_rides" />
 
 
 </RelativeLayout>

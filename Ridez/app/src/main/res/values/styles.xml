@@ -5,10 +5,25 @@
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:actionBarTabBarStyle">@style/MyActionBarTabStyle</item>
+        <item name="actionBarTabBarStyle">@style/MyActionBarTabStyle</item>
+    </style>
+    <style name="MyActionBarTabStyle" parent="Widget.AppCompat.Light.ActionBar.TabBar">
+        <item name="android:background">@color/dark_purple</item>
+        <item name="background">@color/dark_purple</item>
     </style>
     <style name="MyActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:background">@color/dark_purple</item>
         <item name="background">@color/dark_purple</item>
+    </style>
+    <style name="AppTheme.Blue" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/MyBlueActionBar</item>
+        <item name="actionBarStyle">@style/MyBlueActionBar</item>
+        <item name="android:windowBackground">@color/light_blue</item>
+    </style>
+    <style name="MyBlueActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/dark_blue</item>
+        <item name="background">@color/dark_blue</item>
     </style>
     <style name="DefaultButtonText">
         <item name="android:layout_width">fill_parent</item>

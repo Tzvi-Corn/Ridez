@@ -55,19 +55,11 @@
         </activity>
         <activity
             android:name=".NewGroupActivity"
-            android:label="@string/title_activity_new_group"
-            android:parentActivityName=".MyGroupsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="il.ac.huji.ridez.MyGroupsActivity" />
+            android:label="@string/title_activity_new_group">
         </activity>
         <activity
             android:name=".GroupDetailsActivity"
-            android:label="@string/title_activity_group_view"
-            android:parentActivityName=".MyGroupsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="il.ac.huji.ridez.MyGroupsActivity" />
+            android:label="@string/title_activity_group_view">
         </activity>
         <activity
             android:name=".RegistrationActivity"
@@ -87,7 +79,7 @@
         </activity>
         <activity
             android:name=".MyRidezActivity"
-            android:label="@string/title_activity_my_ridez" >
+            android:label="@string/title_activity_my_ridez">
         </activity>
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">
