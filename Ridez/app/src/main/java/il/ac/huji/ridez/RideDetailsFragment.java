@@ -44,7 +44,7 @@ public class RideDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = inflater.inflate(R.layout.activity_request_details, container, false);
+        rootView = inflater.inflate(R.layout.activity_ride_details, container, false);
         groupListView = (ListView) rootView.findViewById(R.id.groupListView);
         activity = getActivity();
         pd = ProgressDialog.show(getActivity(), getString(R.string.pleaseWait), getString(R.string.loadinYourData), true);
@@ -77,11 +77,11 @@ public class RideDetailsFragment extends Fragment {
                     cal.add(Calendar.MINUTE, 2 * (int) timeInterval);
                     Date endDate = cal.getTime();
 
-                    date.append(Toolbox.dateToLongDateString(startDate));
-                    time.append(Toolbox.dateToTimeString(startDate) + " to" + Toolbox.dateToTimeString(endDate));
-                    pickup.setText(activity.getString(R.string.Origin) + object.getParseObject("from").getString("address"));
-                    destination.setText(activity.getString(R.string.Destination) +  object.getParseObject("to").getString("address"));
-                    numPassengers.setText(activity.getString(R.string.numOfPassengers) + object.getInt("passengers"));
+                    date.setText(Toolbox.dateToLongDateString(startDate));
+                    time.setText(Toolbox.dateToTimeString(startDate) + " to" + Toolbox.dateToTimeString(endDate));
+                    pickup.setText(object.getParseObject("from").getString("address"));
+                    destination.setText(object.getParseObject("to").getString("address"));
+                    numPassengers.setText(Integer.toString(object.getInt("passengers")));
                 } else {
                     // something went wrong
                     Log.v("v", "Oh boy");

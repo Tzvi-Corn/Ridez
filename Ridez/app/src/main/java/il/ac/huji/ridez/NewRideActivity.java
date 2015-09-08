@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +22,7 @@ import android.widget.NumberPicker;
 
 import java.util.Calendar;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -82,9 +83,6 @@ public class NewRideActivity extends ActionBarActivity {
     Button setStartTimeButton;
     Button setEndTimeButton;
     Button  setAmountButton;
-//    TextView dateTextView;
-    TextView startTimeTextView;
-    TextView endTimeTextView;
     int ourYear;
     int ourMonth;
     int ourDay;
@@ -94,6 +92,7 @@ public class NewRideActivity extends ActionBarActivity {
     int endMinute;
     ListView groupsListView;
     NumberPicker np;
+    ScrollView outerScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +100,25 @@ public class NewRideActivity extends ActionBarActivity {
         setContentView(R.layout.activity_offer_request_ride);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         isRequest =  getIntent().getExtras().getBoolean("isRequest");
+        outerScrollView = (ScrollView) findViewById(R.id.newRideScrollView);
+        outerScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+//                v.onTouchEvent(event);
+                saveRideButton.getBackground().clearColorFilter();
+                saveRideButton.invalidate();
+                setStartTimeButton.getBackground().clearColorFilter();
+                setStartTimeButton.invalidate();
+                setDateButton.getBackground().clearColorFilter();
+                setDateButton.invalidate();
+                setEndTimeButton.getBackground().clearColorFilter();
+                setEndTimeButton.invalidate();
+                return false;
+            }
+        });
         saveRideButton = (Button) findViewById(R.id.saveRideButton);
+//        UIHelper.buttonEffectSafe(saveRideButton, new Rect(saveRideButton.getLeft(), saveRideButton.getTop(), saveRideButton.getRight(), saveRideButton.getBottom()));
+        UIHelper.buttonEffect(saveRideButton);
         if (isRequest)
         {
             saveRideButton.setText(R.string.resquestRide);
@@ -132,19 +149,24 @@ public class NewRideActivity extends ActionBarActivity {
 //        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
         Calendar currCal = new GregorianCalendar();
 //        dateTextView.setText(Toolbox.dateToShortDateString(currCal.getTime()));
-        startTimeTextView = (TextView) findViewById(R.id.startTimeTextViewOffering);
+        setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
         currCal.add(Calendar.HOUR, 1);
-        startTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        setStartTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
+//        UIHelper.buttonEffectSafe(setStartTimeButton, new Rect(setStartTimeButton.getLeft(), setStartTimeButton.getTop(), setStartTimeButton.getRight(), setStartTimeButton.getBottom()));
+        UIHelper.buttonEffect(setStartTimeButton);
         currCal.add(Calendar.HOUR, 1);
-        endTimeTextView = (TextView) findViewById(R.id.endTimeTextViewOffering);
-        endTimeTextView.setText(Toolbox.dateToTimeString(currCal.getTime()));
-
+        setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
+        setEndTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
+//        UIHelper.buttonEffectSafe(setEndTimeButton, new Rect(setEndTimeButton.getLeft(), setEndTimeButton.getTop(), setEndTimeButton.getRight(), setEndTimeButton.getBottom()));
+        UIHelper.buttonEffect(setEndTimeButton);
         np = (NumberPicker) findViewById(R.id.amountNumberPickerOffering);
         np.setMinValue(1);
         np.setMaxValue(5);
         np.setValue(1);
         setDateButton = (Button) findViewById(R.id.dateButtonOffering);
         setDateButton.setText(Toolbox.dateToShortDateString(currCal.getTime()));
+//        UIHelper.buttonEffectSafe(setDateButton, new Rect(setDateButton.getLeft(), setDateButton.getTop(), setDateButton.getRight(), setDateButton.getBottom()));
+        UIHelper.buttonEffect(setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +176,7 @@ public class NewRideActivity extends ActionBarActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                Date entered = new Date(year, monthOfYear,dayOfMonth);
+                                Date entered = new Date(year, monthOfYear, dayOfMonth);
 //                                dateTextView.setText(Toolbox.dateToShortDateString(entered));
                                 setDateButton.setText(Toolbox.dateToShortDateString(entered));
                             }
@@ -163,7 +185,7 @@ public class NewRideActivity extends ActionBarActivity {
             }
         });
 
-        setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
+
         setStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +203,7 @@ public class NewRideActivity extends ActionBarActivity {
                                 } else {
                                     minuteS = Integer.toString(startMinute);
                                 }
-                                startTimeTextView.setText(new StringBuilder()
+                                setStartTimeButton.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
                                         .append(startHour).append(":").append(minuteS));
                             }
@@ -190,7 +212,7 @@ public class NewRideActivity extends ActionBarActivity {
             }
         });
 
-        setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
+
         setEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +230,7 @@ public class NewRideActivity extends ActionBarActivity {
                                 } else {
                                     minuteS = Integer.toString(endMinute);
                                 }
-                                endTimeTextView.setText(new StringBuilder()
+                                setEndTimeButton.setText(new StringBuilder()
                                         // Month is 0 based, just add 1
                                         .append(endHour).append(":").append(minuteS));
                             }
@@ -234,12 +256,7 @@ public class NewRideActivity extends ActionBarActivity {
                         //and then register the request in parse server;
 
                         //dateTextView == null || dateTextView.getText().toString() == null ||
-                        if (startTimeTextView == null || endTimeTextView == null) {
-                            showError(getString(R.string.filInAll), getString(R.string.missingData));
-                            return;
-                        }
-                        //dateTextView.getText().toString().startsWith("No") ||
-                        if (startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
+                        if (setStartTimeButton == null || setEndTimeButton == null ) {
                             showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
@@ -465,6 +482,15 @@ public class NewRideActivity extends ActionBarActivity {
             }
         });
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        saveRideButton.getBackground().clearColorFilter();
+        saveRideButton.invalidate();
+        return true;
+    }
+
     private synchronized void increaseCounter() {
         taskCounter++;
         if (taskCounter == totalAmount) {

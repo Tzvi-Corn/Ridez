@@ -17,7 +17,8 @@ public class UIHelper {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_ATOP);
+                        Object a = v.getBackground();
+                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_OVER);
                         v.invalidate();
                         break;
                     }

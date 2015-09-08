@@ -10,21 +10,21 @@
     <string name="myRides">My Rides</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
-    <string name="title_activity_new_group">NewGroupActivity</string>
+    <string name="title_activity_new_group">New Group</string>
 
     <string name="MyGroupsHeader">My Groups</string>
 
-    <string name="groupMembers">Members</string>
+    <string name="groupMembers">Members: </string>
     <string name="createGroup">Create</string>
-    <string name="groupNameCreateActivity">Name</string>
-    <string name="groupDescriptionCreateActivity">Description</string>
+    <string name="groupNameCreateActivity">Name: </string>
+    <string name="groupDescriptionCreateActivity">Description: </string>
     <string name="NewGroupHeader">New Group</string>
     <string name="title_activity_my_groups">My Groups</string>
     <string name="title_activity_group_view">Group View</string>
     <string name="title_activity_request_ride">Request A Ride</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>
-    <string name="chooseGroups">Choose Groups</string>
+    <string name="chooseGroups">Choose Groups: </string>
     <string name="requestRideHeader">Request A Ride</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_registration">Registration</string>
@@ -70,7 +70,7 @@
     <string name="new_ride_start_placeholder">No time Set</string>
     <string name="new_ride_end_description">Set end Time</string>
     <string name="new_ride_end_placeholder">No time Set</string>
-    <string name="new_ride_num_of_passengers_description">Number Of Passengers</string>
+    <string name="new_ride_num_of_passengers_description">Number Of Passengers: </string>
     <string name="new_ride_send_button">Send Offer</string>
     <string name="add_member_ok">ok</string>
     <string name="new_member_cancel">Cancel</string>
@@ -155,5 +155,9 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="set_admin_dialog_header">Set as Admin?</string>
     <string name="added_to_group_error_msg">Error! We know you were added to a group, but we can\'t find it...</string>
+    <string name="requested_in_groups_header">Requested in:</string>
+    <string name="time_ride_details_header">Time:</string>
+    <string name="date_ride_details_header">Date:</string>
+    <string name="hint_new_group_name">My Group!</string>
 
 </resources>
