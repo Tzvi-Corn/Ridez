@@ -18,51 +18,11 @@ public class UIHelper {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         Object a = v.getBackground();
-                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_ATOP);
+                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_OVER);
                         v.invalidate();
                         break;
                     }
                     case MotionEvent.ACTION_UP: {
-                        v.getBackground().clearColorFilter();
-                        v.invalidate();
-                        break;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
-    public static void buttonEffect2(View button){
-
-        button.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        Object a = v.getBackground();
-                        v.getBackground().setColorFilter(Color.parseColor("#990099"), PorterDuff.Mode.SRC_ATOP);
-                        v.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP: {
-                        v.getBackground().clearColorFilter();
-                        v.invalidate();
-                        break;
-                    }
-
-                    case MotionEvent.ACTION_OUTSIDE: {
-                        v.getBackground().clearColorFilter();
-                        v.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_HOVER_MOVE: {
-                        v.getBackground().clearColorFilter();
-                        v.invalidate();
-                        break;
-                    }
-
-                    case MotionEvent.ACTION_HOVER_EXIT: {
                         v.getBackground().clearColorFilter();
                         v.invalidate();
                         break;

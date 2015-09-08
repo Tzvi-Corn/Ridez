@@ -4,29 +4,25 @@
     android:orientation="horizontal"
     android:padding="8dip">
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" android:orientation="vertical" android:layout_weight="1">
 
         <TextView
+            style="@style/detailsLineHeader"
             android:id="@+id/textViewGroupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="@string/group_name_placeholder"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/list_text"/>
+            android:text="@string/group_name_placeholder" />
         <TextView
+            style="@style/detailsLineContent"
             android:id="@+id/textViewGroupDescription"
             android:layout_width="match_parent"
             android:layout_height="26dip"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@string/group_description_placeholder"
-            android:textSize="14sp"
-            android:textColor="@color/list_text"/>
+            android:text="@string/group_description_placeholder" />
     </LinearLayout>
     <ImageView
         android:id="@+id/groupIcon"
