@@ -2,6 +2,8 @@ package il.ac.huji.ridez.adpaters;
 import java.util.ArrayList;
 
 import il.ac.huji.ridez.R;
+import il.ac.huji.ridez.Toolbox;
+import il.ac.huji.ridez.UIHelper;
 import il.ac.huji.ridez.contentClasses.PotentialMatch;
 
 import android.content.Context;
@@ -78,18 +80,19 @@ public class PotentialMatchAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:0123456789"));
+                intent.setData(Uri.parse("tel:"+pm.phoneNum));
                 mContext.startActivity(intent);
             }
         });
+        UIHelper.buttonEffect(holder.callButton);
         if (!pm.iAmRequester) {
             holder.cellTitle.setText("Passenger");
         }
-            holder.email.setText("Email: " + pm.userEmail);
-            holder.fullName.setText("Full name: " + (pm.fullName  == null ? "": pm.fullName));
-            holder.dest.setText("Going to: " + pm.toAddress);
-            holder.orig.setText("Leaving from: " + pm.fromAddress);
-            holder.date.setText("Date and Time: " + pm.date.toString());
+            holder.email.setText(pm.userEmail);
+            holder.fullName.setText((pm.fullName  == null ? "": pm.fullName));
+            holder.dest.setText(pm.toAddress);
+            holder.orig.setText(pm.fromAddress);
+            holder.date.setText(Toolbox.dateToShortDateAndTimeString(pm.date));
 
         return convertView;
     }

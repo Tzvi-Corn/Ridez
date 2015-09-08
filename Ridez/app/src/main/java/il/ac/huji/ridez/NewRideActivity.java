@@ -104,9 +104,9 @@ public class NewRideActivity extends ActionBarActivity {
         saveRideButton = (Button) findViewById(R.id.saveRideButton);
         if (isRequest)
         {
-            saveRideButton.setText("Request ride");
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle("Request A Ride");
+            saveRideButton.setText(R.string.resquestRide);
+            if (getActionBar() != null) {
+                getActionBar().setTitle(R.string.resquestRide);
             }
         }
         final AutoCompleteTextView autoCompViewDestination = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewDestination);
@@ -225,17 +225,22 @@ public class NewRideActivity extends ActionBarActivity {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
+
+                        if (!DB.isLoggedIn()) {
+                            showError(getString(R.string.createRideNeedToBeLoggedIn), getString(R.string.pleaseLogin));
+                            return;
+                        }
                         //check if date is not null, all other fields valid
                         //and then register the request in parse server;
 
                         //dateTextView == null || dateTextView.getText().toString() == null ||
                         if (startTimeTextView == null || startTimeTextView.getText().toString() == null || endTimeTextView == null || endTimeTextView.getText().toString() == null) {
-                            showError("Please fill in all the data, and then proceed", "Missing Data");
+                            showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
                         //dateTextView.getText().toString().startsWith("No") ||
-                        if ( startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
-                            showError("Please fill in all the data, and then proceed", "Missing Data");
+                        if (startTimeTextView.getText().toString().startsWith("No") || endTimeTextView.getText().toString().startsWith("No")) {
+                            showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
                         Calendar cal = Calendar.getInstance();
@@ -264,11 +269,11 @@ public class NewRideActivity extends ActionBarActivity {
                             }
                         }
                         if (checkedCounter == 0) {
-                            showError("Please fill in all the data, and then proceed", "Missing Data");
+                            showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
                         if (autoCompViewOrigin.getText().toString().isEmpty() || autoCompViewDestination.getText().toString().isEmpty()) {
-                            showError("Please fill in all the data, and then proceed", "Missing Data");
+                            showError(getString(R.string.filInAll), getString(R.string.missingData));
                             return;
                         }
                         Geocoder geoCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -333,7 +338,7 @@ public class NewRideActivity extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                pd = ProgressDialog.show(NewRideActivity.this, "Please wait ...", "Saving your offer in our systems", true);
+                                pd = ProgressDialog.show(NewRideActivity.this, getString(R.string.pleaseWait), getString(R.string.savingYourOffer), true);
                             }
                         });
 
@@ -342,7 +347,7 @@ public class NewRideActivity extends ActionBarActivity {
                             public void done(ParseException e) {
                                 // Log.d(TAG, "new group!!");
                                 String id = newRide.getObjectId();
-                                if(id != null && !id.isEmpty() ){
+                                if (id != null && !id.isEmpty()) {
                                     requestDetails.putExtra("rideId", id);
                                 }
                                 for (int i = 0; i < groups.size(); ++i) {
@@ -478,7 +483,7 @@ public class NewRideActivity extends ActionBarActivity {
                         .setMessage(errMessage)
                         .setTitle(errTitle)
                         .setCancelable(true)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();

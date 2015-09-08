@@ -42,7 +42,7 @@ public class FutureRidesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
-                intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
+                intent.putExtra("isRequest", rides.get(position)[3].equals(getString(R.string.asPassenger)));
                 startActivity(intent);
             }
         });
@@ -57,18 +57,17 @@ public class FutureRidesFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> rideList, ParseException e) {
                 if (e == null) {
-                        for (int i = 0; i < rideList.size(); ++i) {
-                            ParseObject ride = rideList.get(i);
-                            String from = ride.getParseObject("from").getString("address");
-                            String to = ride.getParseObject("to").getString("address");
-                            String id = ride.getObjectId();
-                            Boolean isRequest = ride.getBoolean("request");
-                            Date date = ride.getDate("date");
-                            if (date.getTime() >= System.currentTimeMillis()) {
-                                rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from, to, isRequest ? "As Passenger" : "As Driver", id});
-                            }
-
+                    for (int i = 0; i < rideList.size(); ++i) {
+                        ParseObject ride = rideList.get(i);
+                        String from = ride.getParseObject("from").getString("address");
+                        String to = ride.getParseObject("to").getString("address");
+                        String id = ride.getObjectId();
+                        Boolean isRequest = ride.getBoolean("request");
+                        Date date = ride.getDate("date");
+                        if (date.getTime() >= System.currentTimeMillis()) {
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from, to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), id});
                         }
+                    }
                     if (rides.size() == 0) {
                         futureListView.setVisibility(View.GONE);
                         noRidesTextView.setVisibility(View.VISIBLE);
@@ -78,9 +77,8 @@ public class FutureRidesFragment extends Fragment {
                         Context context = getActivity();
                         futureListView.setAdapter(new RideDetailsAdapter(context, rides));
                     }
-
                 } else {
-                    Log.d("PARSE", "error getting groups");
+                    Log.d("PARSE", "error getting rides");
                 }
             }
         });

@@ -15,7 +15,7 @@ public class MyRidezActivity extends ActionBarActivity implements ActionBar.TabL
     private MyRidesTabAdapter mAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = {"Future Rides", "Past Rides" };
+    private String[] tabs = new String[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,8 @@ public class MyRidezActivity extends ActionBarActivity implements ActionBar.TabL
 
         viewPager.setAdapter(mAdapter);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        tabs[0] = getString(R.string.futureRides);
+        tabs[1] = getString(R.string.pastRides);
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)

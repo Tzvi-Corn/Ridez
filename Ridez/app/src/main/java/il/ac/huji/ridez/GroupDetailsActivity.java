@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,7 +37,7 @@ public class GroupDetailsActivity extends ActionBarActivity implements ActionBar
     private MenuItem addMember;
     private int curTab;
     // Tab titles
-    private String[] tabs = { "Members", "Future Ride Requests" };
+    private String[] tabs = new String[2];
     int index;
     private boolean isAdmin;
     private RidezGroup group;
@@ -51,7 +53,18 @@ public class GroupDetailsActivity extends ActionBarActivity implements ActionBar
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.groupDetailsPager);
         actionBar = getSupportActionBar();
-        index = getIntent().getExtras().getInt("groupIndex");
+
+        String addedGroupId = getIntent().getExtras().getString("groupAdded");
+        if (addedGroupId != null) {
+            DB.refreshGroups();
+            index = DB.getPositionFromId(addedGroupId);
+            if(index == -1) {
+                Log.v("AddedGroup", "relieved notification, but no info from parse.");
+                Toast.makeText(getApplicationContext(), R.string.added_to_group_error_msg, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            index = getIntent().getExtras().getInt("groupIndex");
+        }
         group = DB.getGroups().get(index);
         group.updateMembersInBackground(new SaveCallback() {
             @Override
@@ -69,11 +82,12 @@ public class GroupDetailsActivity extends ActionBarActivity implements ActionBar
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        tabs[0] = getString(R.string.members);
+        tabs[1] = getString(R.string.futureRideRequests);
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this).setTag(tab_name));
+                    .setTabListener(this));
         }
         /**
          * on swiping the viewpager make respective tab selected

@@ -79,6 +79,7 @@ public class PotentialMatchFragment extends Fragment {
                         try {
                             potentialMatch.fullName = otherUser.getString("fullname");
                             potentialMatch.userEmail = otherUser.getString("email");
+                            potentialMatch.phoneNum = otherUser.getString("phoneNum");
                         } catch (Exception ex) {
                             Log.v("v", "cewc");
                         }

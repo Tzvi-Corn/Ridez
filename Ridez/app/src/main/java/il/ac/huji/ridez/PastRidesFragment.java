@@ -38,13 +38,13 @@ public class PastRidesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.pastrides, container, false);
         pastListView = (ListView) rootView.findViewById(R.id.pastListView);
         noPastRidesTextView = (TextView) rootView.findViewById(R.id.noPastRidesTextView);
-        pd = ProgressDialog.show(getActivity(), "Please wait ...", "Loading your data", true);
+        pd = ProgressDialog.show(getActivity(), getString(R.string.pleaseWait), getString(R.string.loadinYourData), true);
         pastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
-                intent.putExtra("isRequest", rides.get(position)[3].equals("As Passenger"));
+                intent.putExtra("isRequest", rides.get(position)[3].equals(getString(R.string.asPassenger)));
                 startActivity(intent);
             }
         });
@@ -69,7 +69,7 @@ public class PastRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() < System.currentTimeMillis()) {
-                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? "As Passenger" : "As Driver", id});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), id});
                         }
 
                     }

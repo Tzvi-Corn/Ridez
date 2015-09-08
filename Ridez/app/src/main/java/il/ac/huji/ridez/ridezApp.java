@@ -70,8 +70,6 @@ public class ridezApp extends Application {
 
                 }
             });
-        } else {
-            Toast.makeText(getApplicationContext(), "please login!!!", Toast.LENGTH_LONG).show();
         }
     }
 }
