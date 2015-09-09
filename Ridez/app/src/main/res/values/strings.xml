@@ -159,5 +159,13 @@
     <string name="time_ride_details_header">Time:</string>
     <string name="date_ride_details_header">Date:</string>
     <string name="hint_new_group_name">My Group!</string>
+    <string name="add">add</string>
+    <string name="emailSent">email sent</string>
+    <string name="failedEmail">"Failed to send mail. Error: "</string>
+    <string name="send">Send</string>
+    <string name="Cancel">Cancel</string>
+    <string name="sendInvitation">Send invitation mail</string>
+    <string name="notRegistered">" is not registered to Ridez. Do you want to send him an invitation?"</string>
+    <string name="yourFriend">"Your friend: "</string>
 
 </resources>
