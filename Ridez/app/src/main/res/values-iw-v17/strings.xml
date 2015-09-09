@@ -68,9 +68,9 @@
     <string name="pref_username">il.ac.huji.ridez.username</string>
     <string name="ride_cell_as_description">כ</string>
     <string name="ride_cell_date_description">בתאריך:</string>
-    <string name="ride_cell_date_placeholder"></string>
+    <string name="ride_cell_date_placeholder">26/5/15</string>
     <string name="ride_cell_from_description">מוצא:</string>
-    <string name="ride_cell_from_placeholder"></string>
+    <string name="ride_cell_from_placeholder">איפה אני מתחיל</string>
     <string name="ride_cell_to_description">יעד:</string>
     <string name="ride_cell_user_description">משתמש:</string>
     <string name="ride_cell_user_placeholder"></string>

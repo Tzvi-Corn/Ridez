@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="added_to_group_error_msg">תקלה! אנחנו יודעים שהוספת קבוצה, אבל אנחנו לא מוצאים אותה...</string>
+    <string name="approveRide">טרמפ נקבע</string>
+    <string name="delete_ride">למחוק טרמפ?</string>
+    <string name="ride_accepted_dialog_messgae">בחירה באפשרות זו תמנע חיפוש של התאמות עתידיות לטרמפ שלך. תוכל לבטל בחירה זו מאוחר יותר.</string>
+    <string name="ride_accepted_dialog_title">לסמן טרמפ כנקבע?</string>
+    <string name="ride_cell_to_placeholder">איפה אני מסיים</string>
+    <string name="ride_delete">מחיקה_טרמפ</string>
+</resources>
