@@ -85,6 +85,7 @@ public class NewGroupActivity extends ActionBarActivity {
         final AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.searchGruopMembers);
         textView.setAdapter(adapter);
         Button addMember = (Button) findViewById(R.id.addMemberButton);
+        UIHelper.buttonEffect(addMember);
         addMember.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -129,6 +130,7 @@ public class NewGroupActivity extends ActionBarActivity {
             }
         });
         Button buttonCreate = (Button) findViewById(R.id.buttonCreateGroup);
+        UIHelper.buttonEffect(buttonCreate);
         buttonCreate.setOnClickListener(new View.OnClickListener()
 
         {

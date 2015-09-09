@@ -45,6 +45,7 @@ public class PastRidesFragment extends Fragment {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
                 intent.putExtra("rideId", rides.get(position)[4]);
                 intent.putExtra("isRequest", rides.get(position)[3].equals(getString(R.string.asPassenger)));
+                intent.putExtra("isPast", true);
                 startActivity(intent);
             }
         });

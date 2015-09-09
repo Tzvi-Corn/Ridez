@@ -1,4 +1,7 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/newRideScrollView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -11,31 +14,25 @@
         android:orientation="vertical"
         android:background="@color/background">
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/chooseGroups"
-            android:textColor="@color/text"/>
+            style="@style/subHeader"
+            android:text="@string/chooseGroups"/>
         <ListView
             android:id="@+id/offerRequestGroupListView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
+            android:layout_weight="1"
             android:isScrollContainer="false">
         </ListView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/detailsLineHeader"
                 android:text="@string/origin"
-                android:textSize="15sp"
                 android:gravity="center_vertical"
-                android:textColor="@color/text"
-                android:typeface="serif"/>
+                />
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewOrigin"
@@ -54,16 +51,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/detailsLineHeader"
                 android:text="@string/destination"
-                android:textSize="15sp"
                 android:gravity="center_vertical"
-                android:textColor="@color/text"
-                android:typeface="serif"/>
+                />
             <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewDestination"
             android:layout_width="match_parent"
@@ -78,100 +71,71 @@
         </AutoCompleteTextView>
 
     </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:baselineAligned="false">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+            android:orientation="horizontal">
+            <TextView
+                style="@style/detailsLineHeader"
+                android:text="On " />
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_date_description"
                     android:id="@+id/dateButtonOffering"
-                    android:background="@null"/>
-                <TextView
-                    android:id="@+id/dateTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_date_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
+                    android:background="@drawable/bordered_button" />
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detailsLineHeader"
+                    android:text="Between"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_start_description"
                     android:id="@+id/startTimeButtonOffering"
-                    android:background="@drawable/button_background"/>
+                    android:background="@drawable/bordered_button"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
+
                 <TextView
-                    android:id="@+id/startTimeTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_start_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_margin="10dp">
+                    style="@style/detailsLineHeader"
+                    android:text="and"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginRight="5sp"/>
 
                 <Button
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/new_ride_end_description"
                     android:id="@+id/endTimeButtonOffering"
-                    android:background="@null"/>
-                <TextView
-                    android:id="@+id/endTimeTextViewOffering"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_ride_end_placeholder"
-                    android:textColor="@color/text_emphasize"
-                    android:layout_gravity="center"/>
+                    android:background="@drawable/bordered_button" />
 
             </LinearLayout>
 
-    </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.05"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <TextView
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                style="@style/detailsLineHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_ride_num_of_passengers_description"
-                android:textSize="25sp"
-                android:textColor="@color/text"/>
+                android:text="@string/new_ride_num_of_passengers_description" />
             <NumberPicker
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:id="@+id/amountNumberPickerOffering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,9 +148,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.10"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="5dp">
             <Button
                 android:id="@+id/saveRideButton"
                 android:layout_width="wrap_content"
@@ -194,6 +158,5 @@
                 android:text="@string/new_ride_send_button"
                 android:background="@drawable/button_background"/>
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>
