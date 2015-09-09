@@ -129,7 +129,7 @@ public class GroupMembersFragment extends Fragment {
                     @Override
                     public void done(final ParseUser parseUser, ParseException e) {
                         if (e == null) {
-                            if (parseUser == null) {
+                            if (parseUser != null) {
                                 myGroup.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
