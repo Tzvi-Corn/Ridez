@@ -129,19 +129,21 @@ public class GroupMembersFragment extends Fragment {
                     @Override
                     public void done(final ParseUser parseUser, ParseException e) {
                         if (e == null) {
-                            myGroup.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    dialog.dismiss();
-                                    if (e == null) {
-                                        Map<String, Object> params = new HashMap<>();
-                                        params.put("user_id", parseUser.getObjectId());
-                                        params.put("group_id", myGroup.getObjectId());
-                                        ParseCloud.callFunctionInBackground("addedToGroupPush", params);
+                            if (parseUser == null) {
+                                myGroup.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        dialog.dismiss();
+                                        if (e == null) {
+                                            Map<String, Object> params = new HashMap<>();
+                                            params.put("user_id", parseUser.getObjectId());
+                                            params.put("group_id", myGroup.getObjectId());
+                                            ParseCloud.callFunctionInBackground("addedToGroupPush", params);
+                                        }
                                     }
-                                }
-                            });
-                            setListView(myGroup.getMembers());
+                                });
+                                setListView(myGroup.getMembers());
+                            }
                         } else {
                             Toast.makeText(getActivity(), activity.getString(R.string.error) + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         }
