@@ -3,6 +3,8 @@ package il.ac.huji.ridez;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.parse.ParsePushBroadcastReceiver;
 
@@ -43,4 +45,12 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
         return MainMenuActivity.class;
     }
 
+    @Override
+    protected Bitmap getLargeIcon(Context context, Intent intent) {
+        Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.ridezicon);
+        int width = context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width);
+        int height = context.getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height);
+        Bitmap c = Bitmap.createScaledBitmap(b, width, height, false);
+        return c;
+    }
 }
