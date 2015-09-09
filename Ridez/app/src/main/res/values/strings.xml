@@ -172,5 +172,8 @@
     <string name="delete_ride">Delete Ride?</string>
     <string name="ride_accepted_dialog_messgae">Choosing this action will stop us from looking for new matches for your ride in the future. You can revert this action later.</string>
     <string name="ride_accepted_dialog_title">Mark as set up?</string>
+    <string name="new_ride_and">and</string>
+    <string name="new_ride_between">Between</string>
+    <string name="new_ride_on">On</string>
 
 </resources>
