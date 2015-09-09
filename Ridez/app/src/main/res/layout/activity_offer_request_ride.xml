@@ -77,7 +77,7 @@
             android:orientation="horizontal">
             <TextView
                 style="@style/detailsLineHeader"
-                android:text="On " />
+                android:text="@string/new_ride_on" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
 
                 <TextView
                     style="@style/detailsLineHeader"
-                    android:text="Between"
+                    android:text="@string/new_ride_between"
                     android:layout_marginEnd="5sp"
                     android:layout_marginRight="5sp"/>
 
@@ -109,7 +109,7 @@
 
                 <TextView
                     style="@style/detailsLineHeader"
-                    android:text="and"
+                    android:text="@string/new_ride_and"
                     android:layout_marginEnd="5sp"
                     android:layout_marginRight="5sp"/>
 
