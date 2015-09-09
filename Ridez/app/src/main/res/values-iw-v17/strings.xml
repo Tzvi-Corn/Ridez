@@ -167,4 +167,8 @@
     <string name="sendInvitation">שלח מייל הזמנה</string>
     <string name="set_admin_dialog_header">קבע כמנהל?</string>
     <string name="yourFriend">החבר שלך: </string>
+    <string name="action_add_new_member">הוסף חבר חדש</string>
+    <string name="delete_member_dialog_yes_button">מחק</string>
+    <string name="delete_member_dialog_header">מחק חבר?</string>
+    <string name="date_ride_details_header">תאריך: </string>
 </resources>
