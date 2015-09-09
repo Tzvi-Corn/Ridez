@@ -172,8 +172,13 @@
     <string name="delete_member_dialog_header">מחק חבר?</string>
     <string name="date_ride_details_header">תאריך: </string>
     <string name="group_icon_description" >תמונת קבוצה</string>
-    <string name="ride_cell_to_placeholder">לאן אני מגיע</string>
     <string name="member_name_placeholder">memName</string>
     <string name="member_set_admin" />
-    <string name="added_to_group_error_msg">שגיאה! אנחנו יודעים שנוספת לקבוצה, אך איננו מוצאים אותה...</string>
+    <string name="added_to_group_error_msg">תקלה! אנחנו יודעים שהוספת קבוצה, אבל אנחנו לא מוצאים אותה...</string>
+    <string name="approveRide">טרמפ נקבע</string>
+    <string name="delete_ride">למחוק טרמפ?</string>
+    <string name="ride_accepted_dialog_messgae">בחירה באפשרות זו תמנע חיפוש של התאמות עתידיות לטרמפ שלך. תוכל לבטל בחירה זו מאוחר יותר.</string>
+    <string name="ride_accepted_dialog_title">לסמן טרמפ כנקבע?</string>
+    <string name="ride_cell_to_placeholder">איפה אני מסיים</string>
+    <string name="ride_delete">מחיקה_טרמפ</string>
 </resources>
