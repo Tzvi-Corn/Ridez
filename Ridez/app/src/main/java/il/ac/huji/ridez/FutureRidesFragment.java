@@ -69,7 +69,7 @@ public class FutureRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() >= System.currentTimeMillis()) {
-                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from, to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), id});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date, ride.getDouble("timeInterval")), from, to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), id});
                         }
                     }
                     if (rides.size() == 0) {

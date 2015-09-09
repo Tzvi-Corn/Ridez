@@ -3,7 +3,10 @@ package il.ac.huji.ridez;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -32,6 +35,16 @@ public class Toolbox {
 
     public static String dateToLongDateAndTimeString(Date date) {
         return dateLongFormat.format(date) + " - " + timeForamt.format(date);
+    }
+
+    public static String dateToShortDateAndTimeString(Date date, double timeInterval) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(date.getTime());
+        cal.add(Calendar.MINUTE, (int)(-timeInterval));
+        Date startDate = cal.getTime();
+        cal.add(Calendar.MINUTE, 2 * (int) timeInterval);
+        Date endDate = cal.getTime();
+        return dateLongFormat.format(date) + " \n " + Toolbox.dateToTimeString(startDate) + " to " + Toolbox.dateToTimeString(endDate);
     }
 
 }

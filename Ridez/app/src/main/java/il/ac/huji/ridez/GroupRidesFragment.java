@@ -64,7 +64,7 @@ public class GroupRidesFragment extends Fragment {
                         Boolean isRequest = ride.getBoolean("request");
                         Date date = ride.getDate("date");
                         if (date.getTime() > System.currentTimeMillis() && isRequest) {
-                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date), from ,to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), user.getEmail()});
+                            rides.add(new String[]{Toolbox.dateToShortDateAndTimeString(date, ride.getDouble("timeInterval")), from ,to, isRequest ? getString(R.string.asPassenger) : getString(R.string.asDriver), user.getString("fullname")});
                         }
 
                     }

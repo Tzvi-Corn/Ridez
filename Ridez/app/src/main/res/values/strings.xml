@@ -170,7 +170,7 @@
     <string name="ride_delete">ride_delete</string>
     <string name="approveRide">Ride Accepted</string>
     <string name="delete_ride">Delete Ride?</string>
-    <string name="ride_accepted_dialog_messgae">Choosing this action will stop your ride from looking for new matches in the future. You can revert this action later.</string>
+    <string name="ride_accepted_dialog_messgae">Choosing this action will stop us from looking for new matches for your ride in the future. You can revert this action later.</string>
     <string name="ride_accepted_dialog_title">Mark as set up?</string>
 
 </resources>
