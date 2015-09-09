@@ -81,7 +81,7 @@
             android:id="@+id/addMemberButton"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="add"
+            android:text="@string/add"
             android:background="@drawable/button_background"
             />
         </LinearLayout>
