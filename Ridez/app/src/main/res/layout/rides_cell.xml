@@ -1,9 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
     android:padding="8dip">
-   
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_weight="1">
     <LinearLayout
         android:id="@+id/rideUserLayout"
         android:layout_width="match_parent"
@@ -99,7 +104,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
@@ -112,6 +117,33 @@
             android:textSize="18sp"
             android:textStyle="bold|italic"
         android:typeface="serif"/>
+    </LinearLayout>
+   </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/rideAccepted"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/handshake"
+            android:background="@color/list_view_background"
+            android:contentDescription="@string/approveRide"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:visibility="gone"/>
+        <ImageButton
+            android:id="@+id/deleteRide"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/deleting"
+            android:contentDescription="@string/ride_delete"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:background="@color/background"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>
