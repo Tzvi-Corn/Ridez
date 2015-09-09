@@ -13,7 +13,7 @@ import il.ac.huji.ridez.R;
  */
 public class GroupRidesAdapter extends RideDetailsAdapter {
     public GroupRidesAdapter(Context context, ArrayList<String[]> results) {
-        super(context, results);
+        super(context, results, false, false);
 
     }
 

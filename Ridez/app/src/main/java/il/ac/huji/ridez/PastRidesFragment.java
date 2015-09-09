@@ -80,7 +80,7 @@ public class PastRidesFragment extends Fragment {
                         pastListView.setVisibility(View.VISIBLE);
                         noPastRidesTextView.setVisibility(View.GONE);
                         Context context = getActivity();
-                        pastListView.setAdapter(new RideDetailsAdapter(context, rides));
+                        pastListView.setAdapter(new RideDetailsAdapter(context, rides, false, true));
                     }
                 } else {
                     Log.d("PARSE", "error getting groups");
@@ -90,7 +90,7 @@ public class PastRidesFragment extends Fragment {
         });
         Context context = getActivity();
         if (context != null) {
-            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides);
+            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides, false, true);
             pastListView.setAdapter(adapter);
             return rootView;
         }
