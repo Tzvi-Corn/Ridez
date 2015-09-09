@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import il.ac.huji.ridez.R;
+
 @ParseClassName("Group")
 public class RidezGroup extends ParseObject implements Comparable<RidezGroup> {
 
@@ -216,32 +218,32 @@ public class RidezGroup extends ParseObject implements Comparable<RidezGroup> {
                         final String fullname = "";
                         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder
-                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(context.getString(R.string.send), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialogInterface, int i) {
                                         sendMail(email, fullname, new FunctionCallback<String>() {
                                             @Override
                                             public void done(String o, ParseException e) {
                                                 if (e == null) {
-                                                    Toast.makeText(context, o, Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(context, context.getString(R.string.emailSent), Toast.LENGTH_LONG).show();
                                                     dialogInterface.dismiss();
                                                     callback.done(null, null);
                                                 } else {
-                                                    Toast.makeText(context, "Failed to send mail. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(context, context.getString(R.string.failedEmail) + e.getMessage(), Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         });
                                     }
                                 })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                         callback.done(null, null);
                                     }
                                 })
-                                .setTitle("Send invitation mail")
-                                .setMessage(email + " is not registered to Ridez. Do you want to send him an invitation?");
+                                .setTitle(context.getString(R.string.sendInvitation))
+                                .setMessage(context.getString(R.string.yourFriend) + email + context.getString(R.string.notRegistered));
                         builder.create().show();
                     }
                 }

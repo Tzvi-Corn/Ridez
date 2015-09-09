@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import il.ac.huji.ridez.adpaters.RideDetailsTabAdapter;
 
 
@@ -28,8 +31,7 @@ public class RideDetailsActivity extends ActionBarActivity implements ActionBar.
     public String rideId;
     private boolean isRequest;
 
-    // Tab titles
-    private String[] tabs = new String[2];
+
     public String getRideId() {
         return rideId;
     }
@@ -45,13 +47,23 @@ public class RideDetailsActivity extends ActionBarActivity implements ActionBar.
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
-        mAdapter = new RideDetailsTabAdapter(getSupportFragmentManager());
-
+        boolean isPast =  getIntent().getExtras().getBoolean("isPast", false);
+        if (isPast) {
+            mAdapter = new RideDetailsTabAdapter(getSupportFragmentManager(), true);
+        } else {
+            mAdapter = new RideDetailsTabAdapter(getSupportFragmentManager(), false);
+        }
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        tabs[0] = getString(R.string.rideDetails);
-        tabs[1]= getString(R.string.potentiaMatches);
+        ArrayList<String> tabs = new ArrayList<>();
+        // Tab titles
+        if (!isPast) {
+            tabs.add(getString(R.string.rideDetails));
+            tabs.add(getString(R.string.potentiaMatches));
+        } else {
+            tabs.add(getString(R.string.rideDetails));
+        }
         // Adding Tabs
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name)

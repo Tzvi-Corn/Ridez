@@ -151,4 +151,24 @@
     <string name="signup">הרשמה</string>
     <string name="requested_in_groups_header">פורסם ב:</string>
     <string name="time_ride_details_header">זמן: </string>
+    <string name="add">הוסף</string>
+    <string name="Cancel">ביטול</string>
+    <string name="dialog_cancel">ביטול</string>
+    <string name="emailSent">המייל נשלח</string>
+    <string name="failedEmail">שליחת המייל נשלחה. שגיאה: </string>
+    <string name="hint_new_group_name">הקבוצה שלי!</string>
+    <string name="leave_group">צא מהקבוצה</string>
+    <string name="leave_group_dialog_header">רוצה לצאת מהקבוצה?</string>
+    <string name="new_group_button">קבוצה חדשה</string>
+    <string name="no_groups">אינך חבר בשום קבוצה עדיין</string>
+    <string name="no_rides">אין נסיעות בינתיים</string>
+    <string name="notRegistered"> אינו מחובר לridez. האם לשלוח לו מייל הזמנה?</string>
+    <string name="send">שלח</string>
+    <string name="sendInvitation">שלח מייל הזמנה</string>
+    <string name="set_admin_dialog_header">קבע כמנהל?</string>
+    <string name="yourFriend">החבר שלך: </string>
+    <string name="action_add_new_member">הוסף חבר חדש</string>
+    <string name="delete_member_dialog_yes_button">מחק</string>
+    <string name="delete_member_dialog_header">מחק חבר?</string>
+    <string name="date_ride_details_header">תאריך: </string>
 </resources>
