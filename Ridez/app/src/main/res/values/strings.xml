@@ -38,7 +38,7 @@
     <string name="potential_matches_header">Potential Matches:</string>
     <string name="group_name_placeholder">Name</string>
     <string name="group_description_placeholder">Description</string>
-    <string name="group_icon_description" />
+    <string name="group_icon_description" >Group icon</string>
     <string name="ride_details_header">Ride Details</string>
     <string name="pickup_placeholder">Pickup: Gedera</string>
     <string name="destination_placeholder">Destination: Petach Tikvah</string>

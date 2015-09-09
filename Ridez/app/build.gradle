@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'RidezApplicationKey'
+            keyPassword 'simcha28'
+            storeFile file('C:/Users/Simcha/keystore.jks')
+            storePassword 'simcha28'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "il.ac.huji.ridez"
         minSdkVersion 15
@@ -13,10 +20,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "PARSE_ID", '"HcUCaIHT0Hl5CIYgX4PJwEFgoDTwBuBgTXhUoOQP"'
             buildConfigField "String", "PARSE_KEY", '"c9MwxKxWljpqC3cE5aXnY8RXWzeBJMQSKcbtIvSv"'
+            signingConfig signingConfigs.config
+            zipAlignEnabled true
         }
         debug {
             buildConfigField "String", "PARSE_ID", '"8VFSK81d3JofZNkzQ1V9pWWGxYFiQEaSk57HM8BR"'
