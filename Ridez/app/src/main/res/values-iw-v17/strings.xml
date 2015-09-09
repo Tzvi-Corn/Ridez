@@ -171,4 +171,9 @@
     <string name="delete_member_dialog_yes_button">מחק</string>
     <string name="delete_member_dialog_header">מחק חבר?</string>
     <string name="date_ride_details_header">תאריך: </string>
+    <string name="group_icon_description" >תמונת קבוצה</string>
+    <string name="ride_cell_to_placeholder">לאן אני מגיע</string>
+    <string name="member_name_placeholder">memName</string>
+    <string name="member_set_admin" />
+    <string name="added_to_group_error_msg">שגיאה! אנחנו יודעים שנוספת לקבוצה, אך איננו מוצאים אותה...</string>
 </resources>
