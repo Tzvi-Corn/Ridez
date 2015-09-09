@@ -146,14 +146,21 @@ public class NewRideActivity extends ActionBarActivity {
                 autoCompViewOrigin.setText(str);
             }
         });
+        Calendar currCal = Calendar.getInstance();
+        currCal.add(Calendar.HOUR, 1);
 //        dateTextView = (TextView)findViewById(R.id.dateTextViewOffering);
-        Calendar currCal = new GregorianCalendar();
+        ourYear = mYear;
+        ourMonth = mMonth;
+        ourDay = mDay;
 //        dateTextView.setText(Toolbox.dateToShortDateString(currCal.getTime()));
         setStartTimeButton = (Button) findViewById(R.id.startTimeButtonOffering);
-        currCal.add(Calendar.HOUR, 1);
         setStartTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
+        startHour = mHour+1;
+        startMinute = mMinute;
 //        UIHelper.buttonEffectSafe(setStartTimeButton, new Rect(setStartTimeButton.getLeft(), setStartTimeButton.getTop(), setStartTimeButton.getRight(), setStartTimeButton.getBottom()));
         UIHelper.buttonEffect(setStartTimeButton);
+        endHour = mHour+2;
+        endMinute = mMinute;
         currCal.add(Calendar.HOUR, 1);
         setEndTimeButton = (Button) findViewById(R.id.endTimeButtonOffering);
         setEndTimeButton.setText(Toolbox.dateToTimeString(currCal.getTime()));
@@ -176,6 +183,9 @@ public class NewRideActivity extends ActionBarActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
+                                ourYear=year;
+                                ourMonth=monthOfYear;
+                                ourDay=dayOfMonth;
                                 Date entered = new Date(year, monthOfYear, dayOfMonth);
 //                                dateTextView.setText(Toolbox.dateToShortDateString(entered));
                                 setDateButton.setText(Toolbox.dateToShortDateString(entered));
@@ -347,6 +357,7 @@ public class NewRideActivity extends ActionBarActivity {
                         newRide.put("passengers", np.getValue());
                         newRide.put("user", ParseUser.getCurrentUser());
                         newRide.put("timeInterval", timeInterval);
+                        newRide.put("opened", true);
                         ParseRelation<RidezGroup> checked_groups = newRide.getRelation("groups");
                         for (int i = 0; i < groups.size(); ++i) {
                             checked_groups.add(groups.get(i));
@@ -386,6 +397,7 @@ public class NewRideActivity extends ActionBarActivity {
                                     q.whereGreaterThan("date", d);
                                     q.include("from");
                                     q.include("to");
+                                    q.whereEqualTo("opened", true);
                                     q.findInBackground(new FindCallback<ParseObject>() {
                                         public void done(List<ParseObject> rideList, ParseException e) {
                                             final List<ParseObject> rideList2 = rideList;

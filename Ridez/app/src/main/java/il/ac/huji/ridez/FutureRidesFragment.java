@@ -1,6 +1,8 @@
 package il.ac.huji.ridez;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import il.ac.huji.ridez.adpaters.RideDetailsAdapter;
 
 import android.support.v4.app.Fragment;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ public class FutureRidesFragment extends Fragment {
     ListView futureListView;
     TextView noRidesTextView;
     ArrayList<String[]> rides;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,8 +45,8 @@ public class FutureRidesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), RideDetailsActivity.class);
-                intent.putExtra("rideId", rides.get(position)[4]);
-                intent.putExtra("isRequest", rides.get(position)[3].equals(getString(R.string.asPassenger)));
+                intent.putExtra("rideId", rides.get(position)[RideDetailsAdapter.ID]);
+                intent.putExtra("isRequest", rides.get(position)[RideDetailsAdapter.KIND].equals(getString(R.string.asPassenger)));
                 startActivity(intent);
             }
         });
@@ -75,7 +79,7 @@ public class FutureRidesFragment extends Fragment {
                         futureListView.setVisibility(View.VISIBLE);
                         noRidesTextView.setVisibility(View.GONE);
                         Context context = getActivity();
-                        futureListView.setAdapter(new RideDetailsAdapter(context, rides));
+                        futureListView.setAdapter(new RideDetailsAdapter(context, rides, true, true));
                     }
                 } else {
                     Log.d("PARSE", "error getting rides");
@@ -84,10 +88,11 @@ public class FutureRidesFragment extends Fragment {
         });
         Context context = getActivity();
         if (context != null) {
-            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides);
+            RideDetailsAdapter adapter = new RideDetailsAdapter(context, rides, true, true);
             futureListView.setAdapter(adapter);
             return rootView;
         }
+
         return rootView;
     }
 }
