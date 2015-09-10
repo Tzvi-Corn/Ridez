@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -30,6 +32,7 @@ import java.util.List;
 public class ridezApp extends Application {
     ProgressDialog pd;
     public static boolean loadedGroups;
+    private Tracker mTracker;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -71,5 +74,13 @@ public class ridezApp extends Application {
                 }
             });
         }
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
     }
 }

@@ -167,7 +167,6 @@ public class RegistrationActivity extends ActionBarActivity {
                         public void done(ParseUser parseUser, ParseException e) {
                             if (e == null) {
                                 // save parseUser
-                                ridezApp.loadedGroups = true;
                                 try {
                                     parseUser.pin();
                                     // Associate the device with a user
@@ -181,6 +180,8 @@ public class RegistrationActivity extends ActionBarActivity {
                                                 pd.dismiss();
                                                 Toast.makeText(getApplicationContext(), R.string.succesfullsignUp,
                                                         Toast.LENGTH_LONG).show();
+                                                DB.setIsLoggedIn(true);
+                                                ridezApp.loadedGroups = true;
                                                 finish();
                                             } else {
                                                 pd.dismiss();
